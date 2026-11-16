@@ -123,6 +123,9 @@ function turnKnob(t, track, classes, wanted, direction) {
         knob.value = 0;
     } else if (direction === "changed") {
         knob.value += 1;
+    } else if (direction.substring(0, 3) === "is ") {
+        knob.value += 1;
+        knob.text = direction.substring(3);
     } else {
         knob.value = knob.value > 0.5 ? knob.value - 0.3 : knob.value + 0.3;
     }
@@ -137,6 +140,11 @@ const LIVE_ACTIONS = {
     knob: (t, a) => turnKnob(t, OWN, a[0], a[1], a[2]),
     masterKnob: (t, a) => turnKnob(t, MASTER, a[0], a[1], a[2]),
     returnKnob: (t, a) => turnKnob(t, RETURN_A, a[0], a[1], a[2]),
+    simplerMode: (t, a) => {
+        const simpler = devicesOf(t, OWN, "OriginalSimpler")[0];
+        check(simpler, "a Simpler step comes before any step that adds Simpler");
+        simpler.playback_mode = Number(a[0]);
+    },
     order: (t, a) => {
         const list = t.devices[OWN];
         const first = list.filter((d) => a[0].split(",").indexOf(d.cls) >= 0)[0];
@@ -243,12 +251,15 @@ function createTrainer(withLive) {
         if (parts[5] !== undefined) {
             return device.params[Number(parts[5])];
         }
-        return { class_name: device.cls, counts: { parameters: device.params.length, chains: device.chains.length } };
+        return { class_name: device.cls, playback_mode: device.playback_mode || 0,
+                 counts: { parameters: device.params.length, chains: device.chains.length } };
     }
     function LiveAPI(objectPath) {
         const object = () => lookUp(objectPath);
         this.id = object() ? "7" : "0";
         this.get = (property) => [object()[property]];
+        // what a list parameter shows; unknown until the player picks an entry
+        this.call = (name) => (name === "str_for_value" ? (object().text || "") : undefined);
         this.getcount = (children) => (children === "devices" && t.devices[objectPath]
             ? t.devices[objectPath].length : object().counts[children]);
     }
@@ -274,17 +285,49 @@ function createTrainer(withLive) {
     t.release = (pitches) => { pitches.forEach((p) => sandbox.note(p, 0)); sandbox.paint(); };
     t.releaseAll = () => t.release(t.run("held.slice()"));
     t.ticks = (n) => { for (let i = 0; i < n; i++) { t.time += 83; sandbox.tick(); } sandbox.paint(); };
+    // A deliberate click: the player has waited at least half a second.
     t.click = (button) => {
         const rect = t.run("BUTTONS." + button);
+        t.time += 500;
         sandbox.onclick(rect[0] + 3, rect[1] + 3);
+    };
+    // A double click. Max 9 reports the second click both as a click and as a
+    // double click ("max9"; "swapped" is the same in the other order); earlier
+    // versions report it as a double click only ("old"). gap = ms between the
+    // two clicks: 140 for a hand, 12 for a script that clicks for the player.
+    t.doubleClick = (button, way, gap) => {
+        const rect = t.run("BUTTONS." + button);
+        const x = rect[0] + 3, y = rect[1] + 3;
+        t.time += 500;
+        sandbox.onclick(x, y);
+        t.time += gap || 140;
+        if (way === "old") {
+            sandbox.ondblclick(x, y);
+        } else if (way === "swapped") {
+            sandbox.ondblclick(x, y);
+            t.time += 1;
+            sandbox.onclick(x, y);
+        } else {
+            sandbox.onclick(x, y);
+            t.time += 1;
+            sandbox.ondblclick(x, y);
+        }
     };
     t.clickWheel = (ring, index) => {
         const angle = (-90 + index * 30) * Math.PI / 180;
         const radius = ring === 0 ? 66 : 40;
+        t.time += 500;
         sandbox.onclick(86 + radius * Math.cos(angle), 85 + radius * Math.sin(angle));
     };
     sandbox.paint(); // the first paint loads the save file and starts the timer
     return t;
+}
+
+// One plain click a few milliseconds after the previous one.
+function trainerClickFast(t, button) {
+    const rect = t.run("BUTTONS." + button);
+    t.time += 8;
+    t.box.onclick(rect[0] + 3, rect[1] + 3);
 }
 
 // Does what the current step asks for, the way a player would.
@@ -386,6 +429,60 @@ for (const item of liveSteps) {
     }
 }
 
+// Training lessons draw their knob tasks from pools: the fake devices need
+// every knob a pool can ask for, not only the ones of the first exercise.
+for (const name of run("DRIFT_TASKS.map(function (task) { return task[0]; })")) {
+    KNOBS.Drift = KNOBS.Drift || [];
+    if (KNOBS.Drift.indexOf(name) < 0) {
+        KNOBS.Drift.push(name);
+    }
+}
+for (const [classes, name] of run("FX_TASKS.map(function (task) { return [task[0], task[1]]; })")) {
+    for (const cls of classes.split(",")) {
+        KNOBS[cls] = KNOBS[cls] || [];
+        if (KNOBS[cls].indexOf(name) < 0) {
+            KNOBS[cls].push(name);
+        }
+    }
+}
+
+// A training lesson is a new exercise every time, and whatever it comes up
+// with has to be playable, readable and printable.
+const drills = run("LESSONS.filter(function (item) { return !!item.gen; }).map(function (item) { return item.id; })");
+check(drills.length >= 10, "expected the training stage, found " + drills.length + " training lessons");
+run("drillSeed = 20261117;");
+const drillTrouble = run(`(function () {
+    var wide = TEXT_RIGHT - KX, bad = [], kinds = {};
+    for (var i = 0; i < LESSONS.length; i++) {
+        var item = LESSONS[i];
+        if (!item.gen) { continue; }
+        var seen = {};
+        for (var round = 0; round < 40; round++) {
+            renew(item);
+            var list = buildSteps(item);
+            if (list.length < 5) { bad.push(item.id + " made only " + list.length + " steps"); }
+            if (wrap("КАК: " + item.hint, wide).length > 2) { bad.push(item.id + " hint too long: " + item.hint); }
+            var texts = [item.hint];
+            for (var k = 0; k < list.length; k++) {
+                if (list[k].text && wrap(list[k].text, wide).length > 5) { bad.push(item.id + " step text too long: " + list[k].text); }
+                texts.push(list[k].label, list[k].sub || "", list[k].sub2 || "", list[k].text || "");
+            }
+            for (var t = 0; t < texts.length; t++) {
+                for (var c = 0; c < texts[t].length; c++) {
+                    var ch = texts[t].charAt(c);
+                    if (ch !== " " && !GLYPHS[ch] && !GLYPHS[ch.toUpperCase()]) { bad.push(item.id + " has no glyph for " + ch); }
+                }
+            }
+            seen[JSON.stringify(item.data)] = true;
+        }
+        var different = 0;
+        for (var key in seen) { different++; }
+        if (different < 5) { bad.push(item.id + " repeats itself: " + different + " exercises in 40 runs"); }
+    }
+    return bad.slice(0, 5).join("; ");
+}())`);
+check(drillTrouble === "", "training lessons: " + drillTrouble);
+
 // Everything printed in a fixed area has to fit into it.
 const overflow = run(`(function () {
     var wide = TEXT_RIGHT - KX, bad = [];
@@ -458,6 +555,101 @@ for (const group of base) {
     }
 }
 
+// A double click is two clicks, however Max reports it: two lessons on, not three.
+// (This player gets points out of thin air, so the shared disk is put back after.)
+const diskBeforeClicks = Object.assign({}, files);
+const clicker = createTrainer(true);
+clicker.run("progress.done = { 'start/0': 9000 }; recount(); selectLesson(GROUPS.filter(function (g) { return g.id === 'chords'; })[0].lessons[0]);");
+for (const [way, gap] of [["max9", 140], ["swapped", 140], ["old", 140], ["max9", 12], ["swapped", 12]]) {
+    const from = clicker.run("current.index");
+    clicker.doubleClick("next", way, gap);
+    check(clicker.run("current.index") === from + 2, "a double click on the arrow moved " + (clicker.run("current.index") - from) + " lessons (" + way + ", " + gap + " ms)");
+    clicker.doubleClick("prev", way, gap);
+    check(clicker.run("current.index") === from, "a double click back did not return to the lesson (" + way + ", " + gap + " ms)");
+}
+// Three quick single clicks are three lessons.
+const tripleFrom = clicker.run("current.index");
+for (let i = 0; i < 3; i++) {
+    trainerClickFast(clicker, "next");
+}
+check(clicker.run("current.index") === tripleFrom + 3, "three quick clicks moved " + (clicker.run("current.index") - tripleFrom) + " lessons");
+const stageBefore = clicker.run("current.group");
+clicker.doubleClick("groupNext", "max9");
+check(clicker.run("current.group") === stageBefore + 2, "a double click on the stage arrow moved " + (clicker.run("current.group") - stageBefore) + " stages");
+clicker.doubleClick("groupPrev", "max9");
+
+// The big button changes its meaning when pressed. A double click on START
+// starts the lesson and must not also confirm its first step...
+clicker.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'novice/7'; })[0])");
+clicker.doubleClick("main", false);
+check(clicker.run("phase") === "run" && clicker.run("step") === 0, "a double click on START skipped a step: phase " + clicker.run("phase") + ", step " + clicker.run("step"));
+// ...a double click on DONE confirms one step, not two...
+clicker.doubleClick("main", false);
+check(clicker.run("step") === 1, "a double click on DONE confirmed " + clicker.run("step") + " steps");
+// ...and a double click on NEXT opens the next lesson without starting it.
+clicker.click("main");
+clicker.click("main");
+check(clicker.run("phase") === "done", "the mission should be finished, got " + clicker.run("phase"));
+const finished = clicker.run("current.id");
+clicker.doubleClick("main", false);
+check(clicker.run("current.id") !== finished && clicker.run("phase") === "intro", "a double click on NEXT went past the title card: " + clicker.run("phase"));
+// Restart twice in a row is one restart.
+clicker.click("main");
+clicker.doubleClick("restart", false);
+check(clicker.run("phase") === "run" && clicker.run("step") === 0, "a double click on RESTART broke the lesson");
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+Object.assign(files, diskBeforeClicks);
+
+// Courses: thirty to forty lessons of one kind each, always the same lessons,
+// kept on their own shelf beside the stages.
+const courses = run("GROUPS.filter(function (g) { return g.course; }).map(function (g) { return { id: g.id, size: g.lessons.length, data: JSON.stringify(g.lessons.map(function (l) { return [l.title, l.data]; })) }; })");
+check(courses.length >= 14, "expected a course for every kind of lesson, found " + courses.length);
+const twin = createTrainer(true);
+for (const item of courses) {
+    check(item.size >= 30 && item.size <= 40, item.id + " has " + item.size + " lessons");
+    const again = twin.run("JSON.stringify(GROUPS.filter(function (g) { return g.id === '" + item.id + "'; })[0].lessons.map(function (l) { return [l.title, l.data]; }))");
+    check(again === item.data, item.id + " is not the same course in another trainer");
+    const distinct = new Set(JSON.parse(item.data).map((pair) => JSON.stringify(pair[1])));
+    check(distinct.size >= item.size - 2, item.id + " repeats lessons: " + distinct.size + " different out of " + item.size);
+}
+
+// The arrows stay on the shelf the player is on; the button changes shelves
+// and remembers the place on each.
+const walker = createTrainer(true);
+const diskBeforeWalk = Object.assign({}, files);
+walker.run("progress.done = { 'start/0': 9000 }; recount(); selectLesson(LESSONS.filter(function (l) { return l.id === 'chords/3'; })[0]);");
+const stageCount = walker.run("shelf(false).length");
+const courseCount = walker.run("shelf(true).length");
+for (let i = 0; i < stageCount + 3; i++) {
+    walker.click("groupNext");
+}
+check(walker.run("isCourse(current.group)") === false && walker.run("shelf(false).indexOf(current.group)") === stageCount - 1,
+      "the stage arrow walked off the shelf of stages");
+check(walker.run("nextLesson() === null || !isCourse(nextLesson().group)"), "the next lesson after a stage must not be a course lesson");
+walker.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'chords/3'; })[0])");
+walker.click("shelf");
+check(walker.run("isCourse(current.group)") === true && walker.run("current.id") === courses[0].id + "/0", "the button should open the first course, got " + walker.run("current.id"));
+walker.click("groupNext");
+walker.click("next");
+const inCourse = walker.run("current.id");
+for (let i = 0; i < courseCount + 3; i++) {
+    walker.click("groupPrev");
+}
+check(walker.run("current.id").indexOf(courses[0].id + "/") === 0, "the course arrow walked off the shelf of courses");
+walker.run("selectLesson(LESSONS.filter(function (l) { return l.id === '" + inCourse + "'; })[0])");
+walker.click("shelf");
+check(walker.run("current.id") === "chords/3", "the button should return to the stage lesson, got " + walker.run("current.id"));
+walker.click("shelf");
+check(walker.run("current.id") === inCourse, "the button should return to the course lesson, got " + walker.run("current.id"));
+walker.doubleClick("shelf", "max9");
+check(walker.run("current.id") === "chords/3", "a double click on the shelf button switched twice");
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+Object.assign(files, diskBeforeWalk);
+
 // A shelf stage offers all its lessons at once; an ordinary one goes in order.
 const beginner = createTrainer(true);
 beginner.run("progress.done = { 'start/0': 2000 }; recount();");
@@ -489,6 +681,21 @@ check(padsTrainer.run("progress.points") === keysTrainer.run("progress.points") 
 // Replaying a lesson pays only for beating the old score.
 const again = playLesson(trainer, "novice/1", true);
 check(again.gain === 0, "a worse replay must not pay again");
+
+// A training lesson is different: every further run brings a new exercise and
+// a small fixed reward, and the count of runs is kept.
+for (const id of drills) {
+    const pointsBefore = run("progress.points");
+    const firstData = run("JSON.stringify(current.data)");
+    for (let round = 1; round <= 3; round++) {
+        const reward = playLesson(trainer, id, round === 2);
+        check(reward.gain >= run("REPEAT_PAY"), id + " run " + round + " paid " + reward.gain);
+        check(run("progress.reps['" + id + "']") === round, id + " counted " + run("progress.reps['" + id + "']") + " repeats after " + round);
+    }
+    check(run("progress.points") >= pointsBefore + 3 * run("REPEAT_PAY"), id + " repeats were not added to the points");
+    check(firstData !== undefined, id + " has no exercise");
+}
+check(JSON.parse(files[SAVE_DIR + "smk_trainer_progress.json"]).reps[drills[0]] === 3, "repeats were not saved");
 
 // The save file: a second trainer sees the same points and the same place.
 const saved = JSON.parse(files[SAVE_DIR + "smk_trainer_progress.json"]);

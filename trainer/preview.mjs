@@ -127,6 +127,14 @@ const scenes = [
     ["genre: house, the tempo step", () => { open("dance/0", true); ticks(2); }],
     ["genre: house beat on the pads", () => { open("dance/1", true); solve(2); ticks(1); }],
     ["studio: automation", () => { open("studio/4", true); solve(1); ticks(2); }],
+    ["training: title card with today's key", () => { run("progress.done['drill/5'] = 120; progress.reps['drill/5'] = 3; recount();"); open("drill/5", false); ticks(4); }],
+    ["training: a progression in another key", () => { open("drill/5", true); solve(2); ticks(2); }],
+    ["training: the reward of a repeat", () => { open("drill/0", true); solve(12); ticks(14); }],
+    ["training: genre tempos", () => { open("drill/13", true); ticks(2); }],
+    ["course: title card, the button back to the stages", () => { run("progress.done['start/0'] = 3000; recount();"); open("c-notes/16", false); ticks(4); }],
+    ["course: broken thirds", () => { open("c-notes/27", true); solve(3); ticks(2); }],
+    ["course: a recipe on the synth", () => { open("c-knobs/27", true); solve(2); ticks(2); }],
+    ["course: two hands, the bass walks", () => { open("c-hands/22", true); press([60, 64, 67]); ticks(2); }],
 ];
 
 // Optional third and fourth arguments pick a part of the list: first scene, how many.
