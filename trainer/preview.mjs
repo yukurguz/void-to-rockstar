@@ -121,6 +121,12 @@ const scenes = [
         setVibe(-0.97, 6);
         while (run("flash") !== 2) { run("lastOn = clock + 2;"); ticks(1); }
     }],
+    ["synth: title card of the filter lesson", () => { open("synth/1", false); ticks(4); }],
+    ["synth: a knob step", () => { open("synth/1", true); solve(1); ticks(2); }],
+    ["fx: the order of two devices", () => { open("fx/9", true); solve(2); ticks(2); }],
+    ["genre: house, the tempo step", () => { open("dance/0", true); ticks(2); }],
+    ["genre: house beat on the pads", () => { open("dance/1", true); solve(2); ticks(1); }],
+    ["studio: automation", () => { open("studio/4", true); solve(1); ticks(2); }],
 ];
 
 // Optional third and fourth arguments pick a part of the list: first scene, how many.

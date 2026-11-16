@@ -19,24 +19,155 @@ function check(condition, message) {
     }
 }
 
-// The state of the fake Ableton. Paths not listed here do not exist.
+const OWN = "this_device canonical_parent";
+const MASTER = "live_set master_track";
+const RETURN_A = "live_set return_tracks 0";
+
+// The state of the fake Ableton. Paths not listed here do not exist. The
+// tempo is one no genre lesson asks for, so no tempo check holds by itself.
 function freshLive() {
     const live = {
-        "live_set": { metronome: 0, is_playing: 0, tempo: 120, record_mode: 0, counts: { tracks: 4 } },
+        "live_set": { metronome: 0, is_playing: 0, tempo: 200, record_mode: 0, loop: 0, scale_mode: 0,
+                      midi_recording_quantization: 0, session_automation_record: 0,
+                      counts: { tracks: 4, return_tracks: 2 } },
         "live_app view": { focused_document_view: "Session" },
-        "this_device canonical_parent": { arm: 0, counts: { clip_slots: 8, devices: 2 } },
+        [OWN]: { arm: 0, mute: 0, solo: 0, is_frozen: 0, is_grouped: 0, counts: { clip_slots: 8 } },
+        [MASTER]: { counts: {} },
+        [RETURN_A]: { counts: {} },
+        "live_set return_tracks 1": { counts: {} },
         "live_set tracks 0 mixer_device volume": { value: 0.85 },
-        "this_device canonical_parent mixer_device sends 0": { value: 0 },
+        [OWN + " mixer_device sends 0"]: { value: 0 },
+        [OWN + " mixer_device panning"]: { value: 0 },
     };
     for (let i = 0; i < 8; i++) {
-        live["this_device canonical_parent clip_slots " + i] = { has_clip: 0 };
-        live["this_device canonical_parent clip_slots " + i + " clip"] = { is_playing: 0 };
+        live[OWN + " clip_slots " + i] = { has_clip: 0 };
+        live[OWN + " clip_slots " + i + " clip"] = { is_playing: 0, has_envelopes: 0 };
     }
     return live;
 }
 
-// How a player would satisfy each Ableton check.
+// Which knobs each device class needs, gathered from the lessons themselves
+// (filled in once the first trainer exists). A pattern stands for one name.
+const PATTERN_SAMPLES = {
+    "^LP Mod Amt [12]$": "LP Mod Amt 1",
+    "^(Osc 1 Oct|Transpose)$": "Osc 1 Oct",
+    "^[LR] 16th$": "L 16th",
+    "^[1-8] Gain A$": "3 Gain A",
+    "^[1-8] Frequency A$": "3 Frequency A",
+};
+const KNOBS = {};
+const SWITCHES = /On$|On\/Off$/;
+
+function knobName(wanted) {
+    if (wanted.charAt(0) !== "^") {
+        return wanted.split(",")[0];
+    }
+    check(PATTERN_SAMPLES[wanted] && new RegExp(wanted).test(PATTERN_SAMPLES[wanted]), "no sample name for the pattern " + wanted);
+    return PATTERN_SAMPLES[wanted];
+}
+
+function makeDevice(cls) {
+    const names = ["Device On"].concat((KNOBS[cls] || []).filter((name) => name !== "Device On"));
+    const device = {
+        cls,
+        params: names.map((name) => ({ name, original_name: name, min: 0, max: 1,
+                                       value: name === "Device On" ? 1 : (SWITCHES.test(name) ? 0 : 0.5) })),
+        chains: [],
+    };
+    if (cls === "DrumGroupDevice") {
+        device.chains = [[makeDevice("DrumCell")], [makeDevice("DrumCell")]];
+    }
+    return device;
+}
+
+// A trainer and some instrument the lessons never ask for.
+function freshDevices() {
+    return { [OWN]: [makeDevice("MxDeviceMidiEffect"), makeDevice("Collision")], [MASTER]: [], [RETURN_A]: [], "live_set return_tracks 1": [] };
+}
+
+// Every device of the wanted classes on a track, racks opened one level.
+function devicesOf(t, track, classes) {
+    const out = [];
+    for (const device of t.devices[track]) {
+        out.push(device);
+        for (const chain of device.chains) {
+            out.push(...chain);
+        }
+    }
+    return out.filter((device) => classes.split(",").indexOf(device.cls) >= 0);
+}
+
+function addDevice(t, track, classes) {
+    const device = makeDevice(classes.split(",")[0]);
+    // A MIDI effect dropped on a track may well land in front of the trainer.
+    if (/^Midi/.test(device.cls)) {
+        t.devices[track].unshift(device);
+    } else {
+        t.devices[track].push(device);
+    }
+}
+
+function turnKnob(t, track, classes, wanted, direction) {
+    const name = knobName(wanted);
+    const devices = devicesOf(t, track, classes);
+    check(devices.length > 0, "a knob step for " + classes + " comes before any step that adds the device");
+    const knob = devices[0].params.filter((p) => p.name === name)[0];
+    check(knob, classes + " has no knob " + name);
+    if (direction === "up") {
+        knob.value = Math.min(1, knob.value + 0.3);
+    } else if (direction === "down") {
+        knob.value = Math.max(0, knob.value - 0.3);
+    } else if (direction === "on") {
+        knob.value = 1;
+    } else if (direction === "off") {
+        knob.value = 0;
+    } else if (direction === "changed") {
+        knob.value += 1;
+    } else {
+        knob.value = knob.value > 0.5 ? knob.value - 0.3 : knob.value + 0.3;
+    }
+}
+
+// How a player would satisfy the checks that take arguments.
+const LIVE_ACTIONS = {
+    tempo: (t, a) => { t.live["live_set"].tempo = (Number(a[0]) + Number(a[1])) / 2; },
+    device: (t, a) => addDevice(t, OWN, a[0]),
+    masterDevice: (t, a) => addDevice(t, MASTER, a[0]),
+    returnDevice: (t, a) => addDevice(t, RETURN_A, a[0]),
+    knob: (t, a) => turnKnob(t, OWN, a[0], a[1], a[2]),
+    masterKnob: (t, a) => turnKnob(t, MASTER, a[0], a[1], a[2]),
+    returnKnob: (t, a) => turnKnob(t, RETURN_A, a[0], a[1], a[2]),
+    order: (t, a) => {
+        const list = t.devices[OWN];
+        const first = list.filter((d) => a[0].split(",").indexOf(d.cls) >= 0)[0];
+        const second = list.filter((d) => a[1].split(",").indexOf(d.cls) >= 0)[0];
+        check(first && second, "nothing to put in order for " + a.join(" before "));
+        list.splice(list.indexOf(first), 1);
+        list.splice(list.indexOf(second), 0, first);
+    },
+};
+
+// How a player would satisfy each plain Ableton check.
 const LIVE_SOLUTIONS = {
+    clipAdded: (live) => {
+        const free = [0, 1, 2, 3, 4, 5, 6, 7].filter((i) => !live[OWN + " clip_slots " + i].has_clip)[0];
+        live[OWN + " clip_slots " + free].has_clip = 1;
+    },
+    clipAutomation: (live) => {
+        live[OWN + " clip_slots 2"].has_clip = 1;
+        live[OWN + " clip_slots 2 clip"].has_envelopes = 1;
+    },
+    automationArm: (live) => { live["live_set"].session_automation_record = 1; },
+    loopOn: (live) => { live["live_set"].loop = 1; },
+    scaleOn: (live) => { live["live_set"].scale_mode = 1; },
+    quantizeOn: (live) => { live["live_set"].midi_recording_quantization = 5; },
+    muted: (live) => { live[OWN].mute = 1; },
+    unmuted: (live) => { live[OWN].mute = 0; },
+    soloed: (live) => { live[OWN].solo = 1; },
+    unsoloed: (live) => { live[OWN].solo = 0; },
+    panMoved: (live) => { live[OWN + " mixer_device panning"].value = 0.4; },
+    frozen: (live) => { live[OWN].is_frozen = 1; },
+    grouped: (live) => { live[OWN].is_grouped = 1; },
     metronomeOn: (live) => { live["live_set"].metronome = 1; },
     playing: (live) => { live["live_set"].is_playing = 1; },
     stopped: (live) => { live["live_set"].is_playing = 0; },
@@ -53,14 +184,14 @@ const LIVE_SOLUTIONS = {
     arrangement: (live) => { live["live_app view"].focused_document_view = "Arranger"; },
     session: (live) => { live["live_app view"].focused_document_view = "Session"; },
     newTrack: (live) => { live["live_set"].counts.tracks++; },
-    deviceAdded: (live) => { live["this_device canonical_parent"].counts.devices++; },
+    deviceAdded: (live, t) => addDevice(t, OWN, "Reverb"),
     volumeMoved: (live) => { live["live_set tracks 0 mixer_device volume"].value -= 0.2; },
     sendUp: (live) => { live["this_device canonical_parent mixer_device sends 0"].value = 0.5; },
 };
 
 // One trainer instance. withLive = false stands for a place without the Live API.
 function createTrainer(withLive) {
-    const t = { sent: [], rectangles: 0, live: freshLive() };
+    const t = { sent: [], rectangles: 0, live: freshLive(), devices: freshDevices() };
     const mgraphics = new Proxy({}, {
         get(target, name) {
             if (name === "rectangle") {
@@ -88,11 +219,38 @@ function createTrainer(withLive) {
         this.writestring = (text) => { files[name] = text; };
         this.close = noop;
     }
+    // Devices, their chains and their knobs live in t.devices; everything else
+    // is a plain path in t.live.
+    function lookUp(objectPath) {
+        const parts = /^(.+?) devices (\d+)(?: chains (\d+)(?: devices (\d+))?)?(?: parameters (\d+))?$/.exec(objectPath);
+        if (!parts || !t.devices[parts[1]]) {
+            return t.live[objectPath];
+        }
+        let device = t.devices[parts[1]][Number(parts[2])];
+        if (device && parts[3] !== undefined) {
+            const chain = device.chains[Number(parts[3])];
+            if (!chain) {
+                return undefined;
+            }
+            if (parts[4] === undefined) {
+                return parts[5] === undefined ? { counts: { devices: chain.length } } : undefined;
+            }
+            device = chain[Number(parts[4])];
+        }
+        if (!device) {
+            return undefined;
+        }
+        if (parts[5] !== undefined) {
+            return device.params[Number(parts[5])];
+        }
+        return { class_name: device.cls, counts: { parameters: device.params.length, chains: device.chains.length } };
+    }
     function LiveAPI(objectPath) {
-        const object = () => t.live[objectPath];
+        const object = () => lookUp(objectPath);
         this.id = object() ? "7" : "0";
         this.get = (property) => [object()[property]];
-        this.getcount = (children) => object().counts[children];
+        this.getcount = (children) => (children === "devices" && t.devices[objectPath]
+            ? t.devices[objectPath].length : object().counts[children]);
     }
     const sandbox = {
         mgraphics, Task, File,
@@ -140,11 +298,21 @@ function solveStep(t) {
         t.clickWheel(0, 0);
         t.box.stopPreview();
     } else if (s.live) {
-        check(LIVE_SOLUTIONS[s.live], "no way to solve the Ableton check " + s.live);
-        t.ticks(15);
-        check(t.run("step") === before, "check " + s.live + " passed before anything was done");
-        LIVE_SOLUTIONS[s.live](t.live);
-        t.ticks(3);
+        const parts = s.live.split(":");
+        check(LIVE_SOLUTIONS[parts[0]] || LIVE_ACTIONS[parts[0]], "no way to solve the Ableton check " + s.live);
+        t.ticks(18);
+        // Two devices may happen to stand in the wanted order from the start;
+        // every other check must wait for the player.
+        if (t.run("step") === before) {
+            if (LIVE_ACTIONS[parts[0]]) {
+                LIVE_ACTIONS[parts[0]](t, parts.slice(1));
+            } else {
+                LIVE_SOLUTIONS[parts[0]](t.live, t);
+            }
+            t.ticks(7);
+        } else {
+            check(parts[0] === "order", "check " + s.live + " passed before anything was done");
+        }
     } else if (s.manual) {
         check(t.run("mainAction()") === "ГОТОВО", "manual step without a confirm button");
         t.click("main");
@@ -164,6 +332,7 @@ function solveStep(t) {
 
 function playLesson(t, id, withMistake) {
     t.live = freshLive(); // every lesson meets Ableton in its default state
+    t.devices = freshDevices();
     t.run("selectLesson(LESSONS.filter(function (l) { return l.id === '" + id + "'; })[0])");
     check(t.run("phase") === "intro", id + " should be open, got " + t.run("phase"));
     t.box.paint();
@@ -190,6 +359,51 @@ function playLesson(t, id, withMistake) {
 
 const trainer = createTrainer(true);
 const run = trainer.run;
+
+// What the lessons ask of Ableton: every check must be known to the trainer,
+// and a knob step must come after a step that puts its device in place.
+const liveSteps = run(`LESSONS.map(function (item) {
+    return { id: item.id, checks: buildSteps(item).filter(function (s) { return s.live; }).map(function (s) { return s.live; }) };
+})`);
+for (const item of liveSteps) {
+    let devicesSoFar = 0;
+    for (const spec of item.checks) {
+        const parts = spec.split(":");
+        check(run("typeof LIVE_CHECKS['" + parts[0] + "']") === "function", item.id + " uses an unknown check " + spec);
+        if (/[dD]evice$/.test(parts[0])) {
+            devicesSoFar++;
+        }
+        if (/[kK]nob$/.test(parts[0])) {
+            check(parts.length === 4, item.id + ": a knob check needs device, knob and direction: " + spec);
+            check(devicesSoFar > 0, item.id + " turns a knob before any step asks for the device: " + spec);
+            for (const cls of parts[1].split(",")) {
+                KNOBS[cls] = KNOBS[cls] || [];
+                if (KNOBS[cls].indexOf(knobName(parts[2])) < 0) {
+                    KNOBS[cls].push(knobName(parts[2]));
+                }
+            }
+        }
+    }
+}
+
+// Everything printed in a fixed area has to fit into it.
+const overflow = run(`(function () {
+    var wide = TEXT_RIGHT - KX, bad = [];
+    function fits(text, width, lines, what) {
+        if (text && wrap(text, width).length > lines) { bad.push(what + " (" + wrap(text, width).length + " lines)"); }
+    }
+    for (var i = 0; i < LESSONS.length; i++) {
+        var item = LESSONS[i];
+        fits("ЗАЧЕМ: " + item.why, wide, 3, item.id + " why");
+        fits("КАК: " + item.hint, wide, 2, item.id + " hint");
+        fits(item.task, wide, 5, item.id + " task");
+        fits(item.title, PW, 2, item.id + " title");
+        var list = buildSteps(item);
+        for (var k = 0; k < list.length; k++) { fits(list[k].text, wide, 5, item.id + " step " + (k + 1)); }
+    }
+    return bad.join("; ");
+}())`);
+check(overflow === "", "text does not fit: " + overflow);
 
 // A fresh player: nothing earned, the tour is offered, the next stage is shut.
 check(run("current.id") === "start/0" && run("phase") === "intro", "should begin on the tour");
@@ -226,22 +440,51 @@ for (const group of groups) {
     }
 }
 
-// The thresholds must also be reachable without the drum stage and without
-// any bonus, by a player who makes mistakes everywhere.
+// The thresholds must also be reachable without the pads (no drum stages, no
+// beat lessons) and without any bonus, by a player who makes mistakes everywhere.
 const base = run(`GROUPS.map(function (g) {
     var sum = 0;
     for (var i = 0; i < g.lessons.length; i++) {
-        if (g.lessons[i].kind !== 'free') { sum += g.lessons[i].pts || Math.max(50, buildSteps(g.lessons[i]).length * 10); }
+        var kind = g.lessons[i].kind;
+        if (kind !== 'free' && kind !== 'drums') { sum += g.lessons[i].pts || Math.max(50, buildSteps(g.lessons[i]).length * 10); }
     }
-    return { id: g.id, need: g.need, sum: sum };
+    return { id: g.id, need: g.need, sum: sum, pads: g.id === 'drums' || !!g.pads };
 })`);
 let earned = 0;
 for (const group of base) {
-    check(earned >= group.need, "without bonuses and drums stage " + group.id + " (" + group.need + ") is out of reach: " + earned);
-    if (group.id !== "drums") {
+    check(earned >= group.need, "without bonuses and pads stage " + group.id + " (" + group.need + ") is out of reach: " + earned);
+    if (!group.pads) {
         earned += group.sum;
     }
 }
+
+// A shelf stage offers all its lessons at once; an ordinary one goes in order.
+const beginner = createTrainer(true);
+beginner.run("progress.done = { 'start/0': 2000 }; recount();");
+check(beginner.run("lessonOpen(GROUPS.filter(function (g) { return g.id === 'dance'; })[0].lessons[5])") === true, "a shelf lesson should be open without the ones before it");
+check(beginner.run("lessonOpen(GROUPS.filter(function (g) { return g.id === 'synth'; })[0].lessons[5])") === false, "an ordinary stage must keep its order");
+
+// A knob that the device does not have never passes and is not searched for
+// again and again; the confirm button stays.
+trainer.live = freshLive();
+trainer.devices = freshDevices();
+trainer.devices[OWN].push({ cls: "Drift", params: [{ name: "Device On", original_name: "Device On", min: 0, max: 1, value: 1 }], chains: [] });
+run("selectLesson(LESSONS.filter(function (l) { return l.id === 'synth/1'; })[0])");
+trainer.click("main");
+trainer.ticks(20);
+check(run("step") === 1, "the device step should pass when Drift is already there, got step " + run("step"));
+trainer.ticks(40);
+check(run("step") === 1 && run("mainAction()") === "ГОТОВО", "a missing knob must leave the step waiting with a confirm button");
+check(run("knobWatch.until") > run("clock"), "a device without the knob is being searched on every check");
+
+// What one trainer earns, another one sees as soon as it moves to a lesson.
+const keysTrainer = createTrainer(true);
+const padsTrainer = createTrainer(true);
+const before = padsTrainer.run("progress.points");
+playLesson(keysTrainer, "synth/11", false);
+padsTrainer.run("selectLesson(LESSONS[2])");
+check(padsTrainer.run("progress.points") === keysTrainer.run("progress.points") && padsTrainer.run("progress.points") >= before,
+      "the second trainer did not pick up the points of the first");
 
 // Replaying a lesson pays only for beating the old score.
 const again = playLesson(trainer, "novice/1", true);

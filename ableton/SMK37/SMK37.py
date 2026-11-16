@@ -1,6 +1,6 @@
 # Control surface for the M-Vave / Movetone SMK-37 Elite (Bluetooth via loopMIDI).
 #
-# Encoders K1-K8 -> first 8 parameters of the selected device (macros for racks)
+# Encoders K1-K8 -> the 8 main parameters of the selected device (macros for racks)
 # Faders 1-4     -> volume of tracks 1-4
 # Pads           -> the 16 visible Drum Rack pads (pad bank that sends plain notes)
 # In the other pad bank the top-row pads 1-4 send a toggle-style note, so there
@@ -32,6 +32,31 @@ ENCODER_CCS = (30, 31, 32, 33, 34, 35, 36, 37)
 ENCODER_LOW_VALUE_INCREASES = False  # True swaps the turning direction
 ENCODER_TICKS_FULL_RANGE = 200       # ticks to sweep a parameter from min to max
 ENCODER_TICKS_PER_STEP = 12          # ticks per step of a switch / list parameter
+
+# What K1-K8 control on devices Ableton itself has no "best of" bank for, by
+# parameter name; '' leaves an encoder unused. The trainer's sound lessons
+# name encoders after this table.
+EXTRA_BANKS = {
+    'Drift': ('LP Freq', 'LP Res', 'Env 1 Attack', 'Env 1 Decay',
+              'Env 1 Sustain', 'Env 1 Release', 'LFO Amount', 'Volume'),
+    'Delay': ('L 16th', 'R 16th', 'Feedback', 'Filter Freq',
+              'Filter Width', 'LFO > Filter', 'LFO > Delay', 'Dry/Wet'),
+    'Chorus2': ('Amount', 'Rate', 'Feedback', 'Width',
+                'Warmth', 'HP Freq', 'Output', 'Dry/Wet'),
+    'AutoFilter2': ('Frequency', 'Resonance', 'Filter Type', 'Drive',
+                    'Env Amount', 'LFO Amount', 'LFO Freq', 'Dry/Wet'),
+    'Redux2': ('Sample Rate', 'Jitter', 'Bit Depth', 'Quantizer Shape',
+               'Post-Filter', 'DC Shift', '', 'Dry/Wet'),
+    'Limiter': ('Input Gain', 'Ceiling', 'Release', 'Lookahead', '', '', '', ''),
+    'Hybrid': ('Decay', 'Size', 'Predelay', 'Damping',
+               'Diffusion', 'Blend', 'Width', 'Dry/Wet'),
+    'PhaserNew': ('LFO Amount', 'LFO 1 Freq', 'Feedback', 'Notches',
+                  'Warmth', 'Flanger Time', 'Output', 'Dry/Wet'),
+    'Roar': ('Drive', 'Shaper 1 Amt', 'Shaper 1 Bias', 'Flt 1 Freq',
+             'Comp Amt', '', 'Output', 'Dry/Wet'),
+    'DrumCell': ('Transpose', 'Detune', 'Attack', 'Hold',
+                 'Decay', 'Filter Freq', 'Pan', 'Volume'),
+}
 
 FADER_CHANNEL = 0
 FADER_CCS = (68, 69, 70, 71)
@@ -155,7 +180,13 @@ class SMK37(ControlSurface):
 
     def _device_parameters(self, device):
         parameters = []
-        if best_of_parameter_bank is not None:
+        names = EXTRA_BANKS.get(device.class_name)
+        if names:
+            by_name = {}
+            for parameter in device.parameters:
+                by_name.setdefault(parameter.original_name, parameter)
+            parameters = [by_name.get(name) for name in names]
+        elif best_of_parameter_bank is not None:
             try:
                 parameters = list(best_of_parameter_bank(device))
             except Exception:

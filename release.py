@@ -1,5 +1,5 @@
-"""Pack a release: the built trainer device, the keyboard's Ableton script and
-the guides in one zip under dist/.
+"""Pack a release: the built trainer device, the keyboard's Ableton script, the
+Bluetooth bridge starter and the guides in one zip under dist/.
 
 Usage:  py release.py <version>      e.g.  py release.py 0.1.0
 """
@@ -28,6 +28,7 @@ def main():
         staging = Path(temp)
         build.build(staging / "SMK Trainer")
         shutil.copytree(ROOT / "ableton" / "SMK37", staging / "SMK37 Remote Script" / "SMK37")
+        shutil.copytree(ROOT / "bridge", staging / "Bluetooth Bridge")
         for name in ("INSTALL.md", "SMK-37-Bluetooth-MIDI.md", "THIRD_PARTY_NOTICES.md"):
             shutil.copy(ROOT / name, staging / name)
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as packed:
