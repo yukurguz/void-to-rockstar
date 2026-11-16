@@ -1,0 +1,8 @@
+# The keyboard vendor's own program: not ours to redistribute
+MidiSuite/
+
+# Release archives are built by release.py
+dist/
+
+__pycache__/
+*.pyc
