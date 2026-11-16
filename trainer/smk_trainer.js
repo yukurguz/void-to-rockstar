@@ -1231,6 +1231,22 @@ var moodClock = 0;      // tick of the last mood change
 var recentOns = [];     // ticks of the latest key presses, to spot a mashed keyboard
 var lastPitch = -1;
 var lastOn = -1000;     // tick of the latest key press
+var recentPcs = [];     // pitch classes of the latest key presses, for variety
+var lastChord = "";     // the chord played last, and how often it came in a row
+var lastChordPcs = [];
+var sameChord = 0;
+var onsetMs = 0;        // time of the latest onset: a note or a whole chord
+var pulse = 0;          // length of the beat the player keeps, in ms; 0 = unknown
+var groove = 0;         // onsets in a row that landed on the pulse grid
+var misses = 0;         // onsets in a row that did not
+var rhythm = 0;         // verdict on the latest onset: 1, -1 or 0
+var beats = 0;          // onsets counted so far: the dance floor steps on each
+var moodMs = 0;         // time of the last mood change
+var onsetNotes = 0;     // keys in the current onset
+var onsetCounted = false;
+var lastMelody = -1000; // tick of the latest melody move
+var melodyBefore = -1000;
+var chordChange = -1000; // tick of the latest change to a different chord
 var banner = "";
 var bannerUntil = 0;
 var particles = [];
@@ -1562,11 +1578,12 @@ function matchStep(s) {
 
 function stepDone() {
     achieved = true;
-    stepTimes.push(new Date().getTime());
+    stepTimes.push(nowMs());
     if (!stepMistake) {
         streak++;
     }
-    vibe = Math.min(1, vibe + 0.04);
+    // a finished step cheers the stage up, but never into the top mood
+    vibe = Math.max(vibe, Math.min(TRIP_AT - 0.01, vibe + 0.04));
     celebrate();
 }
 
@@ -1639,80 +1656,204 @@ function rand() {
     return seed / 2147483647;
 }
 
-// Scores one key press against the key and against the notes already held.
-// In-key notes, sweet intervals, small melodic steps and real chords push the
-// vibe up; out-of-key notes, semitone and tritone clashes and a fistful of
-// keys at once pull it down. Drum pads are not judged for harmony.
+function nowMs() {
+    return new Date().getTime();
+}
+
+// Gaps between onsets that count as "in time", as multiples of the pulse:
+// the beat itself, its halves and quarters, dotted and doubled values.
+var GRID = [0.25, 0.5, 1, 1.5, 2, 3, 4];
+
+// Compares the gap since the previous onset with the pulse the player has
+// been keeping. Returns 1 when the onset lands on the grid, -1 when it does
+// not, 0 when there is no pulse to compare with yet.
+function feelRhythm(now) {
+    var gap = now - onsetMs;
+    onsetMs = now;
+    beats++;
+    if (gap > 2500) {
+        pulse = 0;
+        groove = 0;
+        misses = 0;
+        return 0;
+    }
+    if (pulse === 0) {
+        pulse = gap;
+        return 0;
+    }
+    var best = 1;
+    var error = 9;
+    for (var i = 0; i < GRID.length; i++) {
+        var off = Math.abs(gap / pulse - GRID[i]) / GRID[i];
+        if (off < error) {
+            error = off;
+            best = GRID[i];
+        }
+    }
+    if (error <= 0.12) {
+        groove++;
+        misses = 0;
+        pulse = pulse * 0.7 + gap / best * 0.3;
+        return 1;
+    }
+    // One stumble costs some groove; two in a row mean a new tempo.
+    groove = Math.max(0, groove - 2);
+    misses++;
+    if (misses >= 2) {
+        pulse = gap;
+        misses = 0;
+    }
+    return -1;
+}
+
+// Scores one key press. Music is harmony times variety times rhythm:
+//   harmony  in-key notes, sweet intervals, melodic steps and real chords
+//            add; out-of-key notes, semitone and tritone clashes and a
+//            fistful of keys take away
+//   variety  one note hammered over and over adds nothing, and one chord
+//            repeated too long adds little
+//   rhythm   what is played in steady time counts in full, what is played
+//            at random moments counts for a third
+// Drum pads have no harmony: there only the rhythm is judged.
 function judge(pitch) {
     lastOn = clock;
-    if (current.kind === "drums" || (currentStep() && currentStep().drums)) {
-        return;
+    var now = nowMs();
+    var fresh = now - onsetMs >= 70; // a new onset, not one more note of the same chord
+    if (fresh) {
+        rhythm = feelRhythm(now);
     }
-    var score = scalePcs.indexOf(pitch % 12) >= 0 ? 0.04 : -0.15;
-    for (var i = 0; i < held.length; i++) {
-        if (held[i] === pitch) {
-            continue;
+    var gain = 0;
+    var loss = 0;
+    var drumming = current.kind === "drums" || !!(currentStep() && currentStep().drums);
+    if (drumming) {
+        if (fresh && rhythm === 1 && groove >= 3) {
+            gain = 0.05;
+        } else if (fresh && rhythm === -1) {
+            loss = -0.08;
         }
-        var interval = Math.abs(pitch - held[i]) % 12;
-        if (interval > 6) {
-            interval = 12 - interval;
+    } else {
+        var pc = pitch % 12;
+        recentPcs.push(pc);
+        if (recentPcs.length > 6) {
+            recentPcs.shift();
         }
-        if (interval === 1 || interval === 6) {
-            score -= 0.25;
-        } else if (interval === 2) {
-            score -= 0.06;
+        var different = unique(recentPcs).length;
+        var variety = different <= 1 ? 0 : different === 2 ? 0.15 : different === 3 ? 0.4 : 1;
+        if (scalePcs.indexOf(pc) >= 0) {
+            gain += 0.04;
         } else {
-            score += 0.03;
+            loss -= 0.15;
         }
-    }
-    while (recentOns.length > 0 && clock - recentOns[0] > 3) {
-        recentOns.shift();
-    }
-    recentOns.push(clock);
-    if (recentOns.length >= 5) {
-        // Five keys almost at once are a fist only if they are packed side by
-        // side; a wide chord played with two hands is not.
-        var packed = 0;
-        for (var k = 1; k < held.length; k++) {
-            if (held[k] - held[k - 1] <= 2) {
-                packed++;
+        var chord = detectChord(unique(held.map(function (p) { return p % 12; })), held[0] % 12);
+        for (var i = 0; i < held.length; i++) {
+            if (held[i] === pitch) {
+                continue;
+            }
+            var distance = Math.abs(pitch - held[i]);
+            var interval = distance % 12;
+            if (interval === 0 || interval === 3 || interval === 4 || interval === 5
+                    || interval === 7 || interval === 8 || interval === 9) {
+                gain += 0.03;
+            } else if (!chord) {
+                // Clashes count only outside a real chord: the seventh of
+                // Cmaj7 and the tritone inside G7 belong there.
+                if (distance === 1) {
+                    loss -= 0.25;
+                } else if (distance === 2) {
+                    loss -= 0.06;
+                } else if (interval === 1 || interval === 6 || interval === 11) {
+                    loss -= 0.08;
+                }
             }
         }
-        if (packed >= 3) {
-            score -= 0.4;
+        while (recentOns.length > 0 && clock - recentOns[0] > 3) {
+            recentOns.shift();
         }
-    }
-    if (held.length === 1 && lastPitch >= 0) {
-        var leap = Math.abs(pitch - lastPitch);
-        if (leap > 0 && leap <= 4) {
-            score += 0.03;
-        } else if (leap > 12) {
-            score -= 0.08;
+        recentOns.push(clock);
+        if (recentOns.length >= 5) {
+            // Five keys almost at once are a fist only if they are packed side
+            // by side; a wide chord played with two hands is not.
+            var packed = 0;
+            for (var k = 1; k < held.length; k++) {
+                if (held[k] - held[k - 1] <= 2) {
+                    packed++;
+                }
+            }
+            if (packed >= 3) {
+                loss -= 0.4;
+            }
         }
-    }
-    lastPitch = pitch;
-    var pcs = unique(held.map(function (p) { return p % 12; }));
-    var chord = detectChord(pcs, held[0] % 12);
-    if (chord) {
-        score += isDiatonic(sectorIndex(chord.root, chord.minor)) ? 0.1 : 0.03;
+        if (fresh) {
+            // A new onset moves the melody; if more notes join it within a
+            // moment it was a chord after all, and this is undone below.
+            onsetNotes = 1;
+            onsetCounted = false;
+            melodyBefore = lastMelody;
+            if (lastPitch >= 0) {
+                var leap = Math.abs(pitch - lastPitch);
+                if (leap > 0 && leap <= 4) {
+                    gain += 0.03;
+                }
+                if (leap > 0) {
+                    lastMelody = clock;
+                }
+            }
+            lastPitch = pitch;
+        } else {
+            onsetNotes++;
+            lastMelody = melodyBefore;
+        }
+        if (chord) {
+            gain += isDiatonic(sectorIndex(chord.root, chord.minor)) ? 0.1 : 0.03;
+            if (onsetNotes >= 3 && !onsetCounted) {
+                // a chord struck as a chord, not a melody note landing on one
+                onsetCounted = true;
+                if (chord.name === lastChord) {
+                    sameChord++;
+                } else {
+                    sameChord = 0;
+                    chordChange = clock;
+                }
+                lastChord = chord.name;
+                lastChordPcs = chord.pcs;
+            }
+        } else if (lastChordPcs.indexOf(pc) < 0) {
+            sameChord = 0; // a note from outside the chord: something new is going on
+        }
+        if (fresh && rhythm === 1 && groove >= 3) {
+            gain += 0.02;
+        } else if (fresh && rhythm === -1) {
+            loss -= 0.02;
+        }
+        gain *= variety * (groove >= 3 ? 1 : groove >= 1 ? 0.6 : 0.3) * (sameChord >= 4 ? 0.15 : 1);
     }
     // The higher the vibe already is, the less a single good note adds, so
     // the top moods need rich playing kept up for a while, not three chords.
-    if (score > 0 && vibe > 0) {
-        score *= 1 - vibe;
+    if (vibe > 0) {
+        gain *= 1 - vibe;
     }
-    vibe = Math.max(-1, Math.min(1, vibe + score));
+    vibe = Math.max(-1, Math.min(1, vibe + gain + loss));
+    // The top mood is for the real thing only: a melody over changing chords,
+    // or on the pads a long unbroken groove.
+    var rich = drumming ? groove >= 16 : clock - lastMelody < 36 && clock - chordChange < 120;
+    if (!rich) {
+        vibe = Math.min(vibe, TRIP_AT - 0.01);
+    }
     updateMood();
 }
+
+var DANCE_AT = 0.3;
+var FIRE_AT = 0.55;
+var TRIP_AT = 0.78;
 
 var BANNERS = { "-2": "КАКОФОНИЯ!", "-1": "ОЙ...", "1": "КРУТО!", "2": "ОГОНЬ!", "3": "КОСМОС!" };
 
 // Moods switch with a little hysteresis so the stage does not flicker
 // between two states at a threshold.
 function updateMood() {
-    var dance = mood >= 1 ? 0.22 : 0.3;
-    var fire = mood >= 2 ? 0.52 : 0.6;
-    var trip = mood >= 3 ? 0.78 : 0.86;
+    var dance = DANCE_AT - (mood >= 1 ? 0.08 : 0);
+    var fire = FIRE_AT - (mood >= 2 ? 0.08 : 0);
+    var trip = TRIP_AT - (mood >= 3 ? 0.08 : 0);
     var trouble = mood <= -1 ? -0.22 : -0.3;
     var storm = mood <= -2 ? -0.55 : -0.65;
     var next = vibe >= trip ? 3 : vibe >= fire ? 2 : vibe >= dance ? 1
@@ -1725,6 +1866,7 @@ function updateMood() {
     bannerUntil = clock + 20;
     mood = next;
     moodClock = clock;
+    moodMs = nowMs();
 }
 
 // ---------------------------------------------------------------- particles
@@ -2019,7 +2161,7 @@ function tick() {
     clock++;
     // The vibe fades slowly while someone plays and quickly after two
     // seconds of silence.
-    vibe *= clock - lastOn > 24 ? 0.97 : 0.995;
+    vibe *= clock - lastOn > 24 ? 0.97 : 0.99;
     if (Math.abs(vibe) < 0.01) {
         vibe = 0;
     }
@@ -2507,6 +2649,22 @@ function drawPlasma(top, bottom) {
 }
 
 // One dancer: calm loop, dance moves, or frozen and shaking. Returns its x.
+// The beat the dancers move to: the player's pulse, doubled or halved into a
+// comfortable jumping speed. 0 when the player keeps no steady pulse.
+function danceBeat() {
+    if (pulse <= 0) {
+        return 0;
+    }
+    var beat = pulse;
+    while (beat < 350) {
+        beat *= 2;
+    }
+    while (beat > 900) {
+        beat /= 2;
+    }
+    return beat;
+}
+
 function drawDancer(sprite, x, shift, from, to, calmFrame, side, echo) {
     var since = clock - moodClock - echo * 3;
     var frame = (clock + shift) % sprite.runs.length;
@@ -2514,9 +2672,19 @@ function drawDancer(sprite, x, shift, from, to, calmFrame, side, echo) {
     var dx = 0;
     var flip = false;
     if (mood >= 1) {
-        frame = from + Math.floor(Math.max(0, since) * (mood >= 2 ? 1.5 : 1)) % (to - from);
-        dx = Math.round(Math.sin(since * Math.PI / 8) * (2 + mood * 4)) * side;
-        flip = Math.cos(since * Math.PI / 8) * side < 0;
+        var beat = danceBeat();
+        var swing = since * Math.PI / 8;
+        if (beat > 0) {
+            // One jump per beat, starting again on every note the player
+            // hits; the sway takes two beats.
+            var time = nowMs() - echo * 90;
+            frame = from + Math.floor((((time - onsetMs) % beat) + beat) % beat / beat * (to - from));
+            swing = (time - moodMs) / beat * Math.PI;
+        } else {
+            frame = from + Math.floor(Math.max(0, since) * (mood >= 2 ? 1.5 : 1)) % (to - from);
+        }
+        dx = Math.round(Math.sin(swing) * (2 + mood * 4)) * side;
+        flip = Math.cos(swing) * side < 0;
         if (mood >= 2) {
             base = sprite.disco[(Math.floor(clock / 2) + echo * 2) % sprite.disco.length];
         }
@@ -2581,7 +2749,9 @@ function drawStage() {
     if (mood >= 1) {
         // a dance floor of flashing tiles
         var tiles = mood >= 2 ? FIRE_FLOOR : DANCE_FLOOR;
-        var beat = Math.floor(clock / (mood === 3 ? 1 : 3));
+        // the floor steps on every note the player hits; at the top mood it
+        // also runs on its own
+        var beat = beats + (mood === 3 ? clock : 0);
         for (x = 0; x < SW; x += 12) {
             var w = Math.min(12, SW - x);
             px(SX + x, GROUND + 2, w, 6, tiles[(x / 12 + beat) % tiles.length]);

@@ -107,12 +107,15 @@ function createTrainer(withLive) {
     for (const file of ["sprites_data.js", "smk_trainer.js"]) {
         vm.runInContext(fs.readFileSync(path.join(__dirname, file), "utf8"), sandbox, { filename: file });
     }
+    // Time stands still unless the test lets ticks pass: 83 ms each, as in Max.
+    t.time = 1000000;
+    sandbox.nowMs = () => t.time;
     t.box = sandbox;
     t.run = (code) => vm.runInContext(code, sandbox);
     t.press = (pitches) => { pitches.forEach((p) => sandbox.note(p, 100)); sandbox.paint(); };
     t.release = (pitches) => { pitches.forEach((p) => sandbox.note(p, 0)); sandbox.paint(); };
     t.releaseAll = () => t.release(t.run("held.slice()"));
-    t.ticks = (n) => { for (let i = 0; i < n; i++) { sandbox.tick(); } sandbox.paint(); };
+    t.ticks = (n) => { for (let i = 0; i < n; i++) { t.time += 83; sandbox.tick(); } sandbox.paint(); };
     t.click = (button) => {
         const rect = t.run("BUTTONS." + button);
         sandbox.onclick(rect[0] + 3, rect[1] + 3);
@@ -281,36 +284,120 @@ for (const [pitches, name] of names) {
     free.releaseAll();
 }
 
-// The mood: a tune in the key lifts it, a fist on the keys drops it, and it
-// settles again when nobody plays.
-free.run("vibe = 0; mood = 0;");
-for (let round = 0; round < 12; round++) {
-    for (const chord of [[60, 64, 67], [65, 69, 72], [67, 71, 74], [57, 60, 64]]) {
-        free.press(chord);
-        free.ticks(4);
-        free.releaseAll();
-        for (const melody of [72, 74, 76]) {
+// ------------------------------------------------- the mood of the stage
+
+// Forgets everything the stage has heard so far.
+const RESET = "vibe = 0; mood = 0; recentOns = []; recentPcs = []; pulse = 0; groove = 0; misses = 0; onsetMs = 0; "
+    + "sameChord = 0; lastChord = ''; lastChordPcs = []; lastPitch = -1; lastMelody = -1000; chordChange = -1000;";
+
+// Presses keys for some ticks, lets go, then waits.
+function strike(t, pitches, holdTicks, restTicks) {
+    t.press(pitches);
+    t.ticks(holdTicks);
+    t.releaseAll();
+    t.ticks(restTicks);
+}
+
+const mood = (t) => t.run("mood");
+const vibe = (t) => t.run("vibe");
+
+// One note hammered in perfect time is not music.
+free.run(RESET);
+for (let i = 0; i < 40; i++) {
+    strike(free, [60], 2, 2);
+}
+check(mood(free) === 0 && vibe(free) < 0.1, "one repeated note pleased the stage: mood " + mood(free) + ", vibe " + vibe(free));
+
+// Two notes back and forth are not much either.
+free.run(RESET);
+for (let i = 0; i < 40; i++) {
+    strike(free, [i % 2 ? 62 : 60], 2, 2);
+}
+check(mood(free) === 0, "two alternating notes started the dance: vibe " + vibe(free));
+
+// A tune in the key, in steady time, does.
+const tune = [60, 62, 64, 65, 67, 65, 64, 62];
+free.run(RESET);
+for (let i = 0; i < 48; i++) {
+    strike(free, [tune[i % 8]], 2, 2);
+}
+const steadyTune = vibe(free);
+check(mood(free) >= 1 && mood(free) < 3, "a steady tune should dance but not trip: mood " + mood(free) + ", vibe " + steadyTune);
+
+// The same tune at random moments scores clearly lower: the stage feels rhythm.
+free.run(RESET);
+let dice = 7;
+for (let i = 0; i < 48; i++) {
+    dice = (dice * 1103 + 12345) % 2048;
+    strike(free, [tune[i % 8]], 1, 1 + dice % 9);
+}
+check(vibe(free) < steadyTune - 0.15, "random timing scored " + vibe(free) + ", steady " + steadyTune);
+
+// Chords in steady time: dance or fire, but not the top mood without a melody.
+const triads = [[60, 64, 67], [65, 69, 72], [67, 71, 74], [57, 60, 64]];
+free.run(RESET);
+for (let i = 0; i < 32; i++) {
+    strike(free, triads[i % 4], 8, 4);
+}
+const changingChords = vibe(free);
+check(mood(free) >= 1 && mood(free) <= 2, "a chord progression should reach dance or fire: mood " + mood(free) + ", vibe " + changingChords);
+
+// One chord over and over cools down.
+free.run(RESET);
+for (let i = 0; i < 32; i++) {
+    strike(free, triads[0], 8, 4);
+}
+check(vibe(free) < changingChords - 0.2 && mood(free) <= 1, "one repeated chord scored " + vibe(free) + ", a progression " + changingChords);
+
+// Chords with a melody on top, in time: only this reaches the top mood.
+const leftHand = [[48, 52, 55], [53, 57, 60], [55, 59, 62], [45, 48, 52]];
+const rightHand = [[72, 74, 76], [72, 69, 77], [74, 71, 79], [72, 76, 69]];
+free.run(RESET);
+for (let round = 0; round < 10; round++) {
+    for (let c = 0; c < 4; c++) {
+        free.press(leftHand[c]);
+        free.ticks(3);
+        for (const melody of rightHand[c]) {
             free.press([melody]);
             free.ticks(2);
-            free.releaseAll();
+            free.release([melody]);
+            free.ticks(1);
         }
+        free.releaseAll();
     }
 }
-check(free.run("mood") === 3, "rich playing in the key should reach the top mood, got " + free.run("mood") + " at vibe " + free.run("vibe"));
+check(mood(free) === 3, "chords with a melody should reach the top mood, got " + mood(free) + " at vibe " + vibe(free));
 free.ticks(40); // the stage in full swing: plasma, trails, rockets
-free.run("vibe = 0; mood = 0;");
-for (let i = 0; i < 3; i++) {
-    free.press([60, 64, 67]);
-    free.ticks(6);
+
+// Seventh chords and wide two-hand chords are harmony, not clashes.
+for (const [pitches, name] of [[[60, 64, 67, 71], "Cmaj7"], [[55, 59, 62, 65], "G7"], [[50, 62, 65, 69, 72, 76], "a two-hand Dm9"]]) {
+    free.run(RESET);
+    free.ticks(40);
+    free.press(pitches);
+    check(vibe(free) >= 0, name + " was taken for a clash: vibe " + vibe(free));
     free.releaseAll();
 }
-check(free.run("mood") >= 1 && free.run("mood") < 3, "three chords should start the dance, not the top mood: " + free.run("mood"));
-// A wide five-note chord played with two hands is music, not a fist.
-free.run("vibe = 0; mood = 0; recentOns = [];");
-free.press([50, 62, 65, 69, 72, 76]);
-check(free.run("vibe") > 0, "a two-hand Dm9 was taken for a fist: vibe " + free.run("vibe"));
-free.releaseAll();
-free.ticks(6);
+
+// On the pads only the rhythm counts: a steady kick lifts the mood, a
+// stumbling one does not.
+free.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'drums/1'; })[0])");
+free.run(RESET);
+for (let i = 0; i < 24; i++) {
+    strike(free, [36], 1, 3);
+}
+const steadyKick = vibe(free);
+check(steadyKick > 0.3, "a steady kick did not lift the mood: " + steadyKick);
+free.run(RESET);
+for (let i = 0; i < 24; i++) {
+    dice = (dice * 1103 + 12345) % 2048;
+    strike(free, [36], 1, 1 + dice % 9);
+}
+check(vibe(free) < steadyKick - 0.2, "a stumbling kick scored " + vibe(free) + ", a steady one " + steadyKick);
+free.run("selectLesson(GROUPS[0].lessons[1])");
+
+// A fist on the keys brings the storm.
+free.run(RESET);
+free.ticks(40);
 free.press([60, 61, 62, 63, 64, 65]);
 check(free.run("mood") === -2, "a fist on the keys should bring the storm, got " + free.run("mood"));
 free.releaseAll();
