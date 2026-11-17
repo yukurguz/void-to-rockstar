@@ -157,6 +157,13 @@ const scenes = [
     ["masters: title card of the first lesson on Globular", () => { open("c-masters/0", false); ticks(4); }],
     ["masters: the squelch, a knob step", () => { open("c-masters/1", true); solve(5); ticks(2); }],
     ["free play: a tip on playing in the style while the keys sound", () => { jam("psydub", 2); press([62]); ticks(2); }],
+    ["free play: the cosmic mood, a scale with a raised fifth", () => { jam("ambient", 1); run("while (MOODS[jam.mood][0] !== 'Космическое') { jamMood(1); }"); ticks(2); }],
+    ["free play: the weightless mood, a scale of six whole tones", () => { jam("trance", 2); run("while (MOODS[jam.mood][0] !== 'Невесомое') { jamMood(1); }"); press([66]); ticks(2); }],
+    ["free play: the coach asks for the scale, the next key is lit", () => { jam("disco", 1); run("progress.coach = 2; coachReset(); jamPage = 0;"); press([62]); ticks(1); release([62]); press([64]); ticks(1); release([64]); ticks(1); }],
+    ["free play: a page on the sound of the bass", () => { jam("acid", 2); run("jamPage = 9;"); ticks(2); }],
+    ["free play: a page on the form of the track", () => { jam("triphop", 1); run("jamPage = 4;"); ticks(2); }],
+    ["free play: a legend, the gauge at its end, a combo", () => { jam("funk", 3); run("mastery = 1.1; updateRank(); combo = 37; lastOn = clock;"); ticks(2); run("mastery = 1.1; updateRank(); combo = 37;"); }],
+    ["free play: cacophony costs points", () => { jam("gabber", 0); run("progress.done = { 'start/0': 180 }; recount(); shownPoints = 180; vibe = -0.9; updateMood(); stormFined = false; cacophony();"); ticks(3); }],
     ["path: the stage is done, the next one waits for points", () => {
         open("novice/7", true);
         solve(3);
@@ -164,6 +171,17 @@ const scenes = [
         ticks(14);
     }],
 ];
+
+// DANCE=<style> in the environment shows the dance of that style instead:
+// one frame for every pose of it.
+if (process.env.DANCE) {
+    const style = process.env.DANCE;
+    const count = run("TROUPES['" + style + "'].poses.length");
+    scenes.length = 0;
+    for (let k = 0; k < count; k++) {
+        scenes.push(["dance of " + style + ", pose " + (k + 1), () => { jam(style, 2); run("dance.phase = " + k + " * TROUPES['" + style + "'].dance[0];"); }]);
+    }
+}
 
 // Optional third and fourth arguments pick a part of the list: first scene, how many.
 const first = Number(process.argv[4] ?? 0);

@@ -819,7 +819,7 @@ Object.assign(files, diskBeforeClicks);
 
 // Courses: forty lessons of one kind each, always the same lessons.
 const courses = run("GROUPS.filter(function (g) { return g.course; }).map(function (g) { return { id: g.id, size: g.lessons.length, data: JSON.stringify(g.lessons.map(function (l) { return [l.title, l.data]; })) }; })");
-check(courses.length >= 19, "expected a course for every kind of lesson, found " + courses.length);
+check(courses.length >= 22, "expected a course for every kind of lesson, found " + courses.length);
 const twin = createTrainer(true);
 for (const item of courses) {
     check(item.size >= 30 && item.size <= 40, item.id + " has " + item.size + " lessons");
@@ -975,7 +975,7 @@ check(jammer.run("inJam()") === true, "the button should open free play again");
 // The upper arrows go through the styles and come round; each style brings
 // its own mood and tonic, and has a scenery of its own.
 const styleIds = jammer.run("STYLES.map(function (s) { return s.id; })");
-check(styleIds.length >= 10, "expected a dozen styles, found " + styleIds.length);
+check(styleIds.length >= 51, "expected the styles of every decade, found " + styleIds.length);
 check(run("Object.keys(SCENES).sort().join()") === styleIds.slice().sort().join(), "every style needs a scenery of its own, and every scenery a style");
 const seenStyles = new Set();
 for (let i = 0; i < styleIds.length; i++) {
@@ -992,6 +992,106 @@ for (let i = 0; i < styleIds.length; i++) {
 }
 check(seenStyles.size === styleIds.length && jammer.run("jam.style") === 0, "the style arrow should visit every style and come round");
 check(jammer.astray === undefined, "a scenery drew outside the stage: rectangle " + jammer.astray);
+
+// Every style has two dancers of its own and a dance of its own: no two
+// styles share a dance, no two dancers look alike.
+const troupeTrouble = jammer.run(`(function () {
+    var bad = [], dances = {}, looks = {};
+    for (var s = 0; s < STYLES.length; s++) {
+        var id = STYLES[s].id, troupe = TROUPES[id];
+        if (!troupe) { bad.push(id + " has no dancers"); continue; }
+        if (troupe.cast.length !== 2) { bad.push(id + " needs two dancers"); }
+        var names = troupe.dance[6].split(" ");
+        for (var i = 0; i < names.length; i++) {
+            if (!POSES[names[i]] || POSES[names[i]].length !== 13) { bad.push(id + " dances an unknown pose " + names[i]); }
+        }
+        if (names.length < 6) { bad.push(id + " has a dance of only " + names.length + " poses"); }
+        if (dances[troupe.dance[6]]) { bad.push(id + " dances like " + dances[troupe.dance[6]]); }
+        dances[troupe.dance[6]] = id;
+        for (var c = 0; c < troupe.cast.length; c++) {
+            var key = JSON.stringify(troupe.cast[c]);
+            if (looks[key]) { bad.push(id + " has a dancer who looks like one of " + looks[key]); }
+            looks[key] = id;
+        }
+    }
+    for (var extra in TROUPES) { if (!SCENES[extra]) { bad.push("dancers without a style: " + extra); } }
+    for (var name in POSES) { if (POSES[name].length !== 13) { bad.push("the pose " + name + " has " + POSES[name].length + " numbers"); } }
+    return bad.slice(0, 6).join("; ");
+}())`);
+check(troupeTrouble === "", "dancers: " + troupeTrouble);
+
+// The dancers keep the beat. Left alone they count at the tempo of the
+// style; a note of the player lands them on a half beat; while Ableton plays
+// they follow its song and dance although nobody touches the keys.
+const dancer = createTrainer(true);
+dancer.run("enterJam()");
+const countBefore = dancer.run("dance.phase");
+dancer.ticks(12);
+check(dancer.run("dance.phase") > countBefore, "the count of the dance should run on its own");
+check(dancer.run("danceShare()") < 0.3, "with nobody playing the dancers should only mark the dance");
+dancer.time += 300;
+dancer.press([60]);
+dancer.release([60]);
+check(dancer.run("dance.phase * 2 === Math.round(dance.phase * 2)"), "a note should put the dancers on a half beat, got " + dancer.run("dance.phase"));
+check(dancer.run("danceShare()") > 0.5, "a note should set the dancers moving");
+dancer.ticks(40);
+dancer.live["live_set"].is_playing = 1;
+dancer.live["live_set"].current_song_time = 16.5;
+dancer.live["live_set"].tempo = 120;
+dancer.ticks(4);
+check(dancer.run("dance.live") === true && Math.abs(dancer.run("dance.phase") - 16.5) < 1,
+      "while Ableton plays the dancers should follow its song, got " + dancer.run("dance.phase"));
+check(dancer.run("danceShare()") >= 0.8, "music from Ableton should set the dancers dancing");
+dancer.live["live_set"].tempo = 174;
+dancer.ticks(4);
+check(Math.abs(dancer.run("dance.phase") - 8.25) < 1, "a very fast song should be danced at half its speed, got " + dancer.run("dance.phase"));
+dancer.live["live_set"].is_playing = 0;
+dancer.live["live_set"].tempo = 120;
+dancer.ticks(4);
+check(dancer.run("dance.live") === false, "the dancers should leave the song when Ableton stops");
+// The pose changes from beat to beat; the second dancer of a mirrored dance
+// is the mirror of the first; bad playing makes both cover their ears.
+check(dancer.run("JSON.stringify(dancePose(TROUPES.house, 0, false)) !== JSON.stringify(dancePose(TROUPES.house, 1, false))"), "the dance should move on with the beat");
+check(dancer.run("JSON.stringify(dancePose(TROUPES.house, 2, true)) === JSON.stringify(mirrored(dancePose(TROUPES.house, 2, false)))"), "the second dancer should mirror the first");
+dancer.run("mood = -1;");
+check(dancer.run("troupePose(TROUPES.house, false, 0).pose[4]") < 0, "bad playing should send the hands to the ears");
+// Every pair of dancers at every mood of the stage, through its whole dance.
+for (const id of styleIds) {
+    dancer.run("while (STYLES[jam.style].id !== '" + id + "') { jamStyle(1); }");
+    for (const level of [-2, -1, 0, 1, 2, 3]) {
+        for (let pose = 0; pose < 8; pose++) {
+            dancer.run("mood = " + level + "; dance.phase = " + (pose + 0.3) + " * TROUPES['" + id + "'].dance[0];");
+            dancer.box.paint();
+        }
+    }
+}
+check(dancer.astray === undefined, "a dancer was drawn outside the stage: rectangle " + dancer.astray);
+dancer.run("mood = 0; vibe = 0;");
+
+// The moods: each is a scale of its own, its home chord stays inside the
+// scale, and the note that colours it belongs to it.
+const moodTrouble = jammer.run(`(function () {
+    var bad = [], seen = {}, keep = [jam.mood, jam.tonic];
+    for (var m = 0; m < MOODS.length; m++) {
+        var mood = MOODS[m];
+        jam.mood = m;
+        jam.tonic = 0;
+        var home = jamDegreeChord(0);
+        if (!home) { bad.push(mood[0] + " has no home chord"); }
+        for (var k = 0; home && k < home.pcs.length; k++) {
+            if (mood[3].indexOf(home.pcs[k]) < 0) { bad.push("the home chord of " + mood[0] + " leaves its scale"); }
+        }
+        if (seen[mood[3].join()]) { bad.push(mood[0] + " is the scale of " + seen[mood[3].join()]); }
+        seen[mood[3].join()] = mood[0];
+        if (mood[4] >= 0 && mood[3].indexOf(mood[4]) < 0) { bad.push("the colour of " + mood[0] + " is outside its scale"); }
+        if (mood[5] && mood[5].length !== 7) { bad.push(mood[0] + " builds chords from a scale that has not seven notes"); }
+    }
+    jam.mood = keep[0];
+    jam.tonic = keep[1];
+    return bad.join("; ");
+}())`);
+check(moodTrouble === "", "moods: " + moodTrouble);
+check(jammer.run("MOODS.length") >= 18, "expected the moods of place and time too, found " + jammer.run("MOODS.length"));
 const moodCount = jammer.run("MOODS.length");
 for (let i = 0; i < moodCount; i++) {
     jammer.click("next");
@@ -1031,6 +1131,8 @@ function melody(t, pitches) {
     check(t.run("layout(jamView.text).w") <= t.run("TEXT_RIGHT - KX"), "the advice does not fit its line: " + t.run("jamView.text"));
     return t.run("jamView.text");
 }
+// (On the page of the coach the keys of its task are lit instead: another page.)
+jammer.run("jamPage = 2;");
 check(/^НАЧНИ С ОПОРНОЙ/.test(jammer.run("jamLook().text")), "before the first note the advice should name the notes to lean on");
 check(/^ОПОРА/.test(melody(jammer, [69])), "A over A minor is a note to lean on");
 check(/^ПРОХОДЯЩАЯ/.test(melody(jammer, [71])), "B over A minor is a passing note");
@@ -1054,20 +1156,256 @@ jammer.releaseAll();
 jammer.ticks(60);
 check(jammer.run("jamHarmony().slice().sort().join()") === "0,4,9", "the home chord should be back after the chord was let go");
 
-// While the hands are on the keys the line under them is about playing in
-// the style; a few seconds after the last note it is about the project again.
+// Under the keys are pages of advice; a click on them turns the page. The
+// first page is the task of the coach, the others are about playing in the
+// style, the next step, the form of the track, its stage and its sounds.
+jammer.run("jamPage = 0;");
+const pageCount = jammer.run("jamPages().length");
+check(pageCount >= 10, "expected a dozen pages of advice, found " + pageCount);
+const pageHeads = new Set();
+for (let i = 0; i < pageCount; i++) {
+    jammer.box.paint();
+    check(jammer.run("jamPage") === i, "a click under the keys should turn one page, got page " + jammer.run("jamPage"));
+    pageHeads.add(jammer.run("jamHintText").split(":")[0].replace(/ \d.*$/, ""));
+    jammer.time += 500;
+    jammer.box.onclick(jammer.run("KX + 60"), jammer.run("KY + KEY_H + 24"));
+}
 jammer.box.paint();
-check(/^ДАЛЬШЕ:/.test(jammer.run("jamHintText")), "at rest the line should be about the project: " + jammer.run("jamHintText"));
-const tipBefore = jammer.run("jamTip");
-jammer.time += 300;
-jammer.press([69]);
-jammer.release([69]);
-jammer.box.paint();
-check(/^КАК ИГРАТЬ:/.test(jammer.run("jamHintText")), "while playing the line should be about playing: " + jammer.run("jamHintText"));
-check(jammer.run("jamTip") === tipBefore + 1, "every return to the keys should bring the next tip");
-jammer.ticks(61);
-jammer.box.paint();
-check(/^ДАЛЬШЕ:/.test(jammer.run("jamHintText")), "the line should return to the project once the keys rest: " + jammer.run("jamHintText"));
+check(jammer.run("jamPage") === 0, "the pages should come round");
+for (const head of ["ЗАДАНИЕ", "КАК ИГРАТЬ", "ДАЛЬШЕ", "ФОРМА ТРЕКА", "РАЗВИТИЕ", "СТАДИЯ", "ЗВУК"]) {
+    check(pageHeads.has(head), "no page of advice called " + head + ": " + [...pageHeads].join(", "));
+}
+
+// The coach of free play: tasks in the scale on the wheel, one after another.
+// It lights the keys it wants, counts and pays.
+// (Each of the trainers below starts with an empty save file.)
+const diskBeforeCoach = Object.assign({}, files);
+function wipeDisk() {
+    for (const name of Object.keys(files)) {
+        delete files[name];
+    }
+}
+wipeDisk();
+const pupil = createTrainer(true);
+pupil.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); } progress.coach = 0; progress.jamPts = 0; recount(); coachReset(); jamPage = 0;");
+function strokes(t, pitches, velocity) {
+    for (const pitch of pitches) {
+        t.time += 300;
+        if (velocity) {
+            t.box.note(pitch, velocity);
+            t.box.note(pitch, 0);
+        } else {
+            t.press([pitch]);
+            t.release([pitch]);
+        }
+        t.ticks(1);
+    }
+}
+function taskOf(t) {
+    return t.run("coachTask()[0]");
+}
+pupil.box.paint();
+check(taskOf(pupil) === "tonic" && pupil.run("jamView.text") === "ЗАДАНИЕ: НАЖМИ C", "the first task is to find the tonic: " + pupil.run("jamView.text"));
+strokes(pupil, [62]);
+check(taskOf(pupil) === "tonic", "another note is not the tonic");
+strokes(pupil, [72]);
+check(taskOf(pupil) === "home" && pupil.run("progress.jamPts") === 5, "the tonic in any octave should do, and pay 5: " + pupil.run("progress.jamPts"));
+strokes(pupil, [64, 64, 67]);
+check(taskOf(pupil) === "home" && pupil.run("coachTargets().length") === 1, "two of three notes to lean on: one key should stay lit");
+strokes(pupil, [60]);
+check(taskOf(pupil) === "up", "the three notes of the home chord, in any order");
+strokes(pupil, [60, 62, 64, 66]);
+check(pupil.run("coach.count") === 0, "a wrong note should send the scale back to its start");
+strokes(pupil, [60, 62, 64, 65, 67, 69, 71, 72]);
+check(taskOf(pupil) === "down", "the scale up, note by note");
+strokes(pupil, [72, 71, 69, 67, 65, 64, 62, 60]);
+check(taskOf(pupil) === "chord", "the scale down");
+pupil.time += 300;
+pupil.press([60, 64, 67]);
+pupil.ticks(2);
+pupil.releaseAll();
+check(taskOf(pupil) === "steady", "the home chord held");
+strokes(pupil, [60, 62, 64, 62, 60, 62, 64, 62, 60, 62, 64, 62, 60, 62]);
+check(taskOf(pupil) === "motif", "eight even strokes: " + taskOf(pupil));
+strokes(pupil, [64, 67, 65, 64, 67, 65]);
+check(taskOf(pupil) === "landing", "a motif of three notes and its repeat");
+strokes(pupil, [64, 65, 67, 64, 62, 60]);
+pupil.ticks(14);
+check(taskOf(pupil) === "thirds", "a phrase that lands on the tonic and rests: " + taskOf(pupil));
+for (const low of [60, 62, 64, 65]) {
+    pupil.time += 300;
+    pupil.press([low, low === 60 || low === 65 ? low + 4 : low + 3]);
+    pupil.ticks(1);
+    pupil.releaseAll();
+}
+check(taskOf(pupil) === "chords3", "four thirds of the scale: " + taskOf(pupil));
+for (const chord of [[60, 64, 67], [62, 65, 69], [65, 69, 72]]) {
+    pupil.time += 400;
+    pupil.press(chord);
+    pupil.ticks(1);
+    pupil.releaseAll();
+}
+check(taskOf(pupil) === "arp", "three chords of the mode: " + taskOf(pupil));
+strokes(pupil, [60, 64, 67, 64, 60]);
+check(taskOf(pupil) === "over", "the home chord note by note, up and back");
+pupil.time += 300;
+pupil.press([48, 52, 55]);
+strokes(pupil, [72, 74, 76, 77]);
+pupil.releaseAll();
+check(taskOf(pupil) === "colour", "four notes over a held chord: " + taskOf(pupil));
+strokes(pupil, [71, 72]);
+check(taskOf(pupil) === "breath", "the note that colours the major, resolved by a step: " + taskOf(pupil));
+strokes(pupil, [60, 62, 64, 65]);
+pupil.ticks(14);
+strokes(pupil, [67, 65, 64, 62]);
+check(taskOf(pupil) === "loud", "four notes, a breath, four notes: " + taskOf(pupil));
+strokes(pupil, [60, 62, 64, 65], 30);
+strokes(pupil, [67, 65, 64, 62], 120);
+check(taskOf(pupil) === "cadence", "four soft notes and four loud ones: " + taskOf(pupil));
+check(pupil.run("progress.coach") === 15 && pupil.run("progress.jamPts") >= 149, "fifteen tasks should have paid 149 points, got " + pupil.run("progress.jamPts"));
+pupil.box.paint();
+// Everything the pages can say fits them, in every style, mood and task.
+const adviceTrouble = pupil.run(`(function () {
+    var wide = TEXT_RIGHT - KX, bad = [];
+    function lines(text) { return wrap(caps(text), wide).length; }
+    function glyphs(text, what) {
+        text = caps(text);
+        for (var c = 0; c < text.length; c++) {
+            var ch = text.charAt(c);
+            if (ch !== " " && !GLYPHS[ch] && !GLYPHS[ch.toUpperCase()]) { bad.push(what + " has no glyph for " + ch); }
+        }
+    }
+    for (var s = 0; s < STYLES.length; s++) {
+        var style = STYLES[s];
+        if (!FORMS[FORM_OF[style.id]]) { bad.push(style.id + " has no form"); }
+        if (!SOUNDS[style.id]) { bad.push(style.id + " has no sounds"); continue; }
+        for (var p = 0; p < style.parts.length; p++) {
+            var part = style.parts[p];
+            if (!SOUNDS[style.id][part]) { bad.push(style.id + " has no sound for " + part); continue; }
+            var text = "Звук: " + PART_NAMES[part][0] + ": " + SOUNDS[style.id][part];
+            if (lines(text) > 4) { bad.push(style.id + " sound of " + part + " too long"); }
+            glyphs(text, style.id + " sound of " + part);
+        }
+    }
+    for (var f in FORMS) {
+        for (var i = 0; i < 2; i++) {
+            if (lines("Форма трека: " + FORMS[f][i]) > 4) { bad.push("form " + f + " too long"); }
+            glyphs(FORMS[f][i], "form " + f);
+        }
+    }
+    for (var st = 0; st < STAGE_TIPS.length; st++) {
+        for (var q = 0; q < STAGE_TIPS[st].length; q++) {
+            var tip = "Стадия: " + STAGE_NAMES[st] + ": " + STAGE_TIPS[st][q];
+            if (lines(tip) > 4) { bad.push("stage " + st + " tip too long"); }
+            glyphs(tip, "stage " + st);
+        }
+    }
+    var keep = [jam.mood, progress.coach];
+    for (var m = 0; m < MOODS.length; m++) {
+        jam.mood = m;
+        for (var c = 0; c < COACH.length; c++) {
+            progress.coach = c + COACH.length;
+            coachReset();
+            var whole = coachHead() + ": " + coachText();
+            if (lines(whole) > 4) { bad.push("task " + COACH[c][0] + " in mood " + m + " too long"); }
+            glyphs(whole, "task " + COACH[c][0]);
+            var wanted = coachTargets();
+            for (var w = 0; wanted && w < wanted.length; w++) {
+                if (wanted[w] < 48 || wanted[w] > 84) { bad.push("task " + COACH[c][0] + " lights a key off the keyboard"); }
+            }
+        }
+    }
+    jam.mood = keep[0];
+    progress.coach = keep[1];
+    coachReset();
+    return bad.slice(0, 6).join("; ");
+}())`);
+check(adviceTrouble === "", "pages of advice: " + adviceTrouble);
+// The stage of the track is read from the Live Set.
+check(pupil.run("jamStage({ api: true, has: {}, empty: {} }, STYLES[0])") === 0, "nothing yet: the idea");
+check(pupil.run("jamStage({ api: true, has: { chords: true }, empty: {} }, STYLES[0])") === 1, "one part of three: the loop");
+check(pupil.run("jamStage({ api: true, has: { chords: true, melody: true, bass: true }, scenes: 1, arranged: 0 }, STYLES[0])") === 2, "all parts, one scene: versions");
+check(pupil.run("jamStage({ api: true, has: { chords: true, melody: true, bass: true }, scenes: 4, arranged: 3, bars: 64, cues: 2, space: true, limiter: true }, STYLES[0])") === 8, "everything in place: the finish");
+
+// Noise costs points, but never a stage that is already open.
+wipeDisk();
+const rowdy = createTrainer(true);
+// (The coach is put on a task that a fist on the keys cannot solve by chance.)
+rowdy.run("progress.done = { 'start/0': 150 }; progress.coach = 12; recount(); enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); }");
+for (let i = 0; i < 40 && rowdy.run("mood") > -2; i++) {
+    rowdy.time += 200;
+    rowdy.press([60, 61, 62, 63, 64, 65]);
+    rowdy.ticks(1);
+    rowdy.releaseAll();
+}
+check(rowdy.run("mood") === -2, "a fist on the keys should be cacophony");
+check(rowdy.run("progress.points") < 150 && rowdy.run("progress.points") >= 100, "cacophony should cost points, got " + rowdy.run("progress.points"));
+for (let i = 0; i < 90; i++) {
+    rowdy.time += 200;
+    rowdy.press([60, 61, 62, 63, 64, 65]);
+    rowdy.ticks(1);
+    rowdy.releaseAll();
+}
+check(rowdy.run("progress.points") === 100 && rowdy.run("progress.fines") === 50, "the fines should stop at the threshold of the open stage, got " + rowdy.run("progress.points"));
+check(rowdy.run("groupOpen(1)") === true, "a fine must not close a stage");
+rowdy.box.paint();
+
+// Two ranks above the top mood, for playing that is steady, varied, wide,
+// two-handed and clean at once; the last one also wants speed and chords.
+wipeDisk();
+const ace = createTrainer(true);
+ace.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); } progress.coach = 0; coachReset(); mood = 3; vibe = 0.95; lastOn = clock; groove = 2; mastery = 0.3; scorePlay(60, false, nowMs());");
+check(ace.run("mastery") < 0.3 && ace.run("rank") === 0, "plain playing at the top mood is not mastery");
+ace.run("groove = 10; recentPcs = [0, 2, 4, 5, 7, 9]; recentPitches = [48, 72]; handsAt = clock; sourAt = -1000; mastery = 0.49; scorePlay(60, false, nowMs());");
+check(ace.run("rank") === 1 && ace.run("banner") === "ВИРТУОЗ!", "five skills at once should make a virtuoso, mastery " + ace.run("mastery"));
+ace.run("mastery = 0.99; scorePlay(62, false, nowMs());");
+check(ace.run("rank") === 1 && ace.run("mastery") <= 0.8, "the last rank is out of reach without speed and chords");
+ace.run("for (var i = 0; i < 16; i++) { onsetTimes[i] = nowMs() - 2000 + i * 100; } recentChords = [['C', clock, 3], ['F', clock, 3], ['G7', clock, 4]]; mastery = 0.99; scorePlay(64, false, nowMs());");
+check(ace.run("rank") === 2 && ace.run("banner") === "ЛЕГЕНДА!", "all seven skills should make a legend, mastery " + ace.run("mastery"));
+check(ace.run("gaugeValue()") > ace.run("LEGEND_MARK"), "the gauge should stand past its last mark");
+ace.box.paint();
+ace.run("mood = 2; updateRank();");
+check(ace.run("rank") === 0, "a rank is lost with the top mood");
+// A combo in free play pays, and more with every sixteen strokes.
+ace.run("mood = 2; combo = 15; progress.jamPts = 0; scorePlay(60, false, nowMs());");
+check(ace.run("combo") === 16 && ace.run("progress.jamPts") === 2, "the sixteenth stroke at the second mood and the double pays 2, got " + ace.run("progress.jamPts"));
+ace.run("scorePlay(61, true, nowMs());");
+check(ace.run("combo") === 0, "a note outside the scale should end the combo");
+
+// Copies of the trainer on several tracks act as one: what is done in one
+// is taken over by the others within a copyB or two, and nothing is written
+// back and forth.
+wipeDisk();
+const copyA = createTrainer(true);
+const copyB = createTrainer(true);
+copyA.time += 1000;
+copyA.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'start/0'; })[0]); phase = 'intro'; startLesson(); completeStep(); completeStep();");
+copyA.ticks(8);
+copyB.time += 1000;
+copyB.ticks(13);
+check(copyB.run("current.id") === "start/0" && copyB.run("phase") === "run" && copyB.run("step") === 2,
+      "the second copy should be on the same step: " + copyB.run("current.id + ' ' + phase + ' ' + step"));
+copyA.time += 1000;
+copyA.run("enterJam(); jamStyle(1); jamStyle(1);");
+copyA.ticks(8);
+copyB.time += 1000;
+copyB.ticks(13);
+check(copyB.run("inJam()") === true && copyB.run("jam.style") === copyA.run("jam.style"), "the second copy should follow into free play and its style");
+const saveName = Object.keys(files).filter((name) => /progress/.test(name))[0];
+const stampBefore = JSON.parse(files[saveName]).stamp;
+copyA.time += 5000;
+copyB.time += 5000;
+copyA.ticks(40);
+copyB.ticks(40);
+check(JSON.parse(files[saveName]).stamp === stampBefore, "the copies should not write back and forth");
+copyB.time += 1000;
+copyB.run("leaveJam();");
+copyB.ticks(8);
+copyA.time += 1000;
+copyA.ticks(13);
+check(copyA.run("inJam()") === false && copyA.run("current.id") === "start/0", "the first copy should follow the second back to the lesson");
+wipeDisk();
+Object.assign(files, diskBeforeCoach);
 
 // Everything free play prints fits its place, in every style, mood and key,
 // and the advice for the project walks the whole road without repeating.
@@ -1315,7 +1653,7 @@ check(free.run("particles.length") === 0, "particles never expire");
 
 // Every character used anywhere has a glyph, so nothing falls back to "?".
 const missing = run(`(function () {
-    var texts = ["СТАРТ ДАЛЬШЕ ГОТОВО ПОСЛУШАТЬ ЗАНОВО ★ → % ?", "ВЕРСИЯ " + VERSION, "СВОБОДНО УРОКИ ГАММА АККОРД СТИЛЬ НАСТРОЕНИЕ ОПОРНЫЕ: КРАСКА ЛАДА: МИМО КУДА ИДТИ ТЕМП СТИЛЯ: ТОНИКА: ЩЁЛКНИ НОТУ НА КРУГЕ ДАЛЬШЕ: ABLETON НЕ ВИДЕН: СОВЕТ ПО СТИЛЮ СЦЕН ЛЕНТА ° +", STYLES.map(function (s) { return caps([s.name, s.drums || "", s.bass || "", s.chords || "", s.melody || ""].concat(s.play).join(" ")); }).join(" "), MOODS.map(function (m) { return caps(m[0] + ": " + m[1]) + " " + m[2]; }).join(" "), caps(nextStep({ api: true, tempo: 1, has: {}, empty: {} }, STYLES[0])), "ПУТЬ: ИЗ УРОКОВ СТУПЕНЬ ПРОЙДЕНА. СЛЕДУЮЩЕЙ НЕ ХВАТАЕТ ОЧКОВ: ПОВТОРИ УРОКИ БЕЗ ОШИБОК ИЛИ ЗАГЛЯНИ В ТРЕНИРОВКИ. ЭТО БЫЛ ПОСЛЕДНИЙ УРОК ПУТИ. ТЫ ПРОШЁЛ ВСЁ!"], seen = {}, missing = [];
+    var texts = ["СТАРТ ДАЛЬШЕ ГОТОВО ПОСЛУШАТЬ ЗАНОВО ★ → % ?", "ВЕРСИЯ " + VERSION, "СВОБОДНО УРОКИ ГАММА АККОРД СТИЛЬ НАСТРОЕНИЕ ОПОРНЫЕ: КРАСКА ЛАДА: МИМО КУДА ИДТИ ТЕМП СТИЛЯ: ТОНИКА: ЩЁЛКНИ НОТУ НА КРУГЕ ДАЛЬШЕ: ABLETON НЕ ВИДЕН: СОВЕТ ПО СТИЛЮ СЦЕН ЛЕНТА ° + КОМБО СОВЕТ ЩЁЛКНИ: ДАЛЬШЕ ЗАДАНИЕ: НАЖМИ ЕСТЬ! X2! -5", STYLES.map(function (s) { return caps([s.name, s.drums || "", s.bass || "", s.chords || "", s.melody || ""].concat(s.play).join(" ")); }).join(" "), MOODS.map(function (m) { return caps(m[0] + ": " + m[1]) + " " + m[2]; }).join(" "), caps(nextStep({ api: true, tempo: 1, has: {}, empty: {} }, STYLES[0])), "ПУТЬ: ИЗ УРОКОВ СТУПЕНЬ ПРОЙДЕНА. СЛЕДУЮЩЕЙ НЕ ХВАТАЕТ ОЧКОВ: ПОВТОРИ УРОКИ БЕЗ ОШИБОК ИЛИ ЗАГЛЯНИ В ТРЕНИРОВКИ. ЭТО БЫЛ ПОСЛЕДНИЙ УРОК ПУТИ. ТЫ ПРОШЁЛ ВСЁ!"], seen = {}, missing = [];
     for (var i = 0; i < LESSONS.length; i++) {
         var item = LESSONS[i];
         texts.push(item.title, item.why, item.hint, item.task || "", GROUPS[item.group].title);
