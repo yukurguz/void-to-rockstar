@@ -7,7 +7,7 @@
 | Что | Где | Зачем |
 |---|---|---|
 | Инструкция по Bluetooth MIDI | [SMK-37-Bluetooth-MIDI.md](SMK-37-Bluetooth-MIDI.md) | Подключить клавиатуру без провода через loopMIDI и MIDIberry |
-| Запуск моста | [bridge](bridge) | Одним щелчком поднять мост после перезагрузки: проверить порт loopMIDI, открыть и настроить MIDIberry |
+| Запуск моста | [bridge](bridge) | Одним щелчком поднять и проверить мост: порт loopMIDI, MIDIberry и то, что нота с клавиатуры доходит до порта |
 | Скрипт клавиатуры для Ableton | [ableton/SMK37](ableton/SMK37) | Энкодеры, фейдеры и пэды сразу управляют Ableton |
 | Тренажёр SMK Trainer | [trainer](trainer) | Учиться играть и осваивать Ableton прямо в нём |
 
