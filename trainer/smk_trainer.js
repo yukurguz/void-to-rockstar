@@ -22,7 +22,7 @@ mgraphics.autofill = 0;
 
 // Shown in the corner of the panel, so it is plain which trainer Ableton has
 // loaded. release.py refuses to pack a release under any other number.
-var VERSION = "0.9.2";
+var VERSION = "0.9.3";
 
 var W = 986;      // wheel, keyboard, panel and stage side by side: see the geometry below
 var H = 169;
@@ -4807,7 +4807,9 @@ var stormFined = false;
 
 // Called after every key press. In a lesson only keys the step did not ask
 // for count: a chromatic run or a cluster that the lesson wants is not noise.
-function cacophony() {
+// "single": the stroke is one hit for sure (a pad), whatever the count of
+// the notes in the latest chord says.
+function cacophony(single) {
     if (mood !== -2) {
         stormFined = false;
         return;
@@ -4818,7 +4820,7 @@ function cacophony() {
     if (!stormFined) {
         stormFined = true;
         fine(FINE_STORM);
-    } else if (onsetNotes === 1) {
+    } else if (single || onsetNotes === 1) {
         fine(FINE_NOTE);
     }
 }
@@ -5864,6 +5866,7 @@ function selfCheck() {
         // can one LiveAPI object be sent from place to place here, and how
         liveAt("live_set");
         out.roams = roams;
+        out.band = bandReport();
         try {
             out.frame = { want: [W, H], size: [mgraphics.size[0], mgraphics.size[1]] };
         } catch (noSize) {
@@ -6341,9 +6344,12 @@ function unsteady() {
     return rhythmLog.length < 4 || tally(rhythmLog) < rhythmLog.length * 0.7;
 }
 
-function judge(pitch) {
+// "pads": the stroke is a pad of a drum track in free play, judged for its
+// rhythm alone.
+function judge(pitch, pads) {
     lastOn = clock;
-    var now = nowMs();
+    // a note handed over by another copy is judged by the moment it was played
+    var now = heardAt || nowMs();
     var fresh = now - onsetMs >= 70; // a new onset, not one more note of the same chord
     if (fresh) {
         if (now - onsetMs > 2500) {
@@ -6359,7 +6365,7 @@ function judge(pitch) {
     }
     var gain = 0;
     var loss = 0;
-    var drumming = current.kind === "drums" || !!(currentStep() && currentStep().drums);
+    var drumming = !!pads || current.kind === "drums" || !!(currentStep() && currentStep().drums);
     if (drumming) {
         if (fresh && rhythm === 1 && groove >= 3) {
             gain = 0.05;
@@ -6536,7 +6542,9 @@ function judge(pitch) {
     vibe = Math.max(-1, Math.min(1, vibe + gain + loss));
     // The top mood is for the real thing only: a melody over changing chords,
     // or on the pads a long unbroken groove.
-    var rich = drumming ? groove >= 16 : clock - lastMelody < 36 && clock - chordChange < 120;
+    // A pad struck under a melody over changing chords takes nothing away.
+    var melodic = clock - lastMelody < 36 && clock - chordChange < 120;
+    var rich = drumming ? groove >= 16 || (!!pads && melodic) : melodic;
     if (!rich) {
         vibe = Math.min(vibe, TRIP_AT - 0.01);
     }
@@ -6940,8 +6948,195 @@ function updateParticles() {
 
 // ------------------------------------------------------------------ input
 
+// ---- the copies hear as one
+//
+// A trainer hears only the notes of its own track, and Ableton shows the
+// devices of one track at a time. A copy on every track keeps the trainer in
+// sight, but the copy on the screen would stay deaf while the keys play into
+// another track. So the copies pass the notes on: what a hidden copy hears is
+// handed to the one on the screen, which shows and judges it.
+//
+// They meet in a Global of Max, which all devices of a Live Set share. Only
+// numbers and strings are kept there: nothing in it belongs to one copy, so
+// nothing is left hanging when a copy is deleted.
+var band = null;            // the Global; false where Max gives none
+var bandSeq = 0;            // the last note of the others that was looked at
+var heardAt = 0;            // when the note in hand was really played, if another copy heard it
+var myDrums = false;        // this copy stands on a track of drums
+var drumsAskedAt = -100000;
+
+function theBand() {
+    if (band === null) {
+        try {
+            band = new Global("smk_trainer_band");
+        } catch (error) {
+            band = false;
+        }
+    }
+    return band || null;
+}
+
+function standsOnDrums() {
+    var devices = listDevices(TRACK, false) || [];
+    for (var i = 0; i < devices.length; i++) {
+        if (DRUM_BOXES.indexOf(devices[i].cls) >= 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// The mood of the stage and the rhythm the player keeps, as one line of
+// numbers: the copy that comes into sight next goes on from here.
+function playState() {
+    return [vibe, mastery, combo, groove, pulse, onsetMs, chaos, wild, rhythmLog.join("")].join(",");
+}
+
+function takePlayState(text) {
+    var parts = String(text).split(",");
+    if (parts.length < 9) {
+        return;
+    }
+    vibe = Number(parts[0]) || 0;
+    mastery = Number(parts[1]) || 0;
+    combo = Number(parts[2]) || 0;
+    groove = Number(parts[3]) || 0;
+    pulse = Number(parts[4]) || 0;
+    onsetMs = Number(parts[5]) || 0;
+    chaos = Number(parts[6]) || 0;
+    wild = Number(parts[7]) || 0;
+    rhythmLog = [];
+    for (var i = 0; i < parts[8].length; i++) {
+        rhythmLog.push(parts[8].charAt(i) === "1" ? 1 : 0);
+    }
+    if (vibe !== 0) {
+        lastOn = clock;
+    }
+    updateMood();
+    updateRank();
+    bannerUntil = 0;        // the mood was reached on another track: no banner for it here
+}
+
+// Every paint says: this copy is the one on the screen. The first paint after
+// another copy takes over where that one left off.
+function claimStage() {
+    var b = theBand();
+    if (!b) {
+        return;
+    }
+    var now = nowMs();
+    if (b.shownWho && b.shownWho !== me) {
+        b.many = 1;
+        if (b.play && now - b.playAt < 3000) {
+            takePlayState(b.play);
+        }
+    }
+    b.shownWho = me;
+    b.shownAt = now;
+}
+
+function passOn(b, pitch, velocity, now) {
+    var text = String(b.notes || "");
+    if (text.length > 2200) {
+        text = text.substring(text.indexOf(";", text.length - 1500) + 1);
+    }
+    b.seq = (Number(b.seq) || 0) + 1;
+    b.notes = (text === "" ? "" : text + ";") + [b.seq, me, pitch, velocity, now, myDrums ? 1 : 0].join(",");
+}
+
+// On every tick: what the other copies have heard since the last look. A key
+// let go is taken by every copy that holds it; a key pressed only by the copy
+// on the screen.
+function hearOthers() {
+    var b = theBand();
+    if (!b) {
+        return;
+    }
+    var mine = b.shownWho === me;
+    if (mine && b.many && clock % 2 === 0) {
+        b.play = playState();
+        b.playAt = nowMs();
+    }
+    var seq = Number(b.seq) || 0;
+    if (seq === bandSeq) {
+        return;
+    }
+    if (seq < bandSeq) {
+        bandSeq = seq;      // the count has started anew
+        return;
+    }
+    var rows = String(b.notes || "").split(";");
+    var now = nowMs();
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i].split(",");
+        if (!(Number(row[0]) > bandSeq) || Number(row[1]) === me) {
+            continue;
+        }
+        var pitch = Number(row[2]);
+        var velocity = Number(row[3]);
+        var known = held.indexOf(pitch) >= 0;
+        if (velocity === 0) {
+            if (known) {
+                hear(pitch, 0, false, true);
+            }
+        } else if (mine && !known && now - Number(row[4]) < 1000) {
+            heardAt = Number(row[4]);
+            try {
+                hear(pitch, velocity, row[5] === "1", true);
+            } finally {
+                heardAt = 0;
+            }
+        }
+    }
+    bandSeq = seq;
+}
+
+// What the self-check says about the copies.
+function bandReport() {
+    var b = theBand();
+    if (!b) {
+        return { there: false };
+    }
+    return { there: true, me: me, shown: b.shownWho === me, many: !!b.many, drums: standsOnDrums(), seq: Number(b.seq) || 0 };
+}
+
+// A key or a pad played into the track of this copy.
 function note(pitch, velocity) {
+    var now = nowMs();
+    if (velocity > 0 && now - drumsAskedAt > 15000) {
+        drumsAskedAt = now;
+        myDrums = standsOnDrums();
+    }
+    var b = theBand();
+    // another copy is on the screen: it has painted a moment ago
+    if (velocity > 0 && b && b.shownWho && b.shownWho !== me && now - b.shownAt < 700) {
+        b.many = 1;
+        passOn(b, pitch, velocity, now);
+        return;
+    }
+    hear(pitch, velocity, myDrums, false);
+    // A key let go is told to the others as well: one of them may have been
+    // handed its press while it was on the screen.
+    if (velocity === 0 && b && b.many) {
+        passOn(b, pitch, 0, now);
+    }
+}
+
+// One key or pad. "pads": it was played into a track of drums. "foreign":
+// another copy of the trainer heard it and handed it over.
+function hear(pitch, velocity, pads, foreign) {
     var index = held.indexOf(pitch);
+    if (pads && !showsPads() && (foreign || inJam()) && index < 0) {
+        // A pad of a drum track is not a key of the piano. Free play counts
+        // its rhythm; a lesson for the keys does not hear it at all.
+        if (velocity > 0 && inJam()) {
+            lastVelocity = velocity;
+            judge(pitch, true);
+            cacophony(true);
+            mgraphics.redraw();
+        }
+        return;
+    }
     if (velocity > 0) {
         if (index < 0) {
             held.push(pitch);
@@ -6952,7 +7147,7 @@ function note(pitch, velocity) {
     held.sort(function (a, b) { return a - b; });
     if (velocity > 0) {
         lastVelocity = velocity;
-        judge(pitch);
+        judge(pitch, false);
         // On a lesson's title card the first key press starts the lesson and
         // is not judged as an answer.
         if (phase === "intro") {
@@ -6973,7 +7168,7 @@ function note(pitch, velocity) {
     }
     evaluate();
     if (velocity > 0) {
-        cacophony();
+        cacophony(false);
     }
     mgraphics.redraw();
 }
@@ -7255,6 +7450,7 @@ function act(x, y, now) {
 
 function tick() {
     clock++;
+    hearOthers();
     if (clock === 24) {
         selfCheck();    // two seconds in: Ableton has finished loading the device
     }
@@ -7378,6 +7574,9 @@ function startTicker() {
         }
     }
     selectLesson(current);
+    // what the other copies heard before this one woke up is in the past
+    var b = theBand();
+    bandSeq = b ? Number(b.seq) || 0 : 0;
     ticker = new Task(tick, this);
     ticker.interval = TICK_MS;
     ticker.repeat();
@@ -11842,6 +12041,7 @@ function drawNotes() {
 function paint() {
     paintedAt = clock;
     startTicker();
+    claimStage();
     if (inJam()) {
         jamLook();
     }

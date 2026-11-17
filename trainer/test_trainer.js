@@ -121,9 +121,10 @@ function makeDevice(cls) {
     return device;
 }
 
-// A trainer and some instrument the lessons never ask for.
+// A trainer and some instrument the lessons never ask for. Not a box of
+// drums: the trainer counts only the rhythm of what is played into one.
 function freshDevices() {
-    return { [OWN]: [makeDevice("MxDeviceMidiEffect"), makeDevice("InstrumentImpulse")], [MASTER]: [], [RETURN_A]: [], "live_set return_tracks 1": [] };
+    return { [OWN]: [makeDevice("MxDeviceMidiEffect"), makeDevice("PluginDevice")], [MASTER]: [], [RETURN_A]: [], "live_set return_tracks 1": [] };
 }
 
 // Every device of the wanted classes on a track, racks opened one level.
@@ -317,7 +318,9 @@ const LIVE_SOLUTIONS = {
 };
 
 // One trainer instance. withLive = false stands for a place without the Live API.
-function createTrainer(withLive) {
+// shared = the Globals of Max, which every device of a Live Set sees; without
+// it the trainer finds no Global, as outside Max.
+function createTrainer(withLive, shared) {
     const t = { sent: [], rectangles: 0, live: freshLive(), devices: freshDevices() };
     const mgraphics = new Proxy({}, {
         get(target, name) {
@@ -409,6 +412,11 @@ function createTrainer(withLive) {
     };
     if (withLive) {
         sandbox.LiveAPI = LiveAPI;
+    }
+    if (shared) {
+        sandbox.Global = function (name) {
+            return (shared[name] = shared[name] || {});
+        };
     }
     vm.createContext(sandbox);
     for (const file of ["sprites_data.js", "smk_trainer.js"]) {
@@ -1499,6 +1507,124 @@ copyB.ticks(8);
 copyA.time += 1000;
 copyA.ticks(40);
 check(copyA.run("inJam()") === false && copyA.run("current.id") === "start/0", "the first copy should follow the second back to the lesson");
+
+// The copies hear as one. Ableton plays the keys into the track of one copy
+// while another copy is on the screen: the hidden one hands every note over
+// with the moment it was played, and the one on the screen shows and judges
+// it. A pad of a drum track is no key of the piano: free play counts its
+// rhythm, a lesson for the keys does not hear it.
+wipeDisk();
+const maxGlobals = {};
+const frontCopy = createTrainer(true, maxGlobals);
+const backCopy = createTrainer(true, maxGlobals);
+// Time passes for both; only "front" is painted. Ticks fall every 83 ms.
+function together(front, back, ms) {
+    const end = front.time + ms;
+    let next = front.time + 83 - (front.time % 83);
+    while (next <= end) {
+        front.time = back.time = next;
+        front.box.tick();
+        front.box.paintedAt = front.box.clock;
+        front.box.paint();
+        back.box.tick();
+        next += 83;
+    }
+    front.time = back.time = end;
+}
+const CLASSIC = "enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); }";
+frontCopy.run(CLASSIC);
+backCopy.run(CLASSIC);
+backCopy.ticks(3);          // it was on the screen once; from here on it is not
+frontCopy.time = backCopy.time;
+together(frontCopy, backCopy, 3000);
+backCopy.box.note(60, 100);
+check(backCopy.run("held.length") === 0, "a hidden copy should hand the key over and not take it itself");
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.join()") === "60", "the copy on the screen should show the key played into another track, holds " + frontCopy.run("held.join()"));
+backCopy.box.note(60, 0);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.length") === 0, "and let it go when the hand does");
+// an even pulse stays even: 400 ms does not fall on the ticks, so judged by
+// the tick they arrived on the strokes would stumble
+together(frontCopy, backCopy, 3000);
+for (let i = 0; i < 12; i++) {
+    backCopy.box.note(60 + [0, 2, 4, 5][i % 4], 100);
+    together(frontCopy, backCopy, 200);
+    backCopy.box.note(60 + [0, 2, 4, 5][i % 4], 0);
+    together(frontCopy, backCopy, 200);
+}
+check(frontCopy.run("groove") >= 9, "notes handed over should be judged by the moment they were played: groove " + frontCopy.run("groove"));
+check(frontCopy.run("vibe") > 0.1 && backCopy.run("vibe") === 0, "the copy on the screen judges the playing, the hidden one does not: "
+      + frontCopy.run("vibe") + " and " + backCopy.run("vibe"));
+// the mood of the stage goes over to the copy that comes into sight next
+frontCopy.run("vibe = 0.7; updateMood();");
+together(frontCopy, backCopy, 200);
+const moodBefore = frontCopy.run("mood");
+backCopy.box.note(64, 100);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.join()") === "64", "a key is held on the screen");
+backCopy.box.paint();       // the player picks the other track: now this copy is on the screen
+check(moodBefore >= 2 && backCopy.run("mood") === moodBefore, "the copy that comes into sight should take the mood over: " + moodBefore + " and " + backCopy.run("mood"));
+backCopy.box.note(64, 0);   // the key goes up on the track that is now in sight
+together(backCopy, frontCopy, 166);
+check(frontCopy.run("held.length") === 0, "a key handed to a copy should not stay down in it after the copy is hidden");
+backCopy.box.note(67, 100);
+check(backCopy.run("held.join()") === "67", "the copy on the screen hears its own track at once");
+backCopy.box.note(67, 0);
+// nobody on the screen (Ableton shows a clip, not the devices): every copy
+// hears its own track, as a single trainer does
+for (let i = 0; i < 14; i++) {
+    frontCopy.time = backCopy.time = backCopy.time + 83;
+    frontCopy.box.tick();
+    backCopy.box.tick();
+}
+frontCopy.box.note(62, 100);
+check(frontCopy.run("held.join()") === "62", "with no copy on the screen a copy should hear its own track");
+frontCopy.box.note(62, 0);
+// pads: the hidden copy stands on a track of drums
+backCopy.devices[OWN].push(makeDevice("DrumGroupDevice"));
+backCopy.run("drumsAskedAt = -100000;");
+together(frontCopy, backCopy, 3000);
+const pcsBefore = frontCopy.run("recentPcs.length");
+backCopy.box.note(37, 100);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.length") === 0 && frontCopy.run("recentPcs.length") === pcsBefore, "a pad of a drum track is not a key of the piano");
+check(frontCopy.run("lastOn") === frontCopy.run("clock"), "but free play should hear its stroke");
+backCopy.box.note(37, 0);
+together(frontCopy, backCopy, 83);
+// a lesson for the keys does not hear the pads of another track
+frontCopy.run("leaveJam(); selectLesson(LESSONS.filter(function (l) { return l.id === 'start/0'; })[0]); phase = 'intro'; startLesson();");
+together(frontCopy, backCopy, 166);
+backCopy.box.note(37, 100);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.length") === 0 && frontCopy.run("wrong") === false && frontCopy.run("phase") === "run",
+      "a lesson for the keys should not hear a pad of another track");
+backCopy.box.note(37, 0);
+// a lesson for the pads does
+frontCopy.run("selectLesson(LESSONS.filter(function (l) { return l.kind === 'drums'; })[0]); startLesson();");
+together(frontCopy, backCopy, 166);
+backCopy.box.note(36, 100);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.join()") === "36", "a lesson for the pads should hear the pads of the drum track, holds " + frontCopy.run("held.join()"));
+backCopy.box.note(36, 0);
+together(frontCopy, backCopy, 83);
+check(frontCopy.run("held.length") === 0, "and their release");
+// one trainer alone is not changed by any of this: it hears its track at once
+const lone = createTrainer(true, {});
+lone.run(CLASSIC);
+lone.ticks(3);
+lone.box.note(60, 100);
+check(lone.run("held.join()") === "60" && lone.run("lastOn") === lone.run("clock"), "a single trainer should hear its own track at once");
+lone.box.note(60, 0);
+check(lone.run("theBand().seq") === undefined, "a single trainer has nobody to tell about its notes");
+// and on a track of drums free play counts the rhythm of the pads, not their names
+lone.devices[OWN].push(makeDevice("DrumGroupDevice"));
+lone.run("drumsAskedAt = -100000; recentPcs = [];");
+lone.time += 3000;
+lone.box.note(37, 100);
+check(lone.run("held.length") === 0 && lone.run("recentPcs.length") === 0 && lone.run("lastOn") === lone.run("clock"),
+      "pads played into a drum track in free play are strokes, not notes of the scale");
+lone.box.note(37, 0);
 // The trainer must not wear Ableton out. A device that is not on the screen
 // is not painted, and then it asks Ableton nothing; a still picture is
 // renewed a few times a second, a lively one on every tick; and one LiveAPI
