@@ -6,3 +6,11 @@ dist/
 
 __pycache__/
 *.pyc
+
+# The promo film: caches, clips filmed from the trainer by promo/tools/make_assets.mjs
+# and the rendered file can all be made again
+promo/.hyperframes/
+promo/node_modules/
+promo/assets/*.mp4
+promo/assets/t-*.png
+promo/*.mp4

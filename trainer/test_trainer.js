@@ -29,9 +29,11 @@ function freshLive() {
     const live = {
         "live_set": { metronome: 0, is_playing: 0, tempo: 200, record_mode: 0, loop: 0, scale_mode: 0,
                       midi_recording_quantization: 0, session_automation_record: 0,
-                      counts: { tracks: 4, return_tracks: 2 } },
+                      clip_trigger_quantization: 4, session_record: 0, count_in_duration: 0,
+                      loop_length: 4, song_length: 5,
+                      counts: { tracks: 4, return_tracks: 2, scenes: 8, cue_points: 0 } },
         "live_app view": { focused_document_view: "Session" },
-        [OWN]: { arm: 0, mute: 0, solo: 0, is_frozen: 0, is_grouped: 0, counts: { clip_slots: 8 } },
+        [OWN]: { arm: 0, mute: 0, solo: 0, is_frozen: 0, is_grouped: 0, counts: { clip_slots: 8, arrangement_clips: 0 } },
         [MASTER]: { counts: {} },
         [RETURN_A]: { counts: {} },
         "live_set return_tracks 1": { counts: {} },
@@ -41,9 +43,38 @@ function freshLive() {
     };
     for (let i = 0; i < 8; i++) {
         live[OWN + " clip_slots " + i] = { has_clip: 0 };
-        live[OWN + " clip_slots " + i + " clip"] = { is_playing: 0, has_envelopes: 0 };
+        // a new clip is one bar long, loops and is empty
+        live[OWN + " clip_slots " + i + " clip"] = { is_playing: 0, has_envelopes: 0, length: 4, looping: 1, notes: [] };
     }
     return live;
+}
+
+// The clips of the trainer's track that exist, as the fake keeps them.
+function clipsOf(live) {
+    return [0, 1, 2, 3, 4, 5, 6, 7].filter((i) => live[OWN + " clip_slots " + i].has_clip).map((i) => live[OWN + " clip_slots " + i + " clip"]);
+}
+
+// The clip a player would be working in: the newest one.
+function openClip(live) {
+    const clips = clipsOf(live);
+    check(clips.length > 0, "a step about a clip comes before any step that makes one");
+    return clips[clips.length - 1];
+}
+
+let noteIds = 0;
+
+// A drawn note: on a beat, a sixteenth long, struck at 100.
+function addNote(clip, pitch, start, duration, velocity) {
+    clip.notes.push({ note_id: ++noteIds, pitch, start_time: start, duration: duration || 0.25, velocity: velocity || 100, mute: 0 });
+}
+
+// The first whole beat of the clip that no note begins on.
+function freeBeat(clip) {
+    let beat = 0;
+    while (clip.notes.some((n) => Math.abs(n.start_time - beat) < 0.01)) {
+        beat++;
+    }
+    return beat;
 }
 
 // Which knobs each device class needs, gathered from the lessons themselves
@@ -54,6 +85,14 @@ const PATTERN_SAMPLES = {
     "^[LR] 16th$": "L 16th",
     "^[1-8] Gain A$": "3 Gain A",
     "^[1-8] Frequency A$": "3 Frequency A",
+    "^Legato( On)?$": "Legato On",
+    "^LFO 1 (Freq|Synced)$": "LFO 1 Freq",
+    "^(F On|Filter On)$": "F On",
+    "^(S Start|Start)$": "S Start",
+    "^LFO (Freq|Ratio|Time|Synced)$": "LFO Freq",
+    "^(Formant|Frequency|Filter Morph)$": "Formant",
+    "^(Input Gain|Gain)$": "Input Gain",
+    "^(Drive|Gain)$": "Drive",
 };
 const KNOBS = {};
 const SWITCHES = /On$|On\/Off$/;
@@ -73,6 +112,8 @@ function makeDevice(cls) {
         params: names.map((name) => ({ name, original_name: name, min: 0, max: 1,
                                        value: name === "Device On" ? 1 : (SWITCHES.test(name) ? 0 : 0.5) })),
         chains: [],
+        // settings of the device that are not knobs; Drift lists its voice modes
+        props: cls === "Drift" ? { voice_mode_list: ["Poly", "Mono", "Stereo", "Unison"] } : {},
     };
     if (cls === "DrumGroupDevice") {
         device.chains = [[makeDevice("DrumCell")], [makeDevice("DrumCell")]];
@@ -82,7 +123,7 @@ function makeDevice(cls) {
 
 // A trainer and some instrument the lessons never ask for.
 function freshDevices() {
-    return { [OWN]: [makeDevice("MxDeviceMidiEffect"), makeDevice("Collision")], [MASTER]: [], [RETURN_A]: [], "live_set return_tracks 1": [] };
+    return { [OWN]: [makeDevice("MxDeviceMidiEffect"), makeDevice("InstrumentImpulse")], [MASTER]: [], [RETURN_A]: [], "live_set return_tracks 1": [] };
 }
 
 // Every device of the wanted classes on a track, racks opened one level.
@@ -145,6 +186,17 @@ const LIVE_ACTIONS = {
         check(simpler, "a Simpler step comes before any step that adds Simpler");
         simpler.playback_mode = Number(a[0]);
     },
+    voice: (t, a) => {
+        const drift = devicesOf(t, OWN, "Drift")[0];
+        check(drift, "a voice mode step comes before any step that adds Drift");
+        drift.props.voice_mode_index = drift.props.voice_mode_list.indexOf(a[0]);
+        check(drift.props.voice_mode_index >= 0, "Drift has no voice mode " + a[0]);
+    },
+    setting: (t, a) => {
+        const device = devicesOf(t, OWN, a[0])[0];
+        check(device, "a step about a setting of " + a[0] + " comes before any step that adds the device");
+        device.props[a[1]] = Number(a[2]);
+    },
     order: (t, a) => {
         const list = t.devices[OWN];
         const first = list.filter((d) => a[0].split(",").indexOf(d.cls) >= 0)[0];
@@ -153,6 +205,48 @@ const LIVE_ACTIONS = {
         list.splice(list.indexOf(first), 1);
         list.splice(list.indexOf(second), 0, first);
     },
+    // ---- the sequencer: what a player does to the notes of the open clip
+    notesAdded: (t, a) => {
+        const clip = openClip(t.live);
+        for (let i = 0; i < Number(a[0]); i++) {
+            addNote(clip, 60, freeBeat(clip));
+        }
+    },
+    notesRemoved: (t, a) => {
+        let left = Number(a[0]);
+        for (const clip of clipsOf(t.live).reverse()) {
+            left -= clip.notes.splice(0, left).length;
+        }
+        check(left === 0, "nothing left to erase");
+    },
+    clipStack: (t, a) => {
+        const clip = openClip(t.live);
+        const beat = freeBeat(clip);
+        [57, 60, 64, 67, 71].slice(0, Number(a[0])).forEach((pitch) => addNote(clip, pitch, beat));
+    },
+    clipPitches: (t, a) => {
+        const clip = openClip(t.live);
+        for (let i = 0; i < Number(a[0]); i++) {
+            addNote(clip, 72 + i, freeBeat(clip));
+        }
+    },
+    clipLong: (t, a) => {
+        const clip = openClip(t.live);
+        if (clip.notes.length === 0) {
+            addNote(clip, 60, 0);
+        }
+        clip.notes[0].duration = Number(a[0]);
+    },
+    clipVel: (t, a) => {
+        const clip = openClip(t.live);
+        const note = clip.notes.filter((n) => n.velocity === 100)[0];
+        check(note, "no note left to change the force of");
+        note.velocity = Number(a[0]);
+    },
+    clipLength: (t, a) => { openClip(t.live).length = Number(a[0]); },
+    arrClips: (t, a) => { t.live[OWN].counts.arrangement_clips = Number(a[0]); },
+    loopLength: (t, a) => { t.live["live_set"].loop_length = Number(a[0]); },
+    songLength: (t, a) => { t.live["live_set"].song_length = Number(a[0]) + 1; },
 };
 
 // How a player would satisfy each plain Ableton check.
@@ -181,11 +275,36 @@ const LIVE_SOLUTIONS = {
     stopped: (live) => { live["live_set"].is_playing = 0; },
     tempo90: (live) => { live["live_set"].tempo = 90; },
     armed: (live) => { live["this_device canonical_parent"].arm = 1; },
-    hasClip: (live) => { live["this_device canonical_parent clip_slots 2"].has_clip = 1; },
+    // a clip that was there before the lesson has notes in it
+    hasClip: (live) => {
+        live["this_device canonical_parent clip_slots 2"].has_clip = 1;
+        [0, 1, 2, 3].forEach((beat) => addNote(live["this_device canonical_parent clip_slots 2 clip"], 60, beat));
+    },
+    clipOffGrid: (live) => {
+        const clip = openClip(live);
+        if (clip.notes.length === 0) {
+            addNote(clip, 60, 0);
+        }
+        clip.notes[0].start_time += 1 / 3;
+    },
+    clipOnGrid: (live) => { openClip(live).notes.forEach((n) => { n.start_time = Math.round(n.start_time * 4) / 4; }); },
+    clipOffBeat: (live) => { const clip = openClip(live); addNote(clip, 60, freeBeat(clip) + 0.5); },
+    clipLoopOff: (live) => { openClip(live).looping = 0; },
+    clipLoopOn: (live) => { openClip(live).looping = 1; },
+    quantChanged: (live) => { live["live_set"].clip_trigger_quantization = live["live_set"].clip_trigger_quantization === 4 ? 7 : 4; },
+    sessionRecord: (live) => { live["live_set"].session_record = 1; live["live_set"].is_playing = 1; },
+    countInOn: (live) => { live["live_set"].count_in_duration = 1; },
+    sceneAdded: (live) => { live["live_set"].counts.scenes++; },
+    locatorAdded: (live) => { live["live_set"].counts.cue_points++; },
+    arrClipAdded: (live) => { live[OWN].counts.arrangement_clips++; },
+    loopOff: (live) => { live["live_set"].loop = 0; },
+    songLonger: (live) => { live["live_set"].song_length += 16; },
     // a playing clip and the record button both start Ableton's transport
     clipPlaying: (live) => {
-        live["this_device canonical_parent clip_slots 2"].has_clip = 1;
-        live["this_device canonical_parent clip_slots 2 clip"].is_playing = 1;
+        if (clipsOf(live).length === 0) {
+            live["this_device canonical_parent clip_slots 2"].has_clip = 1;
+        }
+        openClip(live).is_playing = 1;
         live["live_set"].is_playing = 1;
     },
     recordOn: (live) => { live["live_set"].record_mode = 1; live["live_set"].is_playing = 1; },
@@ -206,6 +325,10 @@ function createTrainer(withLive) {
                 return (x, y, w, h) => {
                     if (!(w > 0 && h > 0) || [x, y, w, h].some((v) => typeof v !== "number" || isNaN(v))) {
                         throw new Error("bad rectangle " + [x, y, w, h].join(","));
+                    }
+                    // off the device, or over the frame of the stage on the right
+                    if (x < 0 || y < 0 || x + w > 860 || y + h > 169 || (x >= 707 && (x + w > 855 || y < 4 || y + h > 165))) {
+                        t.astray = t.astray || [x, y, w, h].join(",");
                     }
                     t.rectangles++;
                 };
@@ -251,15 +374,29 @@ function createTrainer(withLive) {
         if (parts[5] !== undefined) {
             return device.params[Number(parts[5])];
         }
-        return { class_name: device.cls, playback_mode: device.playback_mode || 0,
-                 counts: { parameters: device.params.length, chains: device.chains.length } };
+        return Object.assign({ class_name: device.cls, playback_mode: device.playback_mode || 0,
+                               counts: { parameters: device.params.length, chains: device.chains.length } }, device.props || {});
     }
     function LiveAPI(objectPath) {
         const object = () => lookUp(objectPath);
         this.id = object() ? "7" : "0";
-        this.get = (property) => [object()[property]];
+        // A list comes back as it is, anything else as a list of one. The list
+        // is made inside the trainer's own world, as Max would make it: an
+        // array from outside is not an Array to the code in there.
+        this.get = (property) => {
+            const value = object()[property];
+            const list = vm.runInContext("[]", sandbox);
+            list.push(...(Array.isArray(value) ? value : [value]));
+            return list;
+        };
         // what a list parameter shows; unknown until the player picks an entry
-        this.call = (name) => (name === "str_for_value" ? (object().text || "") : undefined);
+        // and the notes of a clip, which Ableton hands over as a text
+        this.call = (name) => {
+            if (name === "get_notes_extended") {
+                return JSON.stringify({ notes: object().notes });
+            }
+            return name === "str_for_value" ? (object().text || "") : undefined;
+        };
         this.getcount = (children) => (children === "devices" && t.devices[objectPath]
             ? t.devices[objectPath].length : object().counts[children]);
     }
@@ -291,10 +428,12 @@ function createTrainer(withLive) {
         t.time += 500;
         sandbox.onclick(rect[0] + 3, rect[1] + 3);
     };
-    // A double click. Max 9 reports the second click both as a click and as a
-    // double click ("max9"; "swapped" is the same in the other order); earlier
-    // versions report it as a double click only ("old"). gap = ms between the
-    // two clicks: 140 for a hand, 12 for a script that clicks for the player.
+    // A double click, the three ways Max has been seen or may be expected to
+    // report it. "old": the second press comes as a double click only (a real
+    // mouse in Live 12.4). "max9": it comes as a click and then once more as
+    // a double click (clicks made by a script). "swapped": the same two in
+    // the other order. gap = ms between the two presses: 140 for a hand or a
+    // bouncing button, 12 for a burst.
     t.doubleClick = (button, way, gap) => {
         const rect = t.run("BUTTONS." + button);
         const x = rect[0] + 3, y = rect[1] + 3;
@@ -403,6 +542,10 @@ function playLesson(t, id, withMistake) {
 const trainer = createTrainer(true);
 const run = trainer.run;
 
+// The trainer names its version on the panel, and it fits beside the stage.
+check(/^\d+\.\d+\.\d+$/.test(run("VERSION")), "the version should look like 1.2.3, got " + run("VERSION"));
+check(run("layout('ВЕРСИЯ ' + VERSION).w") <= run("PW"), "the version label is wider than the panel");
+
 // What the lessons ask of Ableton: every check must be known to the trainer,
 // and a knob step must come after a step that puts its device in place.
 const liveSteps = run(`LESSONS.map(function (item) {
@@ -416,6 +559,9 @@ for (const item of liveSteps) {
         if (/[dD]evice$/.test(parts[0])) {
             devicesSoFar++;
         }
+        if (parts[0] === "voice" || parts[0] === "setting") {
+            check(devicesSoFar > 0, item.id + " asks for a setting before any step asks for the device: " + spec);
+        }
         if (/[kK]nob$/.test(parts[0])) {
             check(parts.length === 4, item.id + ": a knob check needs device, knob and direction: " + spec);
             check(devicesSoFar > 0, item.id + " turns a knob before any step asks for the device: " + spec);
@@ -428,6 +574,38 @@ for (const item of liveSteps) {
         }
     }
 }
+
+// A knob the lessons ask for must be one Ableton really has. Its own tables
+// (live_parameters.json, made by live_parameters.py) list the knobs of every
+// device by name; a step passes if one of its devices has one of its knobs.
+// Where the trainer's self-check has seen a device in a real Ableton
+// (live_parameters_seen.json), only that list counts: it is Ableton's own.
+const REAL_KNOBS = JSON.parse(fs.readFileSync(path.join(__dirname, "live_parameters.json"), "utf8"));
+Object.assign(REAL_KNOBS, JSON.parse(fs.readFileSync(path.join(__dirname, "live_parameters_seen.json"), "utf8")));
+function realKnob(classes, wanted) {
+    return classes.split(",").some((cls) => (REAL_KNOBS[cls] || []).some((name) =>
+        (wanted.charAt(0) === "^" ? new RegExp(wanted).test(name) : wanted.split(",").indexOf(name) >= 0)));
+}
+const unreal = [];
+for (const item of liveSteps) {
+    for (const spec of item.checks) {
+        const parts = spec.split(":");
+        if (/[kK]nob$/.test(parts[0]) && !realKnob(parts[1], parts[2])) {
+            unreal.push(item.id + " " + parts[1] + " / " + parts[2]);
+        }
+    }
+}
+for (const task of run("DRIFT_TASKS.map(function (task) { return task[0]; })")) {
+    if (!realKnob("Drift", task)) {
+        unreal.push("training Drift / " + task);
+    }
+}
+for (const [classes, name] of run("FX_TASKS.map(function (task) { return [task[0], task[1]]; })")) {
+    if (!realKnob(classes, name)) {
+        unreal.push("training " + classes + " / " + name);
+    }
+}
+check(unreal.length === 0, "knobs Ableton does not have: " + unreal.slice(0, 8).join("; "));
 
 // Training lessons draw their knob tasks from pools: the fake devices need
 // every knob a pool can ask for, not only the ones of the first exercise.
@@ -555,29 +733,66 @@ for (const group of base) {
     }
 }
 
-// A double click is two clicks, however Max reports it: two lessons on, not three.
+// One press of the mouse turns one page, whatever Max makes of it.
 // (This player gets points out of thin air, so the shared disk is put back after.)
 const diskBeforeClicks = Object.assign({}, files);
 const clicker = createTrainer(true);
 clicker.run("progress.done = { 'start/0': 9000 }; recount(); selectLesson(GROUPS.filter(function (g) { return g.id === 'chords'; })[0].lessons[0]);");
-for (const [way, gap] of [["max9", 140], ["swapped", 140], ["old", 140], ["max9", 12], ["swapped", 12]]) {
-    const from = clicker.run("current.index");
+const arrow = clicker.run("BUTTONS.next").slice(0, 2).map((v) => v + 3);
+const page = () => clicker.run("current.index");
+// A press that reaches Max as a double click (a bouncing button, a twitching
+// finger) is one page, however the double click is reported.
+for (const [way, gap] of [["max9", 140], ["swapped", 140], ["old", 140], ["max9", 12], ["swapped", 12], ["old", 12]]) {
+    const from = page();
     clicker.doubleClick("next", way, gap);
-    check(clicker.run("current.index") === from + 2, "a double click on the arrow moved " + (clicker.run("current.index") - from) + " lessons (" + way + ", " + gap + " ms)");
+    check(page() === from + 1, "a double click on the arrow turned " + (page() - from) + " pages (" + way + ", " + gap + " ms)");
     clicker.doubleClick("prev", way, gap);
-    check(clicker.run("current.index") === from, "a double click back did not return to the lesson (" + way + ", " + gap + " ms)");
+    check(page() === from, "a double click back turned " + (from - page()) + " pages (" + way + ", " + gap + " ms)");
 }
-// Three quick single clicks are three lessons.
-const tripleFrom = clicker.run("current.index");
-for (let i = 0; i < 3; i++) {
+// Two unhurried clicks are two pages. Max reports the second of them once
+// more, as a double click, and that twin may come late, after a repaint.
+for (const twinDelay of [1, 20, 60, 140]) {
+    const from = page();
+    clicker.click("next");
+    clicker.time += 300;
+    clicker.box.onclick(arrow[0], arrow[1]);
+    clicker.time += twinDelay;
+    clicker.box.ondblclick(arrow[0], arrow[1]);
+    check(page() === from + 2, "two clicks 300 ms apart turned " + (page() - from) + " pages (twin " + twinDelay + " ms late)");
+    clicker.click("prev");
+    clicker.click("prev");
+}
+// Clicks that arrive in one go, a few milliseconds apart, are one press.
+const burstFrom = page();
+clicker.time += 500;
+for (let i = 0; i < 4; i++) {
     trainerClickFast(clicker, "next");
 }
-check(clicker.run("current.index") === tripleFrom + 3, "three quick clicks moved " + (clicker.run("current.index") - tripleFrom) + " lessons");
+check(page() === burstFrom + 1, "four clicks in one burst turned " + (page() - burstFrom) + " pages");
+// Quick deliberate clicks, five a second, all count.
+const quickFrom = page();
+for (let i = 0; i < 4; i++) {
+    clicker.time += 200;
+    clicker.box.onclick(arrow[0], arrow[1]);
+}
+check(page() === quickFrom + 4, "four clicks 200 ms apart turned " + (page() - quickFrom) + " pages");
+// The stage arrows behave the same.
 const stageBefore = clicker.run("current.group");
 clicker.doubleClick("groupNext", "max9");
-check(clicker.run("current.group") === stageBefore + 2, "a double click on the stage arrow moved " + (clicker.run("current.group") - stageBefore) + " stages");
+check(clicker.run("current.group") === stageBefore + 1, "a double click on the stage arrow turned " + (clicker.run("current.group") - stageBefore) + " stages");
 clicker.doubleClick("groupPrev", "max9");
-
+check(clicker.run("current.group") === stageBefore, "a double click on the stage arrow did not come back");
+// Turning pages does not wait for the disk: the place is written once the
+// player has stopped, half a second later.
+const savedPlace = () => JSON.parse(files[SAVE_DIR + "smk_trainer_progress.json"]).last;
+clicker.ticks(8);
+const restingAt = savedPlace();
+check(restingAt === clicker.run("current.id"), "the place was not saved after the player stopped: " + restingAt);
+clicker.click("next");
+clicker.click("next");
+check(savedPlace() === restingAt, "a page turn wrote to the disk at once");
+clicker.ticks(8);
+check(savedPlace() === clicker.run("current.id") && savedPlace() !== restingAt, "the new place was not saved half a second later");
 // The big button changes its meaning when pressed. A double click on START
 // starts the lesson and must not also confirm its first step...
 clicker.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'novice/7'; })[0])");
@@ -602,10 +817,9 @@ for (const name of Object.keys(files)) {
 }
 Object.assign(files, diskBeforeClicks);
 
-// Courses: thirty to forty lessons of one kind each, always the same lessons,
-// kept on their own shelf beside the stages.
+// Courses: forty lessons of one kind each, always the same lessons.
 const courses = run("GROUPS.filter(function (g) { return g.course; }).map(function (g) { return { id: g.id, size: g.lessons.length, data: JSON.stringify(g.lessons.map(function (l) { return [l.title, l.data]; })) }; })");
-check(courses.length >= 14, "expected a course for every kind of lesson, found " + courses.length);
+check(courses.length >= 19, "expected a course for every kind of lesson, found " + courses.length);
 const twin = createTrainer(true);
 for (const item of courses) {
     check(item.size >= 30 && item.size <= 40, item.id + " has " + item.size + " lessons");
@@ -615,46 +829,65 @@ for (const item of courses) {
     check(distinct.size >= item.size - 2, item.id + " repeats lessons: " + distinct.size + " different out of " + item.size);
 }
 
-// The arrows stay on the shelf the player is on; the button changes shelves
-// and remembers the place on each.
+// One path: stages and courses stand in one row, in the order of PATH, no
+// two of them share a name, and the points a stage asks for never go down.
+const row = run("GROUPS.map(function (g) { return { id: g.id, title: g.title, need: g.need }; })");
+check(JSON.stringify(row.map((g) => g.id)) === JSON.stringify(run("PATH")), "the row of stages is not the path: " + row.map((g) => g.id).join(" "));
+check(new Set(row.map((g) => g.title)).size === row.length, "two stages share a name");
+for (let i = 1; i < row.length; i++) {
+    check(row[i].need >= row[i - 1].need, row[i].id + " opens earlier (" + row[i].need + ") than " + row[i - 1].id + " before it");
+}
+check(run("typeof BUTTONS.shelf") === "undefined" && run("typeof switchShelf") === "undefined", "the switch between stages and courses is still there");
+check(run("layout('ПУТЬ: ' + pathTotal + ' ИЗ ' + pathTotal + ' УРОКОВ').w") <= run("PW"), "the path line is wider than the panel");
+check(run("pathTotal") === run("LESSONS.length") && run("LESSONS.filter(function (l) { return l.kind === 'free'; }).length") === 0, "free play is a mode, not a lesson: the path should count every lesson");
+
+// The stage arrows walk the whole row, from the first stage to the last...
 const walker = createTrainer(true);
 const diskBeforeWalk = Object.assign({}, files);
-walker.run("progress.done = { 'start/0': 9000 }; recount(); selectLesson(LESSONS.filter(function (l) { return l.id === 'chords/3'; })[0]);");
-const stageCount = walker.run("shelf(false).length");
-const courseCount = walker.run("shelf(true).length");
-for (let i = 0; i < stageCount + 3; i++) {
-    walker.click("groupNext");
-}
-check(walker.run("isCourse(current.group)") === false && walker.run("shelf(false).indexOf(current.group)") === stageCount - 1,
-      "the stage arrow walked off the shelf of stages");
-check(walker.run("nextLesson() === null || !isCourse(nextLesson().group)"), "the next lesson after a stage must not be a course lesson");
-walker.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'chords/3'; })[0])");
-walker.click("shelf");
-check(walker.run("isCourse(current.group)") === true && walker.run("current.id") === courses[0].id + "/0", "the button should open the first course, got " + walker.run("current.id"));
-walker.click("groupNext");
-walker.click("next");
-const inCourse = walker.run("current.id");
-for (let i = 0; i < courseCount + 3; i++) {
+walker.run("progress.done = { 'start/0': 9000 }; recount();");
+check(walker.run("pathDone") === 1, "one finished lesson should count as one on the path, got " + walker.run("pathDone"));
+walker.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'chords/3'; })[0]);");
+const visited = new Set();
+for (let i = 0; i < row.length + 3; i++) {
     walker.click("groupPrev");
 }
-check(walker.run("current.id").indexOf(courses[0].id + "/") === 0, "the course arrow walked off the shelf of courses");
-walker.run("selectLesson(LESSONS.filter(function (l) { return l.id === '" + inCourse + "'; })[0])");
-walker.click("shelf");
-check(walker.run("current.id") === "chords/3", "the button should return to the stage lesson, got " + walker.run("current.id"));
-walker.click("shelf");
-check(walker.run("current.id") === inCourse, "the button should return to the course lesson, got " + walker.run("current.id"));
-walker.doubleClick("shelf", "max9");
-check(walker.run("current.id") === "chords/3", "a double click on the shelf button switched twice");
+check(walker.run("current.group") === 0, "the stage arrow should stop at the first stage");
+for (let i = 0; i < row.length + 3; i++) {
+    visited.add(walker.run("GROUPS[current.group].id"));
+    walker.click("groupNext");
+}
+check(visited.size === row.length && walker.run("current.group") === row.length - 1, "the stage arrow visited " + visited.size + " stages of " + row.length);
+// ...and NEXT leads from the last lesson of a stage into the stage after it,
+// whether that one is a course or not.
+for (const [from, to] of [["novice", "c-notes"], ["c-notes", "drill"], ["studio", "c-seq"], ["c-seq", "c-inv"]]) {
+    walker.run("selectLesson(GROUPS.filter(function (g) { return g.id === '" + from + "'; })[0].lessons.slice(-1)[0])");
+    check(walker.run("nextLesson().id") === to + "/0", "after " + from + " the path should go on to " + to + ", got " + walker.run("nextLesson() && nextLesson().id"));
+}
+walker.run("selectLesson(GROUPS[GROUPS.length - 1].lessons.slice(-1)[0])");
+check(walker.run("nextLesson()") === null && walker.run("nextStageNeeds()") === 0, "the last lesson of the path should have nothing after it");
 for (const name of Object.keys(files)) {
     delete files[name];
 }
 Object.assign(files, diskBeforeWalk);
 
+// A player short of points is told how many the next stage waits for.
+// (This one starts from an empty disk: nobody has earned anything yet.)
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+const short = createTrainer(true);
+short.run("progress.done = { 'start/0': 150 }; recount(); selectLesson(GROUPS.filter(function (g) { return g.id === 'drill'; })[0].lessons.slice(-1)[0]);");
+check(short.run("nextLesson()") === null && short.run("nextStageNeeds()") === 50, "the next stage should be 50 points away, got " + short.run("nextStageNeeds()"));
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+Object.assign(files, diskBeforeWalk);
 // A shelf stage offers all its lessons at once; an ordinary one goes in order.
 const beginner = createTrainer(true);
 beginner.run("progress.done = { 'start/0': 2000 }; recount();");
 check(beginner.run("lessonOpen(GROUPS.filter(function (g) { return g.id === 'dance'; })[0].lessons[5])") === true, "a shelf lesson should be open without the ones before it");
 check(beginner.run("lessonOpen(GROUPS.filter(function (g) { return g.id === 'synth'; })[0].lessons[5])") === false, "an ordinary stage must keep its order");
+check(beginner.run("lessonOpen(GROUPS.filter(function (g) { return g.id === 'c-masters'; })[0].lessons[30])") === true, "the four artists of the masters course should be open in any order");
 
 // A knob that the device does not have never passes and is not searched for
 // again and again; the confirm button stays.
@@ -723,9 +956,233 @@ while (offline.run("phase") === "run") {
 }
 check(offline.run("phase") === "done", "tour did not finish offline");
 
+// ------------------------------------------------------------- free play
+
+// Free play is a mode behind a button, not a lesson of the path. Entering it
+// leaves the place on the path alone, and leaving it comes back there.
+const diskBeforeJam = Object.assign({}, files);
+const jammer = createTrainer(true);
+jammer.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'novice/2'; })[0])");
+jammer.click("free");
+check(jammer.run("inJam()") === true && jammer.run("phase") === "run", "the button should open free play");
+check(jammer.run("progress.last") === "novice/2", "free play must not move the place on the path");
+// A double click on the button is one press: out, and not straight back in.
+jammer.doubleClick("free", "max9");
+check(jammer.run("inJam()") === false && jammer.run("current.id") === "novice/2", "a double click on the button should leave free play once, got " + jammer.run("current.id"));
+jammer.click("free");
+check(jammer.run("inJam()") === true, "the button should open free play again");
+
+// The upper arrows go through the styles and come round; each style brings
+// its own mood and tonic, and has a scenery of its own.
+const styleIds = jammer.run("STYLES.map(function (s) { return s.id; })");
+check(styleIds.length >= 10, "expected a dozen styles, found " + styleIds.length);
+check(run("Object.keys(SCENES).sort().join()") === styleIds.slice().sort().join(), "every style needs a scenery of its own, and every scenery a style");
+const seenStyles = new Set();
+for (let i = 0; i < styleIds.length; i++) {
+    seenStyles.add(jammer.run("STYLES[jam.style].id"));
+    check(jammer.run("jam.mood === STYLES[jam.style].mood && jam.tonic === STYLES[jam.style].tonic"), "a style should bring its own mood and tonic");
+    // the stage at every level of liveliness, a few frames of each
+    for (let level = 0; level <= 3; level++) {
+        jammer.run("vibe = " + [0, 0.45, 0.7, 0.97][level] + "; lastOn = clock + 100; updateMood();");
+        check(jammer.run("mood") === level, "the stage should be at level " + level + ", got " + jammer.run("mood"));
+        jammer.ticks(3);
+    }
+    jammer.run("vibe = 0; updateMood();");
+    jammer.click("groupNext");
+}
+check(seenStyles.size === styleIds.length && jammer.run("jam.style") === 0, "the style arrow should visit every style and come round");
+check(jammer.astray === undefined, "a scenery drew outside the stage: rectangle " + jammer.astray);
+const moodCount = jammer.run("MOODS.length");
+for (let i = 0; i < moodCount; i++) {
+    jammer.click("next");
+    jammer.box.paint();
+}
+check(jammer.run("jam.mood") === jammer.run("STYLES[0].mood"), "the mood arrow should come round");
+jammer.click("prev");
+check(jammer.run("jam.mood") === (jammer.run("STYLES[0].mood") + moodCount - 1) % moodCount, "the mood arrow should step back");
+jammer.click("next");
+
+// A note of the outer ring becomes the tonic; a chord of the inner ring is
+// only played.
+jammer.clickWheel(0, 3);
+check(jammer.run("jam.tonic") === 9, "a click on A of the wheel should make A the tonic, got " + jammer.run("jam.tonic"));
+check(jammer.sent.some((message) => message[2] > 0), "the click should let the home chord sound");
+jammer.box.stopPreview();
+jammer.clickWheel(1, 0);
+check(jammer.run("jam.tonic") === 9, "a click on a chord of the wheel must not move the tonic");
+jammer.box.stopPreview();
+jammer.click("main");
+check(jammer.run("previewNotes.length") === 1, "the scale should start to play, one note at a time");
+jammer.box.stopPreview();
+
+// The notes of a mood: those of the chord under the melody, the one that
+// colours the mood, the rest of the scale, and the ones outside.
+jammer.run("while (STYLES[jam.style].id !== 'trance') { jamStyle(1); }");
+check(jammer.run("[0,1,2,3,4,5,6,7,8,9,10,11].map(function (pc) { return noteTier(pc, jamHarmony()); }).join('')") === "301032010301",
+      "A minor over its home chord: " + jammer.run("[0,1,2,3,4,5,6,7,8,9,10,11].map(function (pc) { return noteTier(pc, jamHarmony()); }).join('')"));
+// The advice follows the melody. (The notes come a third of a second apart.)
+function melody(t, pitches) {
+    for (const pitch of pitches) {
+        t.time += 300;
+        t.press([pitch]);
+        t.release([pitch]);
+    }
+    t.box.paint();
+    check(t.run("layout(jamView.text).w") <= t.run("TEXT_RIGHT - KX"), "the advice does not fit its line: " + t.run("jamView.text"));
+    return t.run("jamView.text");
+}
+check(/^НАЧНИ С ОПОРНОЙ/.test(jammer.run("jamLook().text")), "before the first note the advice should name the notes to lean on");
+check(/^ОПОРА/.test(melody(jammer, [69])), "A over A minor is a note to lean on");
+check(/^ПРОХОДЯЩАЯ/.test(melody(jammer, [71])), "B over A minor is a passing note");
+check(/МИМО ЛАДА/.test(melody(jammer, [66])), "F sharp is outside A minor");
+check(/ПОСЛЕ СКАЧКА/.test(melody(jammer, [77])), "a leap of an octave should be answered by a step back");
+check(/^ОПОРА/.test(melody(jammer, [76])), "E over A minor is a note to lean on");
+check(/КРАСКА/.test(melody(jammer, [77])), "F is the note that colours the minor");
+check(/ДОЛГО БЕЗ ОПОРЫ/.test(melody(jammer, [74, 71, 74])), "three passing notes in a row ask for a landing");
+check(jammer.run("jamView.next.length") > 0 && jammer.run("jamView.next.every(function (p) { return jamHarmony().indexOf(p % 12) >= 0; })"),
+      "the landing should be a note of the chord");
+// A chord under the melody changes what the melody leans on; a while after
+// it is let go, the home chord is back.
+const lineBefore = jammer.run("jamLine[jamLine.length - 1]");
+jammer.time += 300;
+jammer.press([53, 57, 60]);
+check(jammer.run("jamHarmony().slice().sort().join()") === "0,5,9", "F major held: its notes should be the ones to lean on, got " + jammer.run("jamHarmony().join()"));
+check(jammer.run("jamLine[jamLine.length - 1]") === lineBefore, "the first note of a chord was taken for a note of the melody");
+check(jammer.run("noteTier(5, jamHarmony())") === 3, "F should be a note to lean on while F major sounds");
+jammer.ticks(3);
+jammer.releaseAll();
+jammer.ticks(60);
+check(jammer.run("jamHarmony().slice().sort().join()") === "0,4,9", "the home chord should be back after the chord was let go");
+
+// While the hands are on the keys the line under them is about playing in
+// the style; a few seconds after the last note it is about the project again.
+jammer.box.paint();
+check(/^ДАЛЬШЕ:/.test(jammer.run("jamHintText")), "at rest the line should be about the project: " + jammer.run("jamHintText"));
+const tipBefore = jammer.run("jamTip");
+jammer.time += 300;
+jammer.press([69]);
+jammer.release([69]);
+jammer.box.paint();
+check(/^КАК ИГРАТЬ:/.test(jammer.run("jamHintText")), "while playing the line should be about playing: " + jammer.run("jamHintText"));
+check(jammer.run("jamTip") === tipBefore + 1, "every return to the keys should bring the next tip");
+jammer.ticks(61);
+jammer.box.paint();
+check(/^ДАЛЬШЕ:/.test(jammer.run("jamHintText")), "the line should return to the project once the keys rest: " + jammer.run("jamHintText"));
+
+// Everything free play prints fits its place, in every style, mood and key,
+// and the advice for the project walks the whole road without repeating.
+const jamTrouble = jammer.run(`(function () {
+    var wide = TEXT_RIGHT - KX, bad = [];
+    function lines(text, width) { return wrap(caps(text), width).length; }
+    for (var s = 0; s < STYLES.length; s++) {
+        var style = STYLES[s];
+        if (layout(caps(style.name)).w > PW - 44) { bad.push(style.id + " name too wide"); }
+        if (!SCENES[style.id]) { bad.push(style.id + " has no scenery"); }
+        if (!style.play || style.play.length < 2) { bad.push(style.id + " has too few tips on playing"); }
+        for (var tip = 0; style.play && tip < style.play.length; tip++) {
+            if (lines("Как играть: " + style.play[tip], wide) > 4) { bad.push(style.id + " tip on playing too long: " + style.play[tip]); }
+        }
+        var state = { api: true, tempo: 300, has: {}, empty: {}, clips: 0, scenes: 0, arranged: 0, bars: 0, cues: 0, space: false, limiter: false };
+        var seen = {}, text = "";
+        for (var step = 0; step < 30; step++) {
+            text = nextStep(state, style);
+            if (lines("Дальше: " + text, wide) > 4) { bad.push(style.id + " advice too long: " + text); }
+            if (seen[text]) { bad.push(style.id + " advice repeats: " + text); break; }
+            seen[text] = true;
+            var tags = projectTags(state, style), width = 0;
+            for (var t = 0; t < tags.length; t++) { width += layout(tags[t][0]).w + (t > 0 ? 8 : 0); }
+            if (width > wide) { bad.push(style.id + " tags too wide"); }
+            // the player does what the advice says
+            var part = null;
+            for (var p = 0; p < style.parts.length && part === null; p++) {
+                if (!style[style.parts[p]]) { bad.push(style.id + " says nothing about " + style.parts[p]); }
+                if (!state.has[style.parts[p]]) { part = style.parts[p]; }
+            }
+            if (state.tempo > style.tempo[1]) { state.tempo = style.tempo[1]; }
+            else if (part !== null && !state.empty[part]) { state.empty[part] = true; }
+            else if (part !== null) { state.has[part] = true; }
+            else if (state.scenes < 3 && state.arranged === 0) { state.scenes = 3; }
+            else if (state.arranged === 0) { state.arranged = 4; state.bars = 8; }
+            else if (state.bars < 32) { state.bars = 40; }
+            else if (state.cues === 0) { state.cues = 2; }
+            else if (!state.space) { state.space = true; }
+            else if (!state.limiter) { state.limiter = true; }
+            else { break; }
+        }
+        if (text.indexOf("Всё на месте") !== 0) { bad.push(style.id + " never gets to the end: " + text); }
+        if (lines("Дальше: " + nextStep({ api: false }, style), wide) > 4) { bad.push(style.id + " advice without Ableton too long"); }
+    }
+    for (var m = 0; m < MOODS.length; m++) {
+        if (lines(MOODS[m][0] + ": " + MOODS[m][1], PW) > 2) { bad.push("mood " + m + " title too long"); }
+        if (layout(MOODS[m][2]).w > 2 * R_IN - 8) { bad.push("mood " + m + " tag too wide for the middle of the wheel"); }
+        for (var tonic = 0; tonic < 12; tonic++) {
+            var names = [];
+            for (var k = 0; k < MOODS[m][3].length; k++) { names.push(ROOT_NAMES[(tonic + MOODS[m][3][k]) % 12]); }
+            if (layout("ГАММА: " + names.join(" ")).w > PW) { bad.push("scale of mood " + m + " on " + tonic + " too wide"); }
+        }
+    }
+    return bad.slice(0, 6).join("; ");
+}())`);
+check(jamTrouble === "", "free play: " + jamTrouble);
+
+// The choice is kept: the next trainer opens in free play, in the same style,
+// and its button leads back to the lesson on the path.
+jammer.ticks(8);
+const jamAgain = createTrainer(true);
+check(jamAgain.run("inJam()") === true && jamAgain.run("STYLES[jam.style].id") === "trance" && jamAgain.run("jam.tonic") === 9,
+      "free play was not reopened as it was left: " + jamAgain.run("JSON.stringify(progress.jam)"));
+jamAgain.click("free");
+check(jamAgain.run("current.id") === "novice/2", "the button should lead back to the lesson on the path, got " + jamAgain.run("current.id"));
+jamAgain.ticks(8);
+check(createTrainer(true).run("inJam()") === false, "free play was reopened although it had been left");
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+Object.assign(files, diskBeforeJam);
+
+// Free play reads the Live Set: which parts exist, by the devices, the names
+// and the notes of the tracks, and says what the track needs next.
+function addTrack(t, index, name, classes, clips) {
+    const trackPath = "live_set tracks " + index;
+    t.live[trackPath] = { name, counts: { clip_slots: 8, arrangement_clips: 0 } };
+    t.devices[trackPath] = classes.map(makeDevice);
+    for (let slot = 0; slot < 8; slot++) {
+        t.live[trackPath + " clip_slots " + slot] = { has_clip: clips[slot] ? 1 : 0 };
+        t.live[trackPath + " clip_slots " + slot + " clip"] = {
+            length: 4, looping: 1,
+            notes: (clips[slot] || []).map(([pitch, start]) => ({ pitch, start_time: start, duration: 0.25, velocity: 100 })),
+        };
+    }
+}
+const scout = createTrainer(true);
+addTrack(scout, 0, "1 808 Core Kit", ["DrumGroupDevice"], [[[36, 0], [36, 1]]]);
+addTrack(scout, 1, "2 Drift", ["MxDeviceMidiEffect", "Drift"], [[[40, 0], [43, 1], [45, 2]]]);     // low notes: a bass
+addTrack(scout, 2, "3 MIDI", ["Operator"], [null, [[60, 0], [64, 0], [67, 0]]]);                    // stacked notes: chords
+addTrack(scout, 3, "4 Lead", ["UltraAnalog"], []);                                                  // named for a melody, still empty
+scout.live["live_set"].tempo = 138;
+const found = scout.run("lookAtProjectNow()");
+check(found.api === true && found.tracks === 4 && found.clips === 3 && found.scenes === 2, "the look at the Live Set miscounted: " + JSON.stringify(found));
+check(found.has.drums && found.has.bass && found.has.chords && !found.has.melody && found.empty.melody,
+      "the parts were told wrong: " + JSON.stringify([found.has, found.empty]));
+scout.run("enterJam(); while (STYLES[jam.style].id !== 'trance') { jamStyle(1); }");
+scout.ticks(40);
+check(scout.run("project && project.has.drums") === true, "free play should look at the Live Set by itself, a track a tick");
+check(/Дорожка для мелодии есть/.test(scout.run("nextStep(project, STYLES[jam.style])")), "the advice should ask for the melody: " + scout.run("nextStep(project, STYLES[jam.style])"));
+scout.live["live_set tracks 3 clip_slots 0"].has_clip = 1;      // the melody goes into the first scene
+scout.live["live_set"].tempo = 100;
+scout.ticks(60);
+check(/Темп сейчас 100/.test(scout.run("nextStep(project, STYLES[jam.style])")), "the wrong tempo should come first: " + scout.run("nextStep(project, STYLES[jam.style])"));
+scout.live["live_set"].tempo = 140;
+scout.ticks(60);
+check(/Теперь сцены/.test(scout.run("nextStep(project, STYLES[jam.style])")), "with every part in place the advice should move on to scenes: " + scout.run("nextStep(project, STYLES[jam.style])"));
+scout.box.paint();
+for (const name of Object.keys(files)) {
+    delete files[name];
+}
+Object.assign(files, diskBeforeJam);
 // Free play recognises chords and their place in the key.
 const free = createTrainer(true);
-free.run("selectLesson(GROUPS[0].lessons[1])");
+free.run("enterJam()");
 check(free.run("phase") === "run", "free play should open at once");
 const names = [[[60, 64, 67], "C"], [[57, 60, 64], "Am"], [[62, 65, 69, 72], "Dm7"], [[55, 59, 62, 65], "G7"], [[60, 65, 67], "Csus4"], [[66, 70, 73], "F#"]];
 for (const [pitches, name] of names) {
@@ -843,7 +1300,7 @@ for (let i = 0; i < 24; i++) {
     strike(free, [36], 1, 1 + dice % 9);
 }
 check(vibe(free) < steadyKick - 0.2, "a stumbling kick scored " + vibe(free) + ", a steady one " + steadyKick);
-free.run("selectLesson(GROUPS[0].lessons[1])");
+free.run("enterJam()");
 
 // A fist on the keys brings the storm.
 free.run(RESET);
@@ -858,7 +1315,7 @@ check(free.run("particles.length") === 0, "particles never expire");
 
 // Every character used anywhere has a glyph, so nothing falls back to "?".
 const missing = run(`(function () {
-    var texts = ["СТАРТ ДАЛЬШЕ ГОТОВО ПОСЛУШАТЬ ЗАНОВО ★ → % ?"], seen = {}, missing = [];
+    var texts = ["СТАРТ ДАЛЬШЕ ГОТОВО ПОСЛУШАТЬ ЗАНОВО ★ → % ?", "ВЕРСИЯ " + VERSION, "СВОБОДНО УРОКИ ГАММА АККОРД СТИЛЬ НАСТРОЕНИЕ ОПОРНЫЕ: КРАСКА ЛАДА: МИМО КУДА ИДТИ ТЕМП СТИЛЯ: ТОНИКА: ЩЁЛКНИ НОТУ НА КРУГЕ ДАЛЬШЕ: ABLETON НЕ ВИДЕН: СОВЕТ ПО СТИЛЮ СЦЕН ЛЕНТА ° +", STYLES.map(function (s) { return caps([s.name, s.drums || "", s.bass || "", s.chords || "", s.melody || ""].concat(s.play).join(" ")); }).join(" "), MOODS.map(function (m) { return caps(m[0] + ": " + m[1]) + " " + m[2]; }).join(" "), caps(nextStep({ api: true, tempo: 1, has: {}, empty: {} }, STYLES[0])), "ПУТЬ: ИЗ УРОКОВ СТУПЕНЬ ПРОЙДЕНА. СЛЕДУЮЩЕЙ НЕ ХВАТАЕТ ОЧКОВ: ПОВТОРИ УРОКИ БЕЗ ОШИБОК ИЛИ ЗАГЛЯНИ В ТРЕНИРОВКИ. ЭТО БЫЛ ПОСЛЕДНИЙ УРОК ПУТИ. ТЫ ПРОШЁЛ ВСЁ!"], seen = {}, missing = [];
     for (var i = 0; i < LESSONS.length; i++) {
         var item = LESSONS[i];
         texts.push(item.title, item.why, item.hint, item.task || "", GROUPS[item.group].title);

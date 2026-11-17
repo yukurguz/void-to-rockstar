@@ -4,6 +4,7 @@ Bluetooth bridge starter and the guides in one zip under dist/.
 Usage:  py release.py <version>      e.g.  py release.py 0.1.0
 """
 
+import re
 import shutil
 import sys
 import tempfile
@@ -16,10 +17,20 @@ sys.path.insert(0, str(ROOT / "trainer"))
 import build  # noqa: E402  (trainer/build.py)
 
 
+def trainer_version():
+    """The number the trainer shows on its panel."""
+    source = (ROOT / "trainer" / "smk_trainer.js").read_text(encoding="utf-8")
+    found = re.search(r'^var VERSION = "([^"]+)";', source, re.MULTILINE)
+    return found.group(1) if found else None
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit(__doc__)
     version = sys.argv[1]
+    shown = trainer_version()
+    if shown != version:
+        sys.exit("The trainer calls itself %s, not %s: set VERSION in trainer/smk_trainer.js first." % (shown, version))
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
     archive = dist / ("smk37-kit-" + version + ".zip")

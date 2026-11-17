@@ -82,6 +82,13 @@ function open(id, start) {
     }
 }
 
+// Free play in one style, with the stage at the given level of liveliness.
+function jam(style, level) {
+    release(run("held.slice()"));
+    run("vibe = 0; mood = 0; particles = []; popups = []; banner = ''; recentOns = []; jamLine = []; jamChord = null;");
+    run("enterJam(); while (STYLES[jam.style].id !== '" + style + "') { jamStyle(1); }");
+    run("vibe = " + [0, 0.45, 0.7, 0.97][level] + "; mood = " + level + "; lastOn = clock + 40; lastMelody = clock + 40; chordChange = clock + 40;");
+}
 function solve(count) {
     for (let i = 0; i < count; i++) {
         const s = run("currentStep()");
@@ -112,12 +119,12 @@ const scenes = [
     ["harmony: a seventh chord, calm stage", () => { open("harmony/0", true); press([60, 64, 67, 71]); ticks(5); }],
     ["polyphony: chord held, melody above", () => { open("hands/4", true); press([57, 60, 64]); ticks(2); }],
     ["drums: a rock beat on the pads", () => { open("drums/5", true); solve(3); press([38]); ticks(1); }],
-    ["mood 1: dance", () => { open("start/1", false); setVibe(0.45, 14); }],
-    ["mood 2: fire", () => { open("start/1", false); setVibe(0.72, 34); }],
-    ["mood 3: trip", () => { open("start/1", false); setVibe(0.97, 40); }],
-    ["mood -1: trouble", () => { open("start/1", false); setVibe(-0.45, 12); }],
+    ["mood 1: dance", () => { open("start/0", false); setVibe(0.45, 14); }],
+    ["mood 2: fire", () => { open("start/0", false); setVibe(0.72, 34); }],
+    ["mood 3: trip", () => { open("start/0", false); setVibe(0.97, 40); }],
+    ["mood -1: trouble", () => { open("start/0", false); setVibe(-0.45, 12); }],
     ["mood -2: storm with a lightning flash", () => {
-        open("start/1", false);
+        open("start/0", false);
         setVibe(-0.97, 6);
         while (run("flash") !== 2) { run("lastOn = clock + 2;"); ticks(1); }
     }],
@@ -131,10 +138,31 @@ const scenes = [
     ["training: a progression in another key", () => { open("drill/5", true); solve(2); ticks(2); }],
     ["training: the reward of a repeat", () => { open("drill/0", true); solve(12); ticks(14); }],
     ["training: genre tempos", () => { open("drill/13", true); ticks(2); }],
-    ["course: title card, the button back to the stages", () => { run("progress.done['start/0'] = 3000; recount();"); open("c-notes/16", false); ticks(4); }],
+    ["path: a course is a stage like any other, the line of the path under the buttons", () => { run("progress.done['start/0'] = 3000; recount();"); open("c-notes/16", false); ticks(4); }],
     ["course: broken thirds", () => { open("c-notes/27", true); solve(3); ticks(2); }],
     ["course: a recipe on the synth", () => { open("c-knobs/27", true); solve(2); ticks(2); }],
     ["course: two hands, the bass walks", () => { open("c-hands/22", true); press([60, 64, 67]); ticks(2); }],
+    ["free play: the panel, nothing played yet", () => { jam("trance", 0); ticks(2); }],
+    ["free play: a melody note outside the chord, where to go next", () => { jam("trance", 1); press([64]); ticks(2); release([64]); run("onsetMs = 0;"); press([62]); ticks(2); }],
+    ["free play: a chord held, its notes become the ones to lean on", () => { jam("lofi", 1); press([53, 57, 60]); ticks(3); press([74]); ticks(1); }],
+    ["free play: a note outside the scale", () => { jam("psy", 1); press([66]); ticks(2); }],
+    ...run("STYLES.map(function (s) { return s.id; })")
+        .flatMap((style) => [1, 2, 3].map((level) => ["scenery of " + style + ", level " + level, () => { jam(style, level); ticks(9); }])),
+    ["synths of Live: Operator, a knob step", () => { open("c-synths/6", true); solve(1); ticks(2); }],
+    ["synths of Live: a layer, the second instrument goes into the rack", () => { open("c-synths/35", true); solve(4); ticks(2); }],
+    ["sequencer: title card", () => { open("c-seq/19", false); ticks(4); }],
+    ["sequencer: draw four notes", () => { open("c-seq/0", true); solve(1); ticks(2); }],
+    ["song: record the scenes to the arrangement", () => { open("c-song/11", true); solve(1); ticks(2); }],
+    ["song: the form of house", () => { open("c-song/30", true); ticks(2); }],
+    ["masters: title card of the first lesson on Globular", () => { open("c-masters/0", false); ticks(4); }],
+    ["masters: the squelch, a knob step", () => { open("c-masters/1", true); solve(5); ticks(2); }],
+    ["free play: a tip on playing in the style while the keys sound", () => { jam("psydub", 2); press([62]); ticks(2); }],
+    ["path: the stage is done, the next one waits for points", () => {
+        open("novice/7", true);
+        solve(3);
+        run("GROUPS[current.group + 1].need = progress.points + 240;");
+        ticks(14);
+    }],
 ];
 
 // Optional third and fourth arguments pick a part of the list: first scene, how many.
