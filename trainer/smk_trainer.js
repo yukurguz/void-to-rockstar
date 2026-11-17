@@ -22,9 +22,9 @@ mgraphics.autofill = 0;
 
 // Shown in the corner of the panel, so it is plain which trainer Ableton has
 // loaded. release.py refuses to pack a release under any other number.
-var VERSION = "0.8.0";
+var VERSION = "0.9.1";
 
-var W = 860;
+var W = 986;      // wheel, keyboard, panel and stage side by side: see the geometry below
 var H = 169;
 var TICK_MS = 83; // 12 frames a second
 var SAVE_NAME = "smk_trainer_progress.json";
@@ -3942,24 +3942,23 @@ var FORM_OF = {
 
 // The shape of a whole track, part by part, and how it grows.
 var FORMS = {
-    club: ["Вступление 16 тактов: бочка и перкуссия. Нарастание 16: входит бас. Основная часть 32. Провал 16 без бочки. Вторая основная 32 с новой деталью. Выход 16: партии уходят по одной.",
+    club: ["16 тактов бочка и перкуссия, 16 с басом, основная часть 32, провал 16 без бочки, вторая основная 32 с новой деталью, выход 16: партии уходят по одной.",
            "Каждые 8 тактов добавляй или убирай один элемент: хэт, клэп, слой перкуссии. Бочку убирай только в провале, и её возвращение станет событием."],
-    drop: ["Вступление 8-16 тактов с намёком на тему. Подводка 8: дробь всё чаще, шум вверх, тишина на последнюю долю. Дроп 16. Передышка 8-16. Вторая подводка и второй дроп. Короткий выход.",
-           "Вся сила в контрасте. Перед дропом убери низ и сузь звук, в дропе верни бас и ширину. Второй дроп не копия: смени ритм баса или добавь новую партию."],
-    song: ["Вступление 4-8 тактов. Куплет 16: мало партий. Припев 8-16: все партии и главная мелодия. Второй куплет с новой деталью, припев, бридж 8 в другой краске, последний припев вдвое длиннее.",
-           "Куплет рассказывает, припев поднимает. В припеве мелодия выше, аккорды шире, барабаны плотнее. Перед припевом на такт оставь почти тишину."],
-    loop: ["Одна петля на 4-8 тактов и её версии. Вступление: одни аккорды. Потом бит и бас. Каждые 8 тактов что-то уходит или приходит: бит на такт, мелодия на четыре. Трек короткий: 2-3 минуты.",
+    drop: ["Вступление 8-16 тактов, подводка 8 с дробью и шумом вверх, тишина на последнюю долю, дроп 16, передышка 8-16, вторая подводка и другой дроп, короткий выход.",
+           "Вся сила в контрасте. Перед дропом убери низ и сузь звук, в дропе верни бас и ширину. Второй дроп не копия: смени ритм баса или добавь партию."],
+    song: ["Вступление 4-8 тактов, куплет 16 из двух-трёх партий, припев 8-16 всем составом, второй куплет с новой деталью, припев, бридж 8 в другой краске, последний припев вдвое длиннее.",
+           "Куплет рассказывает, припев поднимает: в нём мелодия выше, аккорды шире, барабаны плотнее. Перед припевом на такт оставь почти тишину."],
+    loop: ["Петля на 4-8 тактов и её версии. Сначала одни аккорды, потом бит и бас. Каждые 8 тактов что-то уходит или приходит. Трек короткий: 2-3 минуты.",
            "Петля не должна надоесть: меняй мелочи. Убери бочку на такт, сдвинь мелодию на октаву, открой фильтр. Одна перемена на 8 тактов."],
-    long: ["Медленная дуга на 6-9 минут. Начало из воздуха и одной партии. Каждые 16-32 такта входит ещё одна. В середине провал почти до тишины. Потом возвращение полным составом и долгий уход.",
-           "Не спеши. Новая партия входит тихо и растёт несколько тактов: рисуй громкость и фильтр автоматизацией. Слушатель должен заметить не вход, а то, что стало иначе."],
-    beat: ["Вступление 4-8 тактов: мелодия без баса. Основная часть 16: бит и бас. Смена 8: бит вполовину или без бочки. Вторая основная 16 с новой перкуссией. Конец резкий, через 2-3 минуты.",
-           "Бит держится на паузах. Выключи бочку на такт перед возвращением, оставь мелодию одну, верни всё разом. Хэты меняй чаще остального: дроби, триоли."],
-    classic: ["Три части: тема, середина, тема. Тема 8-16 тактов в главной тональности. Середина в другой краске: соседняя тональность или минор. Потом тема возвращается и заканчивается на тонике.",
+    long: ["Дуга на 6-9 минут. Начало из воздуха и одной партии, каждые 16-32 такта входит ещё одна, в середине провал почти до тишины, потом полный состав и долгий уход.",
+           "Не спеши. Новая партия входит тихо и растёт несколько тактов: рисуй громкость и фильтр автоматизацией. Заметен должен быть не вход, а перемена."],
+    beat: ["Вступление 4-8 тактов: мелодия без баса. Основная часть 16, смена 8 (бит вполовину или без бочки), вторая основная 16 с новой перкуссией. Конец резкий, через 2-3 минуты.",
+           "Бит держится на паузах. Выключи бочку на такт перед возвращением, оставь мелодию одну, верни всё разом. Хэты меняй чаще остального."],
+    classic: ["Три части: тема 8-16 тактов, середина в другой краске (соседняя тональность или минор), снова тема, которая заканчивается на тонике.",
               "Повторяй тему с изменением: выше на октаву, тише, с другим басом. Перед возвращением темы сделай замедление или паузу."],
-    riff: ["Вступление: риф один, 4 такта. Куплет на рифе 8-16. Смена: новый риф или вставка 4-8. Возврат первого рифа тяжелее. Брейкдаун вдвое медленнее. Финал на главном рифе.",
-           "Риф повторяют, пока он не вбит в голову, а потом ломают: меняют последнюю долю, счёт или темп вдвое. Тишина перед ударом тяжелее самого удара."]
+    riff: ["Риф один на 4 такта, куплет на рифе 8-16, вставка 4-8 с новым рифом, первый риф возвращается тяжелее, брейкдаун вдвое медленнее, финал на главном рифе.",
+           "Риф повторяют, пока он не вбит в голову, а потом ломают: меняют последнюю долю, счёт или темп вдвое. Тишина перед ударом тяжелее удара."]
 };
-
 // What to think about at each stage of a track, whatever the style:
 // 0 an idea, 1 the loop, 2 its versions, 3 scenes ready, 4 a short
 // arrangement, 5 a long one, 6 marked, 7 with space, 8 finished.
@@ -4273,18 +4272,21 @@ function jamStyle(delta) {
     jam.style = (jam.style + delta + STYLES.length) % STYLES.length;
     jam.mood = STYLES[jam.style].mood;
     jam.tonic = STYLES[jam.style].tonic;
+    styleAt = clock;
     applyJam();
     rememberJam();
 }
 
 function jamMood(delta) {
     jam.mood = (jam.mood + delta + MOODS.length) % MOODS.length;
+    moodAt = clock;
     applyJam();
     rememberJam();
 }
 
 function jamTonic(pc) {
     jam.tonic = pc;
+    moodAt = clock;
     applyJam();
     rememberJam();
 }
@@ -4434,16 +4436,13 @@ function jamAdvice(harmony) {
 function jamLook() {
     var harmony = jamHarmony();
     var advice = jamAdvice(harmony);
-    // while the page of the coach is open, the keys of its task are the ones lit
-    var wanted = jamPage === 0 ? coachTargets() : null;
-    if (wanted && wanted.length > 0) {
-        advice = { text: "ЗАДАНИЕ: НАЖМИ " + coachNames(wanted), next: wanted };
-    }
+    // the keys the task of the coach wants are lit in a colour of their own
+    var goal = coachTargets() || [];
     var nextPcs = [];
     for (var i = 0; i < advice.next.length; i++) {
         nextPcs.push(((advice.next[i] % 12) + 12) % 12);
     }
-    jamView = { harmony: harmony, text: advice.text, next: advice.next, nextPcs: nextPcs };
+    jamView = { harmony: harmony, text: advice.text, next: advice.next, nextPcs: nextPcs, goal: goal };
     return jamView;
 }
 
@@ -4499,7 +4498,8 @@ function lookAtTrack(index) {
     if (!track) {
         return null;
     }
-    var row = { name: liveText(track, "name"), part: "", clips: 0, arranged: 0, scenes: [], instrument: false, space: false };
+    var row = { name: liveText(track, "name"), part: "", clips: 0, arranged: 0, scenes: [], instrument: false, space: false,
+                selected: looking.chosen !== "" && String(track.id) === looking.chosen };
     var devices = listDevices(path, false) || [];
     var drums = false;
     var i;
@@ -4545,7 +4545,7 @@ function lookAtTrack(index) {
 function sumUpProject(rows) {
     var out = { api: true, tempo: Number(liveGet("live_set", "tempo")), tracks: rows.length, has: {}, empty: {},
                 clips: 0, scenes: 0, arranged: 0, bars: 0, cues: liveCount("live_set", "cue_points") || 0,
-                space: false, limiter: false };
+                space: false, limiter: false, selectedPart: "" };
     var scenes = {};
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
@@ -4557,6 +4557,9 @@ function sumUpProject(rows) {
                 scenes[row.scenes[s]] = true;
                 out.scenes++;
             }
+        }
+        if (row.part !== "" && row.selected) {
+            out.selectedPart = row.part;
         }
         if (row.part !== "") {
             if (row.clips + row.arranged > 0) {
@@ -4594,6 +4597,10 @@ function lookAtProject() {
         project = { api: false };
         return;
     }
+    if (looking.track === 0) {
+        var chosen = liveFresh("live_set view selected_track");
+        looking.chosen = chosen ? String(chosen.id) : "";
+    }
     if (looking.track < Math.min(count, 16)) {
         var row = lookAtTrack(looking.track);
         if (row) {
@@ -4602,7 +4609,19 @@ function lookAtProject() {
         looking.track++;
         return;
     }
+    var before = project;
     project = sumUpProject(looking.rows);
+    // a part that was not there a moment ago is news: the advice turns to it
+    for (var part in PART_NAMES) {
+        var was = before && before.api && (before.has[part] || before.empty[part]);
+        if (before && before.api && !was && (project.has[part] || project.empty[part])) {
+            projectNews = { part: part, at: clock };
+        }
+    }
+    // so is the track the player has just gone to: the advice turns to its sound
+    if (before && before.api && project.selectedPart !== "" && project.selectedPart !== before.selectedPart) {
+        projectNews = { part: project.selectedPart, at: clock };
+    }
     looking = { track: 0, rows: [], restAt: clock + 18 };
 }
 
@@ -4656,6 +4675,11 @@ function nextStep(found, style) {
 }
 
 // The line of tags over the advice: tempo, the parts, scenes, arrangement.
+// The line is as wide as the keyboard and shares it with the counter of the
+// pages of advice, so the parts go by short names here.
+var TAG_NAMES = { drums: "БИТ", bass: "БАС", chords: "АККОРДЫ", melody: "МЕЛОДИЯ" };
+var TAG_GAP = 6;
+
 function projectTags(found, style) {
     var tags = [];
     if (!found || !found.api) {
@@ -4665,7 +4689,7 @@ function projectTags(found, style) {
     tags.push(["ТЕМП " + Math.round(found.tempo), inTempo ? LIME : YELLOW]);
     for (var i = 0; i < style.parts.length; i++) {
         var part = style.parts[i];
-        tags.push([PART_NAMES[part][0], found.has[part] ? LIME : (found.empty[part] ? YELLOW : SLATE)]);
+        tags.push([TAG_NAMES[part], found.has[part] ? LIME : (found.empty[part] ? YELLOW : SLATE)]);
     }
     tags.push(["СЦЕН " + found.scenes, found.scenes >= 3 ? LIME : SLATE]);
     tags.push([found.arranged > 0 ? "ЛЕНТА " + found.bars : "ЛЕНТА", found.bars >= 32 ? LIME : (found.arranged > 0 ? YELLOW : SLATE)]);
@@ -5760,7 +5784,12 @@ function selfCheck() {
         asked.close();
         clickLog = [];
         var out = { version: VERSION, api: typeof LiveAPI !== "undefined", song: {}, counts: {}, clips: [], devices: [] };
-        var i;
+        // the frame the picture is shown in: it should be as large as the picture
+        try {
+            out.frame = { want: [W, H], size: [mgraphics.size[0], mgraphics.size[1]] };
+        } catch (noSize) {
+            out.frame = { want: [W, H], size: null };
+        }        var i;
         for (i = 0; i < PROBE_SONG.length; i++) {
             out.song[PROBE_SONG[i]] = liveGet("live_set", PROBE_SONG[i]);
         }
@@ -6333,6 +6362,7 @@ function judge(pitch) {
                 }
                 lastChord = chord.name;
                 lastChordPcs = chord.pcs;
+                chordAt = clock;
                 recentChords.push([chord.name, clock, chord.pcs.length]);
                 if (recentChords.length > 8) {
                     recentChords.shift();
@@ -6391,23 +6421,17 @@ var sourAt = -1000;         // tick of the latest sour stroke
 var gaugePeak = 0;          // the best the gauge has shown lately
 var pointsFlash = { until: -1, colour: 0, shake: false };
 
-function playSkill(now) {
-    var count = 0;
+var SKILL_NAMES = ["ровного ритма", "разных нот", "широты", "смены аккордов", "второй руки", "скорости", "чистоты"];
+
+// Steady, varied, wide, rich in chords, two-handed, fast, clean: which of
+// the seven signs the playing shows right now.
+function skillFlags(now) {
     var i;
-    if (groove >= 8) {
-        count++;                                    // steady
-    }
-    if (unique(recentPcs).length >= 5) {
-        count++;                                    // varied
-    }
     var low = 999;
     var high = 0;
     for (i = 0; i < recentPitches.length; i++) {
         low = Math.min(low, recentPitches[i]);
         high = Math.max(high, recentPitches[i]);
-    }
-    if (high - low >= 12) {
-        count++;                                    // wide
     }
     var names = [];
     for (i = 0; i < recentChords.length; i++) {
@@ -6415,21 +6439,29 @@ function playSkill(now) {
             names.push(recentChords[i][0]);
         }
     }
-    if (names.length >= 3) {
-        count++;                                    // rich in chords
-    }
-    if (clock - handsAt < 48) {
-        count++;                                    // two-handed
-    }
-    if (onsetTimes.length >= 16 && now - onsetTimes[0] <= 4000) {
-        count++;                                    // fast: four strokes a second
-    }
-    if (clock - sourAt > 96) {
-        count++;                                    // clean for eight seconds
+    return [groove >= 8, unique(recentPcs).length >= 5, high - low >= 12, names.length >= 3, clock - handsAt < 48,
+            onsetTimes.length >= 16 && now - onsetTimes[0] <= 4000, clock - sourAt > 96];
+}
+
+function playSkill(now) {
+    var flags = skillFlags(now);
+    var count = 0;
+    for (var i = 0; i < flags.length; i++) {
+        count += flags[i] ? 1 : 0;
     }
     return count;
 }
 
+function skillsMissing(now) {
+    var flags = skillFlags(now);
+    var out = [];
+    for (var i = 0; i < flags.length; i++) {
+        if (!flags[i]) {
+            out.push(SKILL_NAMES[i]);
+        }
+    }
+    return out;
+}
 function updateRank() {
     var next = mood < 3 ? 0 : mastery >= (rank >= 2 ? 0.9 : LEGEND_AT) ? 2 : mastery >= (rank >= 1 ? 0.42 : VIRTUOSO_AT) ? 1 : 0;
     if (next > rank) {
@@ -6477,6 +6509,9 @@ function scorePlay(pitch, sour, now) {
     if (sour) {
         sourAt = clock;
     }
+    keepLast(recentSour, scalePcs.indexOf(pitch % 12) < 0 ? 1 : 0, 8);
+    keepLast(recentTrips, rhythm === -1 ? 1 : 0, 8);
+    keepLast(recentForce, lastVelocity, 8);
     if (held.length >= 4 && pitch === held[held.length - 1]) {
         handsAt = clock;        // a note on top of three keys held under it
     }
@@ -6634,15 +6669,16 @@ var CELL = 2;        // the wheel is drawn in 2x2 pixel blocks
 
 var KX = 180;        // keyboard left edge
 var KY = 48;
-var KEY_W = 16;
+var KEY_W = 22;
 var KEY_H = 58;
-var BLACK_W = 10;
+var BLACK_W = 14;
 var BLACK_H = 35;
 var LOW_NOTE = 48;   // C3
 var OCTAVES = 3;
 var TEXT_RIGHT = KX + OCTAVES * 7 * KEY_W;
+var PAD_W = Math.floor(OCTAVES * 7 * KEY_W / 8);     // eight pads take the place of the keys
 
-var PX = 528;        // right panel
+var PX = TEXT_RIGHT + 12;    // right panel
 var PW = 172;
 var BUTTONS = {
     groupPrev: [PX, 4, 18, 14],
@@ -6654,7 +6690,7 @@ var BUTTONS = {
     free: [PX + 116, 74, 56, 17]
 };
 
-var SX = 708;        // stage with the critters
+var SX = PX + PW + 8;    // stage with the critters
 var SY = 5;
 var SW = 146;
 var SH = 159;
@@ -6678,7 +6714,7 @@ function keyCentre(pitch) {
     var octave = Math.floor((pitch - LOW_NOTE) / 12);
     var pc = pitch % 12;
     var white = octave * 7 + WHITE_INDEX[pc];
-    return WHITE_PCS.indexOf(pc) >= 0 ? KX + white * KEY_W + 7 : KX + (white + 1) * KEY_W;
+    return WHITE_PCS.indexOf(pc) >= 0 ? KX + white * KEY_W + KEY_W / 2 - 1 : KX + (white + 1) * KEY_W;
 }
 
 function showsPads() {
@@ -6692,7 +6728,7 @@ function padRect(pitch) {
     if (index < 0 || index > 15) {
         return null;
     }
-    return [KX + (index % 8) * 42, KY + (index < 8 ? 30 : 0), 40, 28];
+    return [KX + (index % 8) * PAD_W, KY + (index < 8 ? 30 : 0), PAD_W - 2, 28];
 }
 
 function strike() {
@@ -6958,8 +6994,15 @@ function actInJam(x, y) {
             playNotes(chordPitches(home, 48), home);
         }
         return false;
-    } else if (x >= KX && x <= TEXT_RIGHT && y >= KY + KEY_H + 4) {
-        jamPage++;      // the pages of advice under the keys
+    } else if (x >= TASK_X - 6 && x <= TEXT_RIGHT && y >= KY + KEY_H + 4) {
+        taskShown = clock + 144;        // a click on the task: the advice says what it is for
+        counselPinned = -1000;
+        counsel.key = "";
+    } else if (x >= KX && x < TASK_X - 6 && y >= KY + KEY_H + 4) {
+        counselTurn++;                  // a click on the advice: another one
+        counselPinned = clock + 240;
+        taskShown = -1000;
+        counsel.key = "";
     } else {
         var dx = x - CX;
         var dy = y - CY;
@@ -7074,6 +7117,12 @@ function tick() {
         lookAtProject();
         danceTick();
         coachTick();
+        if (clock - lastOn > 60) {
+            recentSour = [];        // what was played a while ago is no reason for advice now
+            recentTrips = [];
+            recentForce = [];
+        }
+        counselTick();
         if (jamChord && held.length >= 3) {
             jamChordAt = clock;     // the chord is still down
         }
@@ -7361,7 +7410,7 @@ function drawPads() {
     for (pitch = 36; pitch < 52; pitch++) {
         rect = padRect(pitch);
         if (DRUM_TAGS[pitch]) {
-            label(DRUM_TAGS[pitch], rect[0] + 20, rect[1] + 9, 1, states[pitch] === undefined ? SILVER : NIGHT, CENTER);
+            label(DRUM_TAGS[pitch], rect[0] + rect[2] / 2, rect[1] + 9, 1, states[pitch] === undefined ? SILVER : NIGHT, CENTER);
         }
     }
     flush();
@@ -7387,7 +7436,7 @@ function drawKeyboard() {
     for (octave = 0; octave < OCTAVES; octave++) {
         for (i = 0; i < 7; i++) {
             x = KX + (octave * 7 + i) * KEY_W;
-            label(NOTE_NAMES[WHITE_PCS[i]], x + 7, KY + KEY_H - 13, 1, i === 0 ? NIGHT : SLATE, CENTER);
+            label(NOTE_NAMES[WHITE_PCS[i]], x + KEY_W / 2 - 1, KY + KEY_H - 13, 1, i === 0 ? NIGHT : SLATE, CENTER);
         }
         for (var pc = 0; pc < 12; pc++) {
             if (WHITE_PCS.indexOf(pc) >= 0) {
@@ -7416,7 +7465,7 @@ function keyMark(pitch) {
     var octave = Math.floor((pitch - LOW_NOTE) / 12);
     var pc = pitch % 12;
     if (WHITE_PCS.indexOf(pc) >= 0) {
-        return [KX + (octave * 7 + WHITE_PCS.indexOf(pc)) * KEY_W + 3, KY + 38, KEY_W - 7, 4];
+        return [KX + (octave * 7 + WHITE_PCS.indexOf(pc)) * KEY_W + 4, KY + 38, KEY_W - 9, 4];
     }
     return [KX + (octave * 7 + WHITE_INDEX[pc] + 1) * KEY_W - BLACK_W / 2 + 1, KY + BLACK_H - 10, BLACK_W - 4, 4];
 }
@@ -7438,6 +7487,16 @@ function markKeys(states) {
             if (states[pitch] === undefined) {
                 mark = keyMark(pitch);
                 px(mark[0] - 1, mark[1] - 2, mark[2] + 2, mark[3] + 4, CYAN);
+            }
+        }
+    }
+    // the keys of the task: a bar of their own above the mark, so both show
+    if (clock % 8 >= 2) {
+        for (var k = 0; k < jamView.goal.length; k++) {
+            pitch = foldIntoRange(jamView.goal[k]);
+            if (states[pitch] === undefined) {
+                mark = keyMark(pitch);
+                px(mark[0] - 1, mark[1] - 9, mark[2] + 2, 5, ORANGE);
             }
         }
     }
@@ -7482,33 +7541,60 @@ function drawFreePlay() {
 // kind, pay, what to do and why. %T is the tonic, %H the notes of the home
 // chord, %S the scale, %C the note that colours the mood.
 var COACH = [
-    ["tonic", 5, "Найди тонику: сыграй ноту %T. Это дом лада, на ней мелодия успокаивается."],
-    ["home", 5, "Сыграй по очереди опорные ноты: %H. Из них сложен главный аккорд, на них мелодия опирается."],
-    ["up", 8, "Пройди гамму вверх от тоники до тоники: %S. По одной ноте, не торопясь."],
-    ["down", 8, "Теперь гамму вниз, от верхней тоники к нижней. Следи за подсвеченной клавишей."],
-    ["chord", 8, "Возьми главный аккорд: зажми вместе %H."],
-    ["steady", 10, "Держи ровный ритм: восемь ударов подряд через равные промежутки. Ноты любые из гаммы."],
-    ["motif", 10, "Придумай мотив из трёх нот гаммы и сразу повтори его точно так же. Повтор делает из нот мелодию."],
-    ["landing", 10, "Сыграй фразу из четырёх нот или больше, закончи её на тонике %T и сделай паузу. Так ставят точку."],
-    ["thirds", 10, "Сыграй четыре разные пары нот через одну клавишу гаммы, обе ноты разом. Это терции: мелодия в два голоса."],
-    ["chords3", 12, "Возьми три разных аккорда лада: они стоят на внутреннем кольце круга. Щёлкни сектор, чтобы услышать его ноты."],
-    ["arp", 12, "Разложи главный аккорд: сыграй его ноты вверх и обратно, по одной. Это арпеджио."],
-    ["over", 15, "Две руки: левой зажми аккорд из трёх нот и держи, правой сыграй над ним четыре разные ноты гаммы."],
-    ["colour", 12, "Сыграй ноту-краску %C и сразу разреши её: шагни на соседнюю опорную ноту. В этой ноте весь характер лада."],
-    ["breath", 12, "Мелодия дышит: сыграй четыре ноты, замолчи на секунду, сыграй ещё четыре. Пауза это тоже нота."],
-    ["loud", 12, "Сыграй четыре ноты тихо, едва касаясь клавиш, а потом четыре громко. Сила удара это краска."],
-    ["cadence", 15, "Возьми любой другой аккорд лада, а сразу за ним главный. Напряжение и возвращение домой: на этом стоит гармония."],
-    ["bass", 15, "Бас и аккорд вместе: левой рукой тонику %T внизу, правой главный аккорд над ней."],
-    ["wide", 15, "Сыграй мелодию шириной в октаву и больше: восемь нот гаммы подряд без чужих, от низких к высоким или наоборот."],
-    ["sequence", 20, "Секвенция: сыграй мотив из трёх нот, а потом его же на ступень гаммы выше. Так мелодия растёт сама из себя."],
-    ["combo", 15, "Набери комбо 16: шестнадцать ударов подряд в гамме и в ритме, без чужих нот."],
-    ["fire", 20, "Разожги сцену до огня: играй разные ноты и аккорды в ровном ритме, пока шкала не дойдёт до оранжевого."],
-    ["fast", 20, "Скорость: шестнадцать нот гаммы за четыре секунды, без чужих."],
-    ["combo2", 25, "Набери комбо 32. Чужая нота сбрасывает счёт, сбой ритма режет его вдвое."],
-    ["space", 30, "Дойди до космоса: мелодия правой рукой поверх аккордов левой, и аккорды меняются."],
-    ["combo4", 40, "Набери комбо 64."],
-    ["virtuoso", 60, "Стань виртуозом: ровно, быстро, широко, в две руки, с разными аккордами и без единой чужой ноты."],
-    ["legend", 100, "Легенда: удержи игру виртуоза, пока шкала не дойдёт до конца."]
+    ["tonic", 5, "Найди тонику: сыграй ноту %T.",
+     "Тоника это дом лада: на ней мелодия успокаивается. С неё удобно начать фразу и к ней хорошо вернуться в конце."],
+    ["home", 5, "Сыграй по очереди опорные ноты: %H.",
+     "Из опорных нот сложен главный аккорд. Мелодия, которая останавливается на них, звучит устойчиво, а на остальных нотах гаммы просит продолжения."],
+    ["up", 8, "Гамма вверх: от тоники %T до тоники, по одной ноте.",
+     "Гамма это весь запас нот лада: %S. Пройди её пальцами, чтобы руки запомнили, где лежат свои ноты. Иди по оранжевым клавишам."],
+    ["down", 8, "Гамма вниз: от верхней тоники к нижней.",
+     "Вниз гамма звучит как спуск домой. Те же ноты, обратный порядок: начинай с верхней тоники."],
+    ["chord", 8, "Возьми главный аккорд: %H вместе.",
+     "Аккорд это три опорные ноты разом. На нём стоит вся гармония лада: с него начинают и им заканчивают."],
+    ["steady", 10, "Восемь ударов подряд через равные промежутки.",
+     "Ровный ритм важнее правильных нот: его слышит каждый. Играй не быстро, а одинаково, как шаги."],
+    ["motif", 10, "Мотив из трёх нот и сразу его точный повтор.",
+     "Повтор делает из случайных нот мелодию: ухо узнаёт рисунок. Сыграй три ноты гаммы и повтори их в точности."],
+    ["landing", 10, "Фраза из четырёх нот с концом на тонике %T, потом пауза.",
+     "Фраза должна чем-то кончаться. Тоника в конце и пауза после неё звучат как точка в предложении."],
+    ["thirds", 10, "Четыре разные пары нот через одну, обе ноты разом.",
+     "Две ноты через одну клавишу гаммы звучат вместе мягко: это терция. Так мелодию ведут в два голоса."],
+    ["chords3", 12, "Три разных аккорда лада: смотри внутреннее кольцо круга.",
+     "У каждого лада свои аккорды: они стоят на внутреннем кольце круга. Щёлкни сектор, чтобы услышать аккорд и увидеть его ноты на клавишах."],
+    ["arp", 12, "Главный аккорд по одной ноте: вверх и обратно.",
+     "Разложенный аккорд называется арпеджио: те же ноты, но по очереди. На нём держится половина электронной музыки."],
+    ["over", 15, "Левой держи аккорд, правой сыграй над ним четыре разные ноты.",
+     "Это и есть игра двумя руками: левая держит гармонию, правая поёт. Над аккордом лучше всего звучат его же ноты и соседние с ними."],
+    ["colour", 12, "Нота-краска %C, а за ней соседняя опорная.",
+     "Краска %C отличает этот лад от соседних: в ней его характер. Задержись на ней, потом шагни на соседнюю опорную ноту, и напряжение разрешится."],
+    ["breath", 12, "Четыре ноты, секунда тишины, ещё четыре.",
+     "Мелодия без пауз утомляет, как речь без точек. Сыграй короткую фразу, помолчи секунду, ответь второй фразой."],
+    ["loud", 12, "Четыре ноты тихо, потом четыре громко.",
+     "Сила удара это краска. Одни и те же ноты тихо звучат как вопрос, громко как утверждение. Клавиатура слышит, как сильно ты нажимаешь."],
+    ["cadence", 15, "Любой аккорд лада, а сразу за ним главный.",
+     "Любой другой аккорд лада создаёт ожидание, главный его снимает. На этой паре, напряжении и возвращении, стоит вся гармония."],
+    ["bass", 15, "Тоника %T внизу левой, главный аккорд над ней правой.",
+     "Бас под аккордом делает звук полным. Самая низкая нота решает, как называется аккорд: с тоникой внизу он звучит устойчивее всего."],
+    ["wide", 15, "Восемь нот гаммы подряд, от края до края октавы и шире.",
+     "Мелодия в пределах пяти клавиш быстро надоедает. Пройди за восемь нот целую октаву: вверх или вниз, без чужих нот."],
+    ["sequence", 20, "Мотив из трёх нот, потом он же на ступень выше.",
+     "Это секвенция: мотив повторяется на ступень выше. Мелодия растёт сама из себя, и слушатель угадывает продолжение."],
+    ["combo", 15, "Комбо 16: удары в гамме и в ритме.",
+     "Комбо растёт от каждого удара в гамме и в ритме. Чужая нота сбрасывает счёт, сбой ритма режет его вдвое. Каждый шестнадцатый удар платит."],
+    ["fire", 20, "Доведи шкалу до огня.",
+     "Шкала под сценой растёт, когда ноты разные, ритм ровный, а аккорды меняются. Один и тот же аккорд её не сдвинет."],
+    ["fast", 20, "Шестнадцать нот гаммы за четыре секунды.",
+     "Скорость приходит от ровности. Сначала сыграй гамму медленно и чисто, потом быстрее: четыре ноты в секунду."],
+    ["combo2", 25, "Комбо 32.",
+     "После шестнадцати ударов подряд очки за комбо удваиваются, после тридцати двух утраиваются."],
+    ["space", 30, "Доведи шкалу до космоса.",
+     "До космоса шкала доходит только от настоящей игры: мелодия правой рукой поверх аккордов левой, и аккорды должны меняться."],
+    ["combo4", 40, "Комбо 64.",
+     "Шестьдесят четыре удара без чужой ноты и без сбоя: множитель очков становится пятикратным."],
+    ["virtuoso", 60, "Стань виртуозом.",
+     "Виртуоз играет сразу ровно, разнообразно, широко, в две руки и чисто: нужны четыре признака из семи. Пока ты играешь, совет говорит, каких не хватает."],
+    ["legend", 100, "Стань легендой.",
+     "Легенде нужны шесть признаков из семи: к игре виртуоза прибавь скорость, четыре удара в секунду, и три разных аккорда."]
 ];
 var COACH_COUNTS = { home: 3, up: 8, down: 8, steady: 8, thirds: 4, chords3: 3, arp: 5, over: 4, wide: 8, fast: 16 };
 
@@ -7565,24 +7651,34 @@ function coachNames(pcs) {
     return names.join(" ");
 }
 
-function coachHead() {
-    var done = progress.coach || 0;
-    var lap = Math.floor(done / COACH.length) + 1;
-    return "ЗАДАНИЕ " + (done % COACH.length + 1) + "/" + COACH.length + (lap > 1 ? ", КРУГ " + lap : "");
+// How much of the task is done and how much it takes; 0 where nothing is
+// counted.
+function coachProgress() {
+    var kind = coachTask()[0];
+    if (kind === "combo" || kind === "combo2" || kind === "combo4") {
+        var target = kind === "combo" ? 16 : kind === "combo2" ? 32 : 64;
+        return [Math.min(16, Math.floor(combo * 16 / target)), 16];
+    }
+    var need = kind === "up" || kind === "down" || kind === "arp" ? coachRow(kind).length
+             : kind === "home" ? homePcs().length : (COACH_COUNTS[kind] || 0);
+    var done = kind === "home" || kind === "thirds" || kind === "chords3" || kind === "over" ? coach.list.length : coach.count;
+    return [Math.min(done, need), need];
+}
+
+// The notes of this mood and key put into a text of the coach.
+function coachFill(text) {
+    var colour = MOODS[jam.mood][4];
+    return text.replace("%T", ROOT_NAMES[jam.tonic]).replace("%H", coachNames(homePcs()))
+               .replace("%S", coachNames(coachScale().slice(0, -1))).replace("%C", colour < 0 ? "" : ROOT_NAMES[(jam.tonic + colour) % 12]);
 }
 
 function coachText() {
-    var task = coachTask();
-    var kind = task[0];
-    var need = kind === "up" || kind === "down" || kind === "arp" ? coachRow(kind).length
-             : kind === "home" ? homePcs().length : COACH_COUNTS[kind];
-    var colour = MOODS[jam.mood][4];
-    var text = task[2].replace("%T", ROOT_NAMES[jam.tonic]).replace("%H", coachNames(homePcs()))
-                      .replace("%S", coachNames(coachScale())).replace("%C", colour < 0 ? "" : ROOT_NAMES[(jam.tonic + colour) % 12]);
-    var done = kind === "home" || kind === "thirds" || kind === "chords3" || kind === "over" ? coach.list.length : coach.count;
-    return text + (need ? " Сделано: " + Math.min(done, need) + " из " + need + "." : "") + " Награда: +" + task[1] + ".";
+    return coachFill(coachTask()[2]);
 }
 
+function coachWhy() {
+    return coachFill(coachTask()[3]);
+}
 // The keys the task wants next, for the wheel and the keyboard to light;
 // null when the task leaves the choice of notes to the player.
 function coachTargets() {
@@ -7633,6 +7729,7 @@ function coachDone() {
     confettiStart = clock;
     explode(SX + 40 + rand() * (SW - 80), SY + 30 + rand() * 30);
     coachReset();
+    taskAt = clock;
     if (ticker) {
         saveAt = clock + 12;
     }
@@ -7785,6 +7882,7 @@ function coachTick() {
     if (kind === "colour" && MOODS[jam.mood][4] < 0) {
         progress.coach = (progress.coach || 0) + 1;     // this mood has no such note
         coachReset();
+        taskAt = clock;
     } else if (kind === "chord") {
         if (held.length >= home.length && sameSet(keys, home)) {
             coachDone();
@@ -7846,53 +7944,307 @@ function coachTick() {
     }
 }
 
-// Under the keys in free play: what the Live Set already has, and pages of
-// advice that a click on them turns. The first page is the task of the
-// coach; then how to play in the style, what the track needs next, its form,
-// how it grows, what to think about at this stage, and the sound of each part.
+// ------------------------------------------------ the advice of free play
+
+// Under the keys of free play stand two columns. On the right the task of
+// the coach, always in sight. On the left one piece of advice: the one that
+// fits what the player is doing right now. While the keys sound it is about
+// the playing (notes outside the scale, a rhythm that stumbles, a melody
+// stuck on two notes, a hand that is missing, what the next rank still
+// wants); while they rest it is about the track (what has just changed, the
+// next step, the stage, the form, the sound of a part). A click on the advice
+// asks for another one; a click on the task explains the task.
+
+var recentSour = [];        // each of the latest strokes: 1 = sour, 0 = not
+var recentTrips = [];       // each of them: 1 = out of time
+var recentForce = [];       // how hard each was struck
+var chordAt = -1000;        // tick of the latest chord struck
+var styleAt = -1000;        // tick of the latest change of style
+var moodAt = -1000;         // tick of the latest change of mood or tonic
+var taskAt = -1000;         // tick at which the task of the coach was set
+var projectNews = { part: "", at: -1000 };   // a part that has just come into the Live Set
+var counsel = { key: "", head: "", text: "", colour: 0, since: -1000, urgent: false };
+var counselTurn = 0;        // which of the quiet pieces of advice comes next
+var counselPinned = -1000;  // until this tick a click keeps the quiet advice up
+var taskShown = -1000;      // until this tick a click on the task keeps its reason up
+var TASK_W = 144;           // the column of the task
+var TASK_X = TEXT_RIGHT - TASK_W;
+var ADVICE_W = TASK_X - 12 - KX;
+
+function tally(list) {
+    var sum = 0;
+    for (var i = 0; i < list.length; i++) {
+        sum += list[i];
+    }
+    return sum;
+}
+
+function keepLast(list, value, most) {
+    list.push(value);
+    if (list.length > most) {
+        list.shift();
+    }
+}
+
+// Other chords of the mode to go to from the one that keeps sounding.
+function otherChords(not) {
+    var scale = MOODS[jam.mood][5] || MOODS[jam.mood][3];
+    var names = [];
+    var steps = [3, 4, 5, 1, 0];
+    for (var i = 0; i < steps.length && names.length < 2; i++) {
+        var chord = scale.length === 7 ? jamDegreeChord((jam.tonic + scale[steps[i]]) % 12) : null;
+        if (chord && chord.name !== not) {
+            names.push(chord.name);
+        }
+    }
+    return names;
+}
+
+// The quiet advice: about the track, the style and the sounds. The order
+// depends on what is going on: a part that has just appeared comes first,
+// then the part of the track that is selected, then the road ahead.
+function quietAdvice() {
+    var style = STYLES[jam.style];
+    var seen = project && project.api;
+    var stage = jamStage(project, style);
+    var form = FORMS[FORM_OF[style.id]];
+    var list = [];
+    var part = "";
+    var i;
+    var fresh = false;
+    if (seen && clock - projectNews.at < 240 && SOUNDS[style.id][projectNews.part]) {
+        part = projectNews.part;
+        fresh = true;       // news does not wait for its turn
+    } else if (seen && project.selectedPart && SOUNDS[style.id][project.selectedPart]) {
+        part = project.selectedPart;
+    }
+    if (part !== "") {
+        list.push(["sound-" + part, "Звук: " + PART_NAMES[part][0], SOUNDS[style.id][part], ORANGE]);
+    }
+    list.push(["next", "Дальше", nextStep(project, style), SILVER]);
+    for (i = 0; i < STAGE_TIPS[stage].length; i++) {
+        list.push(["stage-" + stage + "-" + i, "Стадия: " + STAGE_NAMES[stage], STAGE_TIPS[stage][i], LIME]);
+    }
+    list.push(["form", "Форма", form[0], CYAN]);
+    list.push(["growth", "Развитие", form[1], CYAN]);
+    for (i = 0; i < style.parts.length; i++) {
+        if (style.parts[i] !== part) {
+            list.push(["sound-" + style.parts[i], "Звук: " + PART_NAMES[style.parts[i]][0], SOUNDS[style.id][style.parts[i]], ORANGE]);
+        }
+    }
+    for (i = 0; i < style.play.length; i++) {
+        list.push(["play-" + i, "Как играть", style.play[i], WHITE]);
+    }
+    list.lead = fresh;
+    return list;
+}
+
+// The one piece of advice that fits this moment best.
+function bestAdvice() {
+    var style = STYLES[jam.style];
+    var lad = MOODS[jam.mood];
+    var home = jamDegreeChord(jam.tonic);
+    var scaleNames = coachNames(coachScale().slice(0, -1));
+    var playing = clock - lastOn < 36;
+    var quiet = quietAdvice();
+    var pick = quiet[wrapTo(counselTurn, quiet.length)];
+    var i;
+    if (clock < counselPinned) {
+        return { key: pick[0], head: pick[1], text: pick[2], colour: pick[3], urgent: false };
+    }
+    if (clock < taskShown) {
+        return { key: "task-" + (progress.coach || 0), head: "Зачем задание", text: coachWhy(), colour: ORANGE, urgent: true };
+    }
+    if (playing) {
+        if (tally(recentSour) >= 3) {
+            return { key: "sour", head: "Мимо лада", colour: RED, urgent: true,
+                     text: "Несколько нот подряд мимо лада. Гамма сейчас: " + scaleNames + ". Играй только клавиши с меткой, по одной и медленнее." };
+        }
+        if (tally(recentTrips) >= 3) {
+            return { key: "trips", head: "Ритм", colour: ORANGE, urgent: true,
+                     text: "Удары падают мимо доли. Играй вдвое реже и считай вслух: раз, два, три, четыре. Метроном включается кнопкой рядом с темпом в Ableton." };
+        }
+        if (recentPcs.length >= 6 && unique(recentPcs).length <= 2 && lastPitch >= 0) {
+            return { key: "stuck", head: "Мелодия", colour: YELLOW, urgent: false,
+                     text: "Ты кружишь на одной-двух нотах. Шагни на соседнюю ноту гаммы: " + pitchNames([scaleStep(lastPitch, -1), scaleStep(lastPitch, 1)])
+                         + ". Мелодии нужны хотя бы три-четыре разные ноты." };
+        }
+        if (sameChord >= 3 && otherChords(lastChord).length > 0) {
+            return { key: "samechord", head: "Гармония", colour: YELLOW, urgent: false,
+                     text: "Аккорд " + lastChord + " звучит уже который раз подряд. Смени его: после него хорошо встанет " + otherChords(lastChord).join(" или ") + "." };
+        }
+        var low = 999;
+        var high = 0;
+        for (i = 0; i < recentPitches.length; i++) {
+            low = Math.min(low, recentPitches[i]);
+            high = Math.max(high, recentPitches[i]);
+        }
+        if (recentPitches.length >= 10 && high - low <= 4 && clock - chordAt > 60) {
+            return { key: "narrow", head: "Мелодия", colour: YELLOW, urgent: false,
+                     text: "Мелодия топчется на пяти клавишах. Сделай скачок на опорную ноту повыше, а потом вернись к началу шагами по гамме." };
+        }
+        if (home && recentPitches.length >= 6 && clock - lastMelody < 60 && clock - chordAt > 240) {
+            return { key: "nochords", head: "Левая рука", colour: SKY, urgent: false,
+                     text: "Мелодия есть, а опоры под ней нет. Левой рукой возьми аккорд " + home.name + " (" + coachNames(home.pcs)
+                         + ") и держи, пока правая играет." };
+        }
+        if (clock - chordAt < 60 && clock - lastMelody > 180) {
+            return { key: "nomelody", head: "Правая рука", colour: SKY, urgent: false,
+                     text: "Аккорды есть, мелодии нет. Правой рукой сыграй ноты этого аккорда по одной, выше левой, а потом соедини их соседними нотами гаммы." };
+        }
+        var soft = 999;
+        var hard = 0;
+        for (i = 0; i < recentForce.length; i++) {
+            soft = Math.min(soft, recentForce[i]);
+            hard = Math.max(hard, recentForce[i]);
+        }
+        if (recentForce.length >= 8 && hard - soft <= 8 && hard > soft) {
+            return { key: "flat", head: "Сила удара", colour: SKY, urgent: false,
+                     text: "Все ноты одной силы. Первую ноту фразы возьми сильнее, последнюю тише: мелодия начнёт говорить." };
+        }
+        if (mood >= 3 && rank < 2) {
+            var missing = skillsMissing(nowMs());
+            var wanted = rank === 0 ? 4 : 6;
+            return { key: "rank", head: rank === 0 ? "До виртуоза" : "До легенды", colour: CYAN, urgent: false,
+                     text: "Признаков мастерства сейчас " + (7 - missing.length) + " из 7, нужно " + wanted + ". Не хватает: " + missing.join(", ") + "." };
+        }
+        if (mood === 2) {
+            return { key: "climb2", head: "До космоса", colour: CYAN, urgent: false,
+                     text: "Нужна мелодия правой рукой поверх аккордов левой, и чтобы аккорды менялись. Комбо сейчас " + combo + "." };
+        }
+        if (mood === 1) {
+            return { key: "climb1", head: "До огня", colour: LIME, urgent: false,
+                     text: "Играй разные ноты в ровном ритме и меняй аккорды: один и тот же аккорд шкалу не сдвинет. Комбо сейчас " + combo + "." };
+        }
+        var tip = Math.floor(clock / 144) % style.play.length;
+        return { key: "play-" + tip, head: "Как играть", text: style.play[tip], colour: WHITE, urgent: false };
+    }
+    if (clock - taskAt < 120) {
+        return { key: "task-" + (progress.coach || 0), head: "Зачем задание", text: coachWhy(), colour: ORANGE, urgent: false };
+    }
+    if (clock - styleAt < 120) {
+        return { key: "style", head: "Как играть", text: style.play[0], colour: WHITE, urgent: false };
+    }
+    if (clock - moodAt < 120) {
+        return { key: "mood", head: lad[0], colour: YELLOW, urgent: false,
+                 text: "Лад: " + lad[1] + ". Гамма: " + scaleNames + "."
+                     + (lad[4] >= 0 ? " Краска лада: " + ROOT_NAMES[(jam.tonic + lad[4]) % 12] + ". Эта нота отличает его от соседних ладов: задерживайся на ней." : "") };
+    }
+    if (quiet.lead) {
+        pick = quiet[0];
+    }
+    return { key: pick[0], head: pick[1], text: pick[2], colour: pick[3], urgent: false };
+}
+
+// Where the cursor is over the device, and when it last moved there. Max
+// tells of every move over the picture and of the cursor leaving it.
+var hover = { x: -1, y: -1, at: -1000 };
+
+function onidle(x, y) {
+    var was = overAdvice();
+    hover = { x: x, y: y, at: clock };
+    if (was !== overAdvice()) {
+        mgraphics.redraw();
+    }
+}
+
+function onidleout() {
+    var was = overAdvice();
+    hover = { x: -1, y: -1, at: -1000 };
+    if (was) {
+        mgraphics.redraw();
+    }
+}
+
+// The cursor rests on the advice of free play: the player is reading it. (A
+// cursor that has not stirred for a minute is taken to be forgotten there.)
+function overAdvice() {
+    return inJam() && clock - hover.at < 720 && hover.x >= KX - 4 && hover.x < TASK_X - 8
+        && hover.y >= KY + KEY_H + 16 && hover.y < H;
+}
+
+// Called on every tick of free play: the advice changes when the moment
+// changes, but not more often than a person can read it, and not at all
+// while the cursor rests on it.
+function counselTick() {
+    if (overAdvice() && counsel.key !== "") {
+        return;
+    }
+    if (clock % 144 === 0) {
+        counselTurn++;
+    }
+    var want = bestAdvice();
+    var shown = clock - counsel.since;
+    if (want.key === counsel.key) {
+        counsel.text = want.text;       // the figures in it may have moved on
+        return;
+    }
+    if (counsel.key === "" || want.urgent || clock < counselPinned || shown >= (counsel.urgent ? 36 : 72)) {
+        counsel = { key: want.key, head: want.head, text: want.text, colour: want.colour, since: clock, urgent: want.urgent };
+    }
+}
+
 var jamHintRaw = "";
 var jamHintText = "";
-var jamPage = 0;
-
-function jamPages() {
-    var style = STYLES[jam.style];
-    var pages = [[coachHead(), coachText(), YELLOW]];
-    var i;
-    for (i = 0; i < style.play.length; i++) {
-        pages.push(["Как играть", style.play[i], WHITE]);
-    }
-    pages.push(["Дальше", nextStep(project, style), SILVER]);
-    var form = FORMS[FORM_OF[style.id]];
-    pages.push(["Форма трека", form[0], CYAN]);
-    pages.push(["Развитие", form[1], CYAN]);
-    var stage = jamStage(project, style);
-    for (i = 0; i < STAGE_TIPS[stage].length; i++) {
-        pages.push(["Стадия: " + STAGE_NAMES[stage], STAGE_TIPS[stage][i], LIME]);
-    }
-    for (i = 0; i < style.parts.length; i++) {
-        pages.push(["Звук: " + PART_NAMES[style.parts[i]][0], SOUNDS[style.id][style.parts[i]], ORANGE]);
-    }
-    return pages;
-}
+var jamTaskRaw = "";
+var jamTaskText = "";
 
 function drawJamHint() {
     var style = STYLES[jam.style];
     var y = KY + KEY_H + 8;
     var x = KX;
+    var i;
     var tags = projectTags(project, style);
-    for (var i = 0; i < tags.length; i++) {
-        x += label(tags[i][0], x, y, 1, tags[i][1], LEFT) + 8;
+    for (i = 0; i < tags.length; i++) {
+        x += label(tags[i][0], x, y, 1, tags[i][1], LEFT) + TAG_GAP;
     }
-    var pages = jamPages();
-    jamPage = wrapTo(jamPage, pages.length);
-    var page = pages[jamPage];
-    label("СОВЕТ " + (jamPage + 1) + "/" + pages.length + " ЩЁЛКНИ: ДАЛЬШЕ", TEXT_RIGHT, y, 1, SLATE, RIGHT);
-    var raw = page[0] + ": " + page[1];
+    // the advice of the moment
+    if (counsel.key === "") {
+        counselTick();
+    }
+    var raw = counsel.head + ": " + counsel.text;
     if (raw !== jamHintRaw) {
         jamHintRaw = raw;
         jamHintText = caps(raw);
     }
-    paragraph(jamHintText, KX, y + 12, TEXT_RIGHT - KX, page[2], 4);
+    paragraph(jamHintText, KX, y + 12, ADVICE_W, counsel.colour, 4);
+    if (overAdvice()) {
+        // the advice is held: corners around its field say so
+        var left = KX - 5;
+        var right = KX + ADVICE_W + 3;
+        var top = y + 8;
+        var bottom = H - 2;
+        var arm = 7;
+        px(left, top, arm, 1, WHITE);
+        px(left, top, 1, arm, WHITE);
+        px(right - arm, top, arm, 1, WHITE);
+        px(right - 1, top, 1, arm, WHITE);
+        px(left, bottom - 1, arm, 1, WHITE);
+        px(left, bottom - arm, 1, arm, WHITE);
+        px(right - arm, bottom - 1, arm, 1, WHITE);
+        px(right - 1, bottom - arm, 1, arm, WHITE);
+    }
+    // the task of the coach, in a column of its own
+    px(TASK_X - 7, y - 2, 1, H - y - 2, STEEL);
+    var task = coachTask();
+    var done = progress.coach || 0;
+    var lap = Math.floor(done / COACH.length) + 1;
+    label("ЗАДАНИЕ " + (done % COACH.length + 1) + "/" + COACH.length + (lap > 1 ? " КРУГ " + lap : ""), TASK_X, y, 1, ORANGE, LEFT);
+    label("+" + task[1], TEXT_RIGHT, y, 1, LIME, RIGHT);
+    var words = coachText();
+    if (words !== jamTaskRaw) {
+        jamTaskRaw = words;
+        jamTaskText = caps(words);
+    }
+    paragraph(jamTaskText, TASK_X, y + 12, TASK_W, WHITE, 3);
+    // how much of it is done, as a row of cells
+    var steps = coachProgress();
+    if (steps[1] > 0) {
+        var cell = Math.floor(TASK_W / steps[1]);
+        for (i = 0; i < steps[1]; i++) {
+            px(TASK_X + i * cell, H - 8, cell - 1, 4, i < steps[0] ? ORANGE : STEEL);
+        }
+    }
 }
 // The area above the keys: what to do right now.
 function drawTarget() {
@@ -8045,7 +8397,8 @@ function drawJamPanel() {
     legend(SKY, "ГАММА", PX + 58, 137);
     legend(YELLOW, "КРАСКА", PX + 116, 137);
     legend(STEEL, "МИМО", PX, 149);
-    legend(CYAN, "КУДА ИДТИ", PX + 58, 149);
+    legend(CYAN, "КУДА ИДТИ", PX + 42, 149);
+    legend(ORANGE, "ЗАДАНИЕ", PX + 112, 149);
     label("ВЕРСИЯ " + VERSION, PX + PW, 160, 1, SLATE, RIGHT);
 }
 

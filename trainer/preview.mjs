@@ -18,7 +18,9 @@ if (!output) {
     process.exit(1);
 }
 
-const W = 860, H = 169;
+// The size of the picture is the one the trainer declares.
+const size = /var W = (\d+);[^\n]*\s*var H = (\d+);/.exec(readFileSync(join(HERE, "smk_trainer.js"), "utf8"));
+const W = Number(size[1]), H = Number(size[2]);
 let pixels = new Uint8ClampedArray(W * H * 4);
 let colour = [0, 0, 0];
 let pending = [];
@@ -159,11 +161,21 @@ const scenes = [
     ["free play: a tip on playing in the style while the keys sound", () => { jam("psydub", 2); press([62]); ticks(2); }],
     ["free play: the cosmic mood, a scale with a raised fifth", () => { jam("ambient", 1); run("while (MOODS[jam.mood][0] !== 'Космическое') { jamMood(1); }"); ticks(2); }],
     ["free play: the weightless mood, a scale of six whole tones", () => { jam("trance", 2); run("while (MOODS[jam.mood][0] !== 'Невесомое') { jamMood(1); }"); press([66]); ticks(2); }],
-    ["free play: the coach asks for the scale, the next key is lit", () => { jam("disco", 1); run("progress.coach = 2; coachReset(); jamPage = 0;"); press([62]); ticks(1); release([62]); press([64]); ticks(1); release([64]); ticks(1); }],
-    ["free play: a page on the sound of the bass", () => { jam("acid", 2); run("jamPage = 9;"); ticks(2); }],
-    ["free play: a page on the form of the track", () => { jam("triphop", 1); run("jamPage = 4;"); ticks(2); }],
+    ["free play: the coach asks for the scale, the next key is lit", () => { jam("disco", 1); run("progress.coach = 2; coachReset(); taskAt = clock;"); press([62]); ticks(1); release([62]); press([64]); ticks(1); release([64]); ticks(1); }],
+    ["free play: notes outside the scale, the advice says so at once", () => { jam("acid", 0); for (const p of [61, 63, 66]) { press([p]); ticks(1); release([p]); } ticks(1); }],
+    ["free play: at rest the advice is about the form of the track", () => { jam("triphop", 1); run("lastOn = clock - 200; styleAt = -1000; moodAt = -1000; taskAt = -1000; counselTurn = 3; counselPinned = clock + 500; counsel.key = \"\";"); ticks(2); }],
     ["free play: a legend, the gauge at its end, a combo", () => { jam("funk", 3); run("mastery = 1.1; updateRank(); combo = 37; lastOn = clock;"); ticks(2); run("mastery = 1.1; updateRank(); combo = 37;"); }],
     ["free play: cacophony costs points", () => { jam("gabber", 0); run("progress.done = { 'start/0': 180 }; recount(); shownPoints = 180; vibe = -0.9; updateMood(); stormFined = false; cacophony();"); ticks(3); }],
+    ["free play: Ableton is seen, every part has its tag, the longest page", () => {
+        jam("house", 1);
+        ticks(2);
+        run("project = { api: true, tempo: 124, tracks: 5, has: { drums: true, bass: true }, empty: { chords: true }, clips: 3, scenes: 12, arranged: 4, bars: 128, cues: 0, space: true, limiter: false, selectedPart: \"bass\" }; lastOn = clock - 200; styleAt = -1000; moodAt = -1000; taskAt = -1000; counsel.key = \"\"; counselTick();");
+    }],
+    ["free play: the cursor rests on the advice, it is held and has corners", () => {
+        jam("house", 1);
+        ticks(2);
+        run("lastOn = clock - 200; styleAt = -1000; moodAt = -1000; taskAt = -1000; counsel.key = \"\"; counselTick(); onidle(KX + 80, KY + KEY_H + 30);");
+    }],
     ["path: the stage is done, the next one waits for points", () => {
         open("novice/7", true);
         solve(3);

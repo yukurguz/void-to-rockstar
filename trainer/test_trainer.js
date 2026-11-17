@@ -327,7 +327,8 @@ function createTrainer(withLive) {
                         throw new Error("bad rectangle " + [x, y, w, h].join(","));
                     }
                     // off the device, or over the frame of the stage on the right
-                    if (x < 0 || y < 0 || x + w > 860 || y + h > 169 || (x >= 707 && (x + w > 855 || y < 4 || y + h > 165))) {
+                    const b = t.bounds || { w: 1e9, h: 1e9, sx: 1e9, sw: 0 };
+                    if (x < 0 || y < 0 || x + w > b.w || y + h > b.h || (x >= b.sx - 1 && (x + w > b.sx + b.sw + 1 || y < 4 || y + h > 165))) {
                         t.astray = t.astray || [x, y, w, h].join(",");
                     }
                     t.rectangles++;
@@ -418,6 +419,8 @@ function createTrainer(withLive) {
     sandbox.nowMs = () => t.time;
     t.box = sandbox;
     t.run = (code) => vm.runInContext(code, sandbox);
+    // the edges nothing may be drawn beyond: the device, and the frame of the stage
+    t.bounds = { w: t.run("W"), h: t.run("H"), sx: t.run("SX"), sw: t.run("SW") };
     t.press = (pitches) => { pitches.forEach((p) => sandbox.note(p, 100)); sandbox.paint(); };
     t.release = (pitches) => { pitches.forEach((p) => sandbox.note(p, 0)); sandbox.paint(); };
     t.releaseAll = () => t.release(t.run("held.slice()"));
@@ -819,6 +822,9 @@ Object.assign(files, diskBeforeClicks);
 
 // Courses: forty lessons of one kind each, always the same lessons.
 const courses = run("GROUPS.filter(function (g) { return g.course; }).map(function (g) { return { id: g.id, size: g.lessons.length, data: JSON.stringify(g.lessons.map(function (l) { return [l.title, l.data]; })) }; })");
+// The parts of the picture stand side by side and fill the device exactly.
+check(run("W === SX + SW + 6 && PX === TEXT_RIGHT + 12 && SX === PX + PW + 8"), "the wheel, the keys, the panel and the stage do not add up to the width of the device");
+check(run("TEXT_RIGHT - KX") >= 460, "the strip of text under the keys should be 460 wide or more, got " + run("TEXT_RIGHT - KX"));
 check(courses.length >= 22, "expected a course for every kind of lesson, found " + courses.length);
 const twin = createTrainer(true);
 for (const item of courses) {
@@ -1131,8 +1137,7 @@ function melody(t, pitches) {
     check(t.run("layout(jamView.text).w") <= t.run("TEXT_RIGHT - KX"), "the advice does not fit its line: " + t.run("jamView.text"));
     return t.run("jamView.text");
 }
-// (On the page of the coach the keys of its task are lit instead: another page.)
-jammer.run("jamPage = 2;");
+
 check(/^НАЧНИ С ОПОРНОЙ/.test(jammer.run("jamLook().text")), "before the first note the advice should name the notes to lean on");
 check(/^ОПОРА/.test(melody(jammer, [69])), "A over A minor is a note to lean on");
 check(/^ПРОХОДЯЩАЯ/.test(melody(jammer, [71])), "B over A minor is a passing note");
@@ -1156,28 +1161,8 @@ jammer.releaseAll();
 jammer.ticks(60);
 check(jammer.run("jamHarmony().slice().sort().join()") === "0,4,9", "the home chord should be back after the chord was let go");
 
-// Under the keys are pages of advice; a click on them turns the page. The
-// first page is the task of the coach, the others are about playing in the
-// style, the next step, the form of the track, its stage and its sounds.
-jammer.run("jamPage = 0;");
-const pageCount = jammer.run("jamPages().length");
-check(pageCount >= 10, "expected a dozen pages of advice, found " + pageCount);
-const pageHeads = new Set();
-for (let i = 0; i < pageCount; i++) {
-    jammer.box.paint();
-    check(jammer.run("jamPage") === i, "a click under the keys should turn one page, got page " + jammer.run("jamPage"));
-    pageHeads.add(jammer.run("jamHintText").split(":")[0].replace(/ \d.*$/, ""));
-    jammer.time += 500;
-    jammer.box.onclick(jammer.run("KX + 60"), jammer.run("KY + KEY_H + 24"));
-}
-jammer.box.paint();
-check(jammer.run("jamPage") === 0, "the pages should come round");
-for (const head of ["ЗАДАНИЕ", "КАК ИГРАТЬ", "ДАЛЬШЕ", "ФОРМА ТРЕКА", "РАЗВИТИЕ", "СТАДИЯ", "ЗВУК"]) {
-    check(pageHeads.has(head), "no page of advice called " + head + ": " + [...pageHeads].join(", "));
-}
-
-// The coach of free play: tasks in the scale on the wheel, one after another.
-// It lights the keys it wants, counts and pays.
+// Under the keys of free play stand two columns: the advice of the moment
+// and the task of the coach. The advice follows what the player does.
 // (Each of the trainers below starts with an empty save file.)
 const diskBeforeCoach = Object.assign({}, files);
 function wipeDisk() {
@@ -1186,8 +1171,116 @@ function wipeDisk() {
     }
 }
 wipeDisk();
+const pal = createTrainer(true);
+pal.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); } progress.coach = 5; coachReset(); styleAt = -1000; moodAt = -1000; taskAt = -1000;");
+function adviceOf(t) {
+    return t.run("bestAdvice().key");
+}
+pal.ticks(40);
+check(/^next$/.test(adviceOf(pal)), "at rest, with nothing new, the advice is about the next step: " + adviceOf(pal));
+// notes outside the scale: said at once
+for (const pitch of [61, 63, 66]) {
+    pal.time += 300;
+    pal.press([pitch]);
+    pal.release([pitch]);
+    pal.ticks(1);
+}
+check(adviceOf(pal) === "sour", "three notes outside the scale should bring advice on the scale: " + adviceOf(pal));
+check(pal.run("counsel.key") === "sour" && /C D E F G A B/.test(pal.run("counsel.text")), "the advice should come at once and name the scale: " + pal.run("counsel.text"));
+pal.box.paint();
+check(/^МИМО ЛАДА:/.test(pal.run("jamHintText")), "the advice should stand under the keys: " + pal.run("jamHintText"));
+pal.ticks(70);
+check(pal.run("recentSour.length") === 0, "what was played a while ago is no reason for advice now");
+// a melody that circles on two notes
+for (const pitch of [60, 62, 60, 62, 60, 62, 60, 62]) {
+    pal.time += 300;
+    pal.press([pitch]);
+    pal.release([pitch]);
+    pal.ticks(1);
+}
+check(adviceOf(pal) === "stuck", "two notes over and over should bring advice to move on: " + adviceOf(pal));
+// a real melody without a chord under it
+for (const pitch of [60, 64, 67, 72, 69, 65, 62, 71, 67, 64]) {
+    pal.time += 300;
+    pal.press([pitch]);
+    pal.release([pitch]);
+    pal.ticks(1);
+}
+check(adviceOf(pal) === "nochords" && /аккорд C \(C E G\)/.test(pal.run("bestAdvice().text")), "a melody alone should bring advice on the left hand: " + adviceOf(pal) + " " + pal.run("bestAdvice().text"));
+// the same chord again and again
+for (let i = 0; i < 5; i++) {
+    pal.time += 400;
+    pal.press([60, 64, 67]);
+    pal.ticks(1);
+    pal.releaseAll();
+    pal.ticks(1);
+}
+check(adviceOf(pal) === "samechord" && /F или G/.test(pal.run("bestAdvice().text")), "one chord over and over should bring advice to change it: " + adviceOf(pal) + " " + pal.run("bestAdvice().text"));
+// at the top mood the advice says what the next rank still wants
+pal.run("recentPcs = [0, 2, 4, 5, 7, 9]; recentPitches = [48, 60, 72]; sameChord = 0; recentSour = []; recentTrips = []; chordAt = clock; lastMelody = clock; mood = 3; lastOn = clock;");
+check(adviceOf(pal) === "rank" && /Не хватает: /.test(pal.run("bestAdvice().text")), "at the top mood the advice should name what mastery still lacks: " + pal.run("bestAdvice().text"));
+pal.run("mood = 0; vibe = 0;");
+// at rest: a part that has just appeared in the Live Set, then the track that is selected
+pal.ticks(80);
+pal.run("project = { api: true, tempo: 90, has: { chords: true }, empty: { bass: true }, clips: 1, scenes: 1, arranged: 0, bars: 0, cues: 0, selectedPart: '' }; projectNews = { part: 'bass', at: clock }; looking.restAt = clock + 1000; taskAt = -1000; styleAt = -1000; moodAt = -1000;");
+check(adviceOf(pal) === "sound-bass", "a part that has just appeared should bring its sound: " + adviceOf(pal));
+pal.run("projectNews = { part: '', at: -1000 }; project.selectedPart = 'chords'; counselTurn = 0;");
+check(adviceOf(pal) === "sound-chords", "the part of the selected track should bring its sound: " + adviceOf(pal));
+// a click on the advice asks for another one; a click on the task explains the task
+const adviceBefore = adviceOf(pal);
+pal.time += 500;
+pal.box.onclick(pal.run("KX + 60"), pal.run("KY + KEY_H + 24"));
+check(adviceOf(pal) !== adviceBefore, "a click on the advice should bring another one");
+pal.time += 500;
+pal.box.onclick(pal.run("TASK_X + 20"), pal.run("KY + KEY_H + 24"));
+check(/^task-/.test(adviceOf(pal)), "a click on the task should bring its reason: " + adviceOf(pal));
+pal.box.paint();
+// the advice does not change faster than it can be read, unless it is urgent
+pal.run("taskShown = -1000; counselPinned = -1000; counsel = { key: 'next', head: 'x', text: 'y', colour: 0, since: clock, urgent: false }; styleAt = clock;");
+pal.run("counselTick();");
+check(pal.run("counsel.key") === "next", "advice that has just come up should stay for a while");
+pal.run("counsel.since = clock - 80; counselTick();");
+check(pal.run("counsel.key") === "style", "after a while the advice may change: " + pal.run("counsel.key"));
+// The cursor on the advice holds it still, with corners drawn around it;
+// when the cursor leaves, the advice moves on.
+pal.box.onidle(pal.run("KX + 80"), pal.run("KY + KEY_H + 30"));
+check(pal.run("overAdvice()") === true, "the cursor on the advice should be noticed");
+const drawnBefore = pal.rectangles;
+pal.box.paint();
+const drawnHeld = pal.rectangles - drawnBefore;
+pal.run("counsel.since = clock - 500; styleAt = -1000; moodAt = clock;");
+for (const pitch of [61, 63, 66, 61]) {
+    pal.time += 300;
+    pal.press([pitch]);
+    pal.release([pitch]);
+    pal.ticks(1);
+}
+pal.ticks(100);
+check(pal.run("counsel.key") === "style", "advice under the cursor must not change, not even for urgent news: " + pal.run("counsel.key"));
+pal.box.onidle(pal.run("TASK_X + 20"), pal.run("KY + KEY_H + 30"));
+check(pal.run("overAdvice()") === false, "the cursor on the task does not hold the advice");
+pal.box.onidle(pal.run("KX + 80"), pal.run("KY + KEY_H + 30"));
+pal.box.onidleout();
+check(pal.run("overAdvice()") === false, "the cursor has left the device");
+const drawnFrom = pal.rectangles;
+pal.box.paint();
+check(drawnHeld - (pal.rectangles - drawnFrom) >= 8, "the held advice should have eight strokes of corners around it");
+pal.ticks(2);
+check(pal.run("counsel.key") !== "style", "once the cursor is gone the advice should move on: " + pal.run("counsel.key"));
+// a click on held advice still asks for another one
+pal.box.onidle(pal.run("KX + 80"), pal.run("KY + KEY_H + 30"));
+const heldKey = pal.run("counsel.key");
+pal.time += 500;
+pal.box.onclick(pal.run("KX + 80"), pal.run("KY + KEY_H + 30"));
+pal.ticks(1);
+check(pal.run("counsel.key") !== heldKey, "a click on held advice should still bring another one");
+pal.box.onidleout();
+
+// The coach of free play: tasks in the scale on the wheel, one after another.
+// It lights the keys it wants, counts and pays.
+wipeDisk();
 const pupil = createTrainer(true);
-pupil.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); } progress.coach = 0; progress.jamPts = 0; recount(); coachReset(); jamPage = 0;");
+pupil.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); } progress.coach = 0; progress.jamPts = 0; recount(); coachReset();");
 function strokes(t, pitches, velocity) {
     for (const pitch of pitches) {
         t.time += 300;
@@ -1205,7 +1298,7 @@ function taskOf(t) {
     return t.run("coachTask()[0]");
 }
 pupil.box.paint();
-check(taskOf(pupil) === "tonic" && pupil.run("jamView.text") === "ЗАДАНИЕ: НАЖМИ C", "the first task is to find the tonic: " + pupil.run("jamView.text"));
+check(taskOf(pupil) === "tonic" && pupil.run("jamView.goal.join()") === "60" && /C\.$/.test(pupil.run("coachText()")), "the first task is to find the tonic, and its key is lit: " + pupil.run("coachText()"));
 strokes(pupil, [62]);
 check(taskOf(pupil) === "tonic", "another note is not the tonic");
 strokes(pupil, [72]);
@@ -1264,63 +1357,63 @@ strokes(pupil, [67, 65, 64, 62], 120);
 check(taskOf(pupil) === "cadence", "four soft notes and four loud ones: " + taskOf(pupil));
 check(pupil.run("progress.coach") === 15 && pupil.run("progress.jamPts") >= 149, "fifteen tasks should have paid 149 points, got " + pupil.run("progress.jamPts"));
 pupil.box.paint();
-// Everything the pages can say fits them, in every style, mood and task.
+// Everything the two columns can say fits them, in every style, mood, key and task.
 const adviceTrouble = pupil.run(`(function () {
-    var wide = TEXT_RIGHT - KX, bad = [];
-    function lines(text) { return wrap(caps(text), wide).length; }
-    function glyphs(text, what) {
-        text = caps(text);
-        for (var c = 0; c < text.length; c++) {
-            var ch = text.charAt(c);
-            if (ch !== " " && !GLYPHS[ch] && !GLYPHS[ch.toUpperCase()]) { bad.push(what + " has no glyph for " + ch); }
-        }
+    var bad = [], most = 0, mostTask = 0;
+    function lines(text, width) { return wrap(caps(text), width).length; }
+    function advice(head, text, what) {
+        var n = lines(head + ": " + text, ADVICE_W);
+        most = Math.max(most, n);
+        if (n > 4) { bad.push(what + " (" + n + " lines): " + text.substring(0, 50)); }
     }
+    var keep = [jam.mood, jam.tonic, progress.coach];
     for (var s = 0; s < STYLES.length; s++) {
         var style = STYLES[s];
-        if (!FORMS[FORM_OF[style.id]]) { bad.push(style.id + " has no form"); }
-        if (!SOUNDS[style.id]) { bad.push(style.id + " has no sounds"); continue; }
         for (var p = 0; p < style.parts.length; p++) {
-            var part = style.parts[p];
-            if (!SOUNDS[style.id][part]) { bad.push(style.id + " has no sound for " + part); continue; }
-            var text = "Звук: " + PART_NAMES[part][0] + ": " + SOUNDS[style.id][part];
-            if (lines(text) > 4) { bad.push(style.id + " sound of " + part + " too long"); }
-            glyphs(text, style.id + " sound of " + part);
+            advice("Звук: " + PART_NAMES[style.parts[p]][0], SOUNDS[style.id][style.parts[p]], style.id + " sound of " + style.parts[p]);
+            advice("Дальше", "Дорожка для " + PART_NAMES[style.parts[p]][1] + " есть, но клипа в ней нет. " + style[style.parts[p]], style.id + " next for " + style.parts[p]);
         }
+        for (var k = 0; k < style.play.length; k++) { advice("Как играть", style.play[k], style.id + " tip"); }
+        advice("Дальше", nextStep({ api: true, tempo: 300, has: {}, empty: {} }, style), style.id + " tempo");
+        var all = { api: true, tempo: style.tempo[0], has: { drums: true, bass: true, chords: true, melody: true }, empty: {}, scenes: 12, arranged: 0, bars: 0, cues: 0 };
+        advice("Дальше", nextStep(all, style), style.id + " scenes");
+        all.scenes = 3; advice("Дальше", nextStep(all, style), style.id + " record");
+        all.arranged = 3; all.bars = 16; advice("Дальше", nextStep(all, style), style.id + " bars");
+        all.bars = 64; advice("Дальше", nextStep(all, style), style.id + " cues");
+        all.cues = 2; advice("Дальше", nextStep(all, style), style.id + " space");
+        all.space = true; advice("Дальше", nextStep(all, style), style.id + " limiter");
+        all.limiter = true; advice("Дальше", nextStep(all, style), style.id + " end");
+        var tags = projectTags({ api: true, tempo: 188, has: {}, empty: {}, clips: 9, scenes: 16, arranged: 9, bars: 1024, cues: 0 }, style), width = 0;
+        for (var t = 0; t < tags.length; t++) { width += layout(tags[t][0]).w + TAG_GAP; }
+        if (width > ADVICE_W) { bad.push(style.id + " tags " + width + " wider than the advice column " + ADVICE_W); }
     }
-    for (var f in FORMS) {
-        for (var i = 0; i < 2; i++) {
-            if (lines("Форма трека: " + FORMS[f][i]) > 4) { bad.push("form " + f + " too long"); }
-            glyphs(FORMS[f][i], "form " + f);
-        }
-    }
+    for (var f in FORMS) { advice("Форма", FORMS[f][0], "form " + f); advice("Развитие", FORMS[f][1], "growth " + f); }
     for (var st = 0; st < STAGE_TIPS.length; st++) {
-        for (var q = 0; q < STAGE_TIPS[st].length; q++) {
-            var tip = "Стадия: " + STAGE_NAMES[st] + ": " + STAGE_TIPS[st][q];
-            if (lines(tip) > 4) { bad.push("stage " + st + " tip too long"); }
-            glyphs(tip, "stage " + st);
-        }
+        for (var q = 0; q < STAGE_TIPS[st].length; q++) { advice("Стадия: " + STAGE_NAMES[st], STAGE_TIPS[st][q], "stage " + st + "/" + q); }
     }
-    var keep = [jam.mood, progress.coach];
     for (var m = 0; m < MOODS.length; m++) {
         jam.mood = m;
-        for (var c = 0; c < COACH.length; c++) {
-            progress.coach = c + COACH.length;
-            coachReset();
-            var whole = coachHead() + ": " + coachText();
-            if (lines(whole) > 4) { bad.push("task " + COACH[c][0] + " in mood " + m + " too long"); }
-            glyphs(whole, "task " + COACH[c][0]);
-            var wanted = coachTargets();
-            for (var w = 0; wanted && w < wanted.length; w++) {
-                if (wanted[w] < 48 || wanted[w] > 84) { bad.push("task " + COACH[c][0] + " lights a key off the keyboard"); }
+        for (var tonic = 0; tonic < 12; tonic += 1) {
+            jam.tonic = tonic;
+            for (var c = 0; c < COACH.length; c++) {
+                progress.coach = c;
+                var n = lines(coachText(), TASK_W);
+                mostTask = Math.max(mostTask, n);
+                if (n > 3) { bad.push("task " + COACH[c][0] + " in mood " + m + " on " + tonic + " (" + n + " lines)"); }
+                advice("Зачем задание", coachWhy(), "why " + COACH[c][0] + " mood " + m);
             }
+            advice(MOODS[m][0], "Лад: " + MOODS[m][1] + ". Гамма: " + coachNames(coachScale().slice(0, -1)) + ". Краска лада: F#. Эта нота отличает его от соседних ладов: задерживайся на ней.", "mood " + m);
+            advice("Мимо лада", "Несколько нот подряд мимо лада. Гамма сейчас: " + coachNames(coachScale().slice(0, -1)) + ". Играй только клавиши с меткой, по одной и медленнее.", "sour " + m);
         }
     }
-    jam.mood = keep[0];
-    progress.coach = keep[1];
-    coachReset();
+    advice("До виртуоза", "Признаков мастерства сейчас 0 из 7, нужно 4. Не хватает: " + SKILL_NAMES.join(", ") + ".", "rank");
+    advice("Левая рука", "Мелодия есть, а опоры под ней нет. Левой рукой возьми аккорд F#m (F# A C#) и держи, пока правая играет.", "nochords");
+    var head = "ЗАДАНИЕ 27/27 КРУГ 12";
+    if (layout(head).w + 6 + layout("+100").w > TASK_W) { bad.push("the head of the task column is too wide: " + (layout(head).w + 6 + layout("+100").w) + " of " + TASK_W); }
+    jam.mood = keep[0]; jam.tonic = keep[1]; progress.coach = keep[2]; coachReset();
     return bad.slice(0, 6).join("; ");
 }())`);
-check(adviceTrouble === "", "pages of advice: " + adviceTrouble);
+check(adviceTrouble === "", "advice and tasks: " + adviceTrouble);
 // The stage of the track is read from the Live Set.
 check(pupil.run("jamStage({ api: true, has: {}, empty: {} }, STYLES[0])") === 0, "nothing yet: the idea");
 check(pupil.run("jamStage({ api: true, has: { chords: true }, empty: {} }, STYLES[0])") === 1, "one part of three: the loop");
@@ -1418,18 +1511,22 @@ const jamTrouble = jammer.run(`(function () {
         if (!SCENES[style.id]) { bad.push(style.id + " has no scenery"); }
         if (!style.play || style.play.length < 2) { bad.push(style.id + " has too few tips on playing"); }
         for (var tip = 0; style.play && tip < style.play.length; tip++) {
-            if (lines("Как играть: " + style.play[tip], wide) > 4) { bad.push(style.id + " tip on playing too long: " + style.play[tip]); }
+            if (lines("Как играть: " + style.play[tip], ADVICE_W) > 4) { bad.push(style.id + " tip on playing too long: " + style.play[tip]); }
         }
         var state = { api: true, tempo: 300, has: {}, empty: {}, clips: 0, scenes: 0, arranged: 0, bars: 0, cues: 0, space: false, limiter: false };
+        var crowded = projectTags({ api: true, tempo: 188, has: {}, empty: {}, clips: 9, scenes: 16, arranged: 9, bars: 1024, cues: 0 }, style), crowd = 0;
+        for (var c = 0; c < crowded.length; c++) { crowd += layout(crowded[c][0]).w + TAG_GAP; }
+        if (crowd > ADVICE_W) { bad.push(style.id + ": the longest tags are wider than the column of the advice"); }
         var seen = {}, text = "";
         for (var step = 0; step < 30; step++) {
             text = nextStep(state, style);
-            if (lines("Дальше: " + text, wide) > 4) { bad.push(style.id + " advice too long: " + text); }
+            if (lines("Дальше: " + text, ADVICE_W) > 4) { bad.push(style.id + " advice too long: " + text); }
             if (seen[text]) { bad.push(style.id + " advice repeats: " + text); break; }
             seen[text] = true;
             var tags = projectTags(state, style), width = 0;
-            for (var t = 0; t < tags.length; t++) { width += layout(tags[t][0]).w + (t > 0 ? 8 : 0); }
-            if (width > wide) { bad.push(style.id + " tags too wide"); }
+            for (var t = 0; t < tags.length; t++) { width += layout(tags[t][0]).w + TAG_GAP; }
+            if (width > ADVICE_W) { bad.push(style.id + " tags too wide"); }
+
             // the player does what the advice says
             var part = null;
             for (var p = 0; p < style.parts.length && part === null; p++) {
@@ -1448,7 +1545,7 @@ const jamTrouble = jammer.run(`(function () {
             else { break; }
         }
         if (text.indexOf("Всё на месте") !== 0) { bad.push(style.id + " never gets to the end: " + text); }
-        if (lines("Дальше: " + nextStep({ api: false }, style), wide) > 4) { bad.push(style.id + " advice without Ableton too long"); }
+        if (lines("Дальше: " + nextStep({ api: false }, style), ADVICE_W) > 4) { bad.push(style.id + " advice without Ableton too long"); }
     }
     for (var m = 0; m < MOODS.length; m++) {
         if (lines(MOODS[m][0] + ": " + MOODS[m][1], PW) > 2) { bad.push("mood " + m + " title too long"); }
