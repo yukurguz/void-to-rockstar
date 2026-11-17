@@ -22,7 +22,7 @@ mgraphics.autofill = 0;
 
 // Shown in the corner of the panel, so it is plain which trainer Ableton has
 // loaded. release.py refuses to pack a release under any other number.
-var VERSION = "0.9.1";
+var VERSION = "0.9.2";
 
 var W = 986;      // wheel, keyboard, panel and stage side by side: see the geometry below
 var H = 169;
@@ -4492,14 +4492,20 @@ function partOfNotes(notes) {
 }
 
 // One track of the Live Set: its part, its clips, the scenes they stand in.
+var partMemo = {};      // what the notes of a track said about its part, until the track changes
+var scanRound = 0;      // how many times the Live Set has been looked through
+
 function lookAtTrack(index) {
     var path = "live_set tracks " + index;
-    var track = liveFresh(path);
+    var track = liveAt(path);
     if (!track) {
         return null;
     }
+    // everything the track itself tells is read here: the roamer moves on below
     var row = { name: liveText(track, "name"), part: "", clips: 0, arranged: 0, scenes: [], instrument: false, space: false,
                 selected: looking.chosen !== "" && String(track.id) === looking.chosen };
+    var slots = children(track, "clip_slots", 16);
+    row.arranged = children(track, "arrangement_clips", 999);
     var devices = listDevices(path, false) || [];
     var drums = false;
     var i;
@@ -4509,7 +4515,6 @@ function lookAtTrack(index) {
         row.space = row.space || SPACE_DEVICES.split(",").indexOf(devices[i].cls) >= 0;
     }
     var first = "";
-    var slots = children(track, "clip_slots", 16);
     for (i = 0; i < slots; i++) {
         if (Number(liveGet(path + " clip_slots " + i, "has_clip")) === 1) {
             row.clips++;
@@ -4517,7 +4522,6 @@ function lookAtTrack(index) {
             first = first || path + " clip_slots " + i + " clip";
         }
     }
-    row.arranged = children(track, "arrangement_clips", 999);
     if (first === "" && row.arranged > 0) {
         first = path + " arrangement_clips 0";
     }
@@ -4531,14 +4535,20 @@ function lookAtTrack(index) {
         }
     }
     if (row.part === "" && first !== "") {
-        var notes = notesOf(first);
-        if (notes && notes.length > 0) {
-            row.part = partOfNotes(notes);
+        // Reading the notes of a clip is the dearest question of all. It is
+        // asked again only when the track looks different, now and then in
+        // case the notes were rewritten, and a little sooner while the clip
+        // is still empty.
+        var sign = row.name + "|" + first + "|" + row.clips + "|" + row.arranged;
+        var memo = partMemo[index];
+        if (!memo || memo.sign !== sign || scanRound - memo.round >= (memo.part === "" ? 2 : 6)) {
+            var notes = notesOf(first);
+            memo = partMemo[index] = { sign: sign, round: scanRound, part: notes && notes.length > 0 ? partOfNotes(notes) : "" };
         }
+        row.part = memo.part;
     }
     return row;
 }
-
 // The whole Live Set from its tracks: which parts exist (a track of that kind
 // with a clip), which are only prepared (the track is there, the clip is not),
 // how many scenes hold clips, how long the arrangement is.
@@ -4584,12 +4594,12 @@ var looking = { track: 0, rows: [], restAt: 0 };
 
 // A little of the look on every tick, one track at a time, so that Ableton is
 // never kept busy; then a pause, and round again.
-function lookAtProject() {
+function lookAtProject(atOnce) {
     if (typeof LiveAPI === "undefined") {
         project = { api: false };
         return;
     }
-    if (clock < looking.restAt) {
+    if (!atOnce && (clock < looking.restAt || clock % 3 !== 0)) {
         return;
     }
     var count = liveCount("live_set", "tracks");
@@ -4598,7 +4608,7 @@ function lookAtProject() {
         return;
     }
     if (looking.track === 0) {
-        var chosen = liveFresh("live_set view selected_track");
+        var chosen = liveAt("live_set view selected_track");
         looking.chosen = chosen ? String(chosen.id) : "";
     }
     if (looking.track < Math.min(count, 16)) {
@@ -4622,7 +4632,8 @@ function lookAtProject() {
     if (before && before.api && project.selectedPart !== "" && project.selectedPart !== before.selectedPart) {
         projectNews = { part: project.selectedPart, at: clock };
     }
-    looking = { track: 0, rows: [], restAt: clock + 18 };
+    scanRound++;
+    looking = { track: 0, rows: [], restAt: clock + 36 };
 }
 
 // The same look in one go, for the self-check and the tests.
@@ -4630,7 +4641,7 @@ function lookAtProjectNow() {
     looking = { track: 0, rows: [], restAt: 0 };
     project = null;
     for (var i = 0; i < 20 && project === null; i++) {
-        lookAtProject();
+        lookAtProject(true);
     }
     return project;
 }
@@ -5199,6 +5210,71 @@ function liveFresh(path) {
     }
 }
 
+// Looking through a Live Set means asking hundreds of objects, and a new
+// LiveAPI object for each of them is what makes Ableton stutter: they pile up
+// faster than they are thrown away. So one object, the roamer, is sent from
+// path to path. What it returns is good until the next liveAt(): read what
+// you need from it at once. Whether a LiveAPI object can be sent on at all
+// (and how) is found out once; where it cannot, a new object is made after all.
+var roamer = null;
+var roams = "";         // "" = not tried yet, "goto" or "path" = how it moves, "no" = it does not
+
+function learnToRoam() {
+    roams = "no";
+    try {
+        var probe = new LiveAPI("live_set");
+        var ways = ["goto", "path"];
+        for (var i = 0; i < ways.length && roams === "no"; i++) {
+            try {
+                if (String(probe.type) !== "Song") {
+                    return;
+                }
+                if (ways[i] === "goto") {
+                    probe.goto("live_set master_track");
+                } else {
+                    probe.path = "live_set master_track";
+                }
+                var there = String(probe.type) === "Track";
+                if (ways[i] === "goto") {
+                    probe.goto("live_set");
+                } else {
+                    probe.path = "live_set";
+                }
+                if (there && String(probe.type) === "Song") {
+                    roamer = probe;
+                    roams = ways[i];
+                }
+            } catch (notThisWay) {
+                probe = new LiveAPI("live_set");
+            }
+        }
+    } catch (error) {
+        roams = "no";
+    }
+}
+
+function liveAt(path) {
+    if (typeof LiveAPI === "undefined") {
+        return null;
+    }
+    if (roams === "") {
+        learnToRoam();
+    }
+    if (roams === "no") {
+        return liveFresh(path);
+    }
+    try {
+        if (roams === "goto") {
+            roamer.goto(path);
+        } else {
+            roamer.path = path;
+        }
+        return String(roamer.id) === "0" ? null : roamer;
+    } catch (error) {
+        return null;
+    }
+}
+
 // A name with spaces may come back split into several atoms.
 function liveText(object, property) {
     try {
@@ -5231,7 +5307,7 @@ var RACK = /GroupDevice$/;
 // The devices of a track as {path, cls}, in order; with "deep" also the ones
 // inside the chains of a rack. null = no Live API here.
 function listDevices(track, deep) {
-    var owner = liveFresh(track);
+    var owner = liveAt(track);
     if (!owner) {
         return null;
     }
@@ -5239,7 +5315,7 @@ function listDevices(track, deep) {
     var count = children(owner, "devices", 12);
     for (var i = 0; i < count; i++) {
         var path = track + " devices " + i;
-        var device = liveFresh(path);
+        var device = liveAt(path);
         if (!device) {
             continue;
         }
@@ -5250,11 +5326,11 @@ function listDevices(track, deep) {
         }
         var chains = children(device, "chains", 16);
         for (var c = 0; c < chains; c++) {
-            var chain = liveFresh(path + " chains " + c);
+            var chain = liveAt(path + " chains " + c);
             var inner = chain ? children(chain, "devices", 3) : 0;
             for (var d = 0; d < inner; d++) {
                 var innerPath = path + " chains " + c + " devices " + d;
-                var innerDevice = liveFresh(innerPath);
+                var innerDevice = liveAt(innerPath);
                 if (innerDevice) {
                     out.push({ path: innerPath, cls: liveText(innerDevice, "class_name") });
                 }
@@ -5785,6 +5861,9 @@ function selfCheck() {
         clickLog = [];
         var out = { version: VERSION, api: typeof LiveAPI !== "undefined", song: {}, counts: {}, clips: [], devices: [] };
         // the frame the picture is shown in: it should be as large as the picture
+        // can one LiveAPI object be sent from place to place here, and how
+        liveAt("live_set");
+        out.roams = roams;
         try {
             out.frame = { want: [W, H], size: [mgraphics.size[0], mgraphics.size[1]] };
         } catch (noSize) {
@@ -6250,12 +6329,32 @@ function feelRhythm(now) {
 //   rhythm   what is played in steady time counts in full, what is played
 //            at random moments counts for a third
 // Drum pads have no harmony: there only the rhythm is judged.
+// What free play listens to besides: the last eight strokes that could be
+// compared with the pulse (1 = in time), how many in a row fell out of it,
+// and how wild the playing is: leaps here and there in no rhythm at all.
+var rhythmLog = [];
+var chaos = 0;
+var wild = 0;
+
+// Is there too little rhythm in the last strokes to call it playing in time?
+function unsteady() {
+    return rhythmLog.length < 4 || tally(rhythmLog) < rhythmLog.length * 0.7;
+}
+
 function judge(pitch) {
     lastOn = clock;
     var now = nowMs();
     var fresh = now - onsetMs >= 70; // a new onset, not one more note of the same chord
     if (fresh) {
+        if (now - onsetMs > 2500) {
+            chaos = 0;                      // a pause: the count starts anew
+            wild = Math.floor(wild / 2);
+        }
         rhythm = feelRhythm(now);
+        if (rhythm !== 0) {
+            keepLast(rhythmLog, rhythm === 1 ? 1 : 0, 8);
+        }
+        chaos = rhythm === -1 ? chaos + 1 : rhythm === 1 ? 0 : chaos;
         danceOnset();
     }
     var gain = 0;
@@ -6281,6 +6380,21 @@ function judge(pitch) {
             loss -= 0.15;
         }
         var chord = detectChord(unique(held.map(function (p) { return p % 12; })), held[0] % 12);
+        // In free play a chord counts only if it is voiced like one. Keys
+        // pressed side by side in a bunch are a cluster, whatever chord their
+        // names add up to.
+        var clean = chord;
+        if (chord && inJam()) {
+            var seconds = 0;
+            for (var n = 1; n < held.length; n++) {
+                if (held[n] - held[n - 1] <= 2) {
+                    seconds++;
+                }
+            }
+            if (seconds > (held.length >= 5 ? 2 : 1)) {
+                clean = null;
+            }
+        }
         for (var i = 0; i < held.length; i++) {
             if (held[i] === pitch) {
                 continue;
@@ -6290,13 +6404,13 @@ function judge(pitch) {
             if (interval === 0 || interval === 3 || interval === 4 || interval === 5
                     || interval === 7 || interval === 8 || interval === 9) {
                 gain += 0.03;
-            } else if (!chord) {
+            } else if (!clean) {
                 // Clashes count only outside a real chord: the seventh of
                 // Cmaj7 and the tritone inside G7 belong there.
                 if (distance === 1) {
                     loss -= 0.25;
                 } else if (distance === 2) {
-                    loss -= 0.06;
+                    loss -= inJam() ? 0.1 : 0.06;
                 } else if (interval === 1 || interval === 6 || interval === 11) {
                     loss -= 0.08;
                 }
@@ -6336,6 +6450,25 @@ function judge(pitch) {
                 if (leap > 0) {
                     lastMelody = clock;
                 }
+                // Free play: a leap of more than a fifth with no rhythm under
+                // it is not a melody but a key hit at random; steps in time
+                // make up for it.
+                // Two hands in two registers leap all the time and are music
+                // all the same: what tells them from noise is the rhythm. So a
+                // leap counts against the player only once the strokes are
+                // known to be out of time, and every stroke in time takes one
+                // such leap back.
+                if (inJam()) {
+                    var astray = rhythmLog.length >= 4 && unsteady();
+                    if (leap > 7 && astray) {
+                        wild++;
+                    } else if (rhythm === 1) {
+                        wild = Math.max(0, wild - (astray ? 1 : 2));
+                    }
+                    if (wild >= 2 && astray) {
+                        loss -= Math.min(0.2, 0.05 * wild);
+                    }
+                }
             }
             lastPitch = pitch;
         } else {
@@ -6345,11 +6478,11 @@ function judge(pitch) {
                 forgetJamNote();    // it was the first note of a chord, not of the melody
             }
         }
-        if (chord && inJam()) {
+        if (clean && inJam()) {
             jamChord = chord;
             jamChordAt = clock;
         }
-        if (chord) {
+        if (clean) {
             gain += isDiatonic(sectorIndex(chord.root, chord.minor)) ? 0.1 : 0.03;
             if (onsetNotes >= 3 && !onsetCounted) {
                 // a chord struck as a chord, not a melody note landing on one
@@ -6376,7 +6509,24 @@ function judge(pitch) {
         } else if (fresh && rhythm === -1) {
             loss -= 0.02;
         }
-        gain *= variety * (groove >= 3 ? 1 : groove >= 1 ? 0.6 : 0.3) * (sameChord >= 4 ? 0.15 : 1);
+        var steady = groove >= 3 ? 1 : groove >= 1 ? 0.6 : 0.3;
+        if (inJam()) {
+            // Free play weighs the last eight strokes: a lucky hit or two is
+            // not yet a rhythm, and one stumble does not end a good one.
+            var share = rhythmLog.length < 4 ? -1 : tally(rhythmLog) / rhythmLog.length;
+            steady = share < 0 ? 0.3 : share >= 0.85 ? 1 : share >= 0.7 ? 0.6 : share >= 0.55 ? 0.3 : 0.12;
+            // strokes that keep falling out of time pull the mood down a
+            // little, but never into trouble: that takes noise, not a hand
+            // that is still learning to keep time
+            if (fresh && chaos >= 4 && vibe > -0.2) {
+                loss -= Math.min(0.08, 0.02 * (chaos - 3));
+            }
+        }
+        gain *= variety * steady * (sameChord >= 4 ? 0.15 : 1);
+        // and without a rhythm the stage does not start to dance at all
+        if (inJam() && unsteady() && vibe + gain > DANCE_AT - 0.02) {
+            gain = Math.max(0, DANCE_AT - 0.02 - vibe);
+        }
     }
     // The higher the vibe already is, the less a single good note adds, so
     // the top moods need rich playing kept up for a while, not three chords.
@@ -6931,6 +7081,7 @@ var TURN_GUARD_MS = 150;
 // The price: of two deliberate clicks closer than about a seventh of a
 // second only the first counts.
 function onclick(x, y) {
+    busyAt = clock;
     var came = nowMs();
     logClick("click", x, y, came, act(x, y, came));
 }
@@ -7110,10 +7261,25 @@ function tick() {
     if (saveAt >= 0 && clock >= saveAt) {
         saveAt = -1;
         saveProgress();
-    } else if (saveAt < 0 && clock % 12 === 6) {
+    } else if (saveAt < 0 && clock % 36 === 6) {
         followOthers();
     }
-    if (inJam()) {
+    // Ableton shows the devices of one track only. A trainer that is not on
+    // the screen is not painted, and then it asks Ableton nothing either.
+    var shown = clock - paintedAt < 24;
+    if (shown && !shownBefore) {
+        // back in sight: what another copy has done and what is in the Live
+        // Set are looked at right away, not when their turn comes
+        if (saveAt < 0) {
+            followOthers();
+        }
+        looking.restAt = 0;
+    }
+    shownBefore = shown;
+    if (inJam() && !shown) {
+        coachTick();        // the keys may still be played on its track
+    }
+    if (inJam() && shown) {
         lookAtProject();
         danceTick();
         coachTick();
@@ -7169,11 +7335,27 @@ function tick() {
     if (s && s.live && clock - stepClock >= 12 && clock % checkEvery(s.live) === 0 && checkLive(s.live) === true) {
         completeStep();
     }
-    mgraphics.redraw();
+    // Painting is the dearest thing the trainer does. Every tick only while
+    // something is going on; a still picture is renewed six times a second
+    // (its marks blink at that pace), a hidden one three times, to notice at
+    // once when it comes back into sight.
+    if (shown ? (lively() || clock % 2 === 0) : clock % 4 === 0) {
+        mgraphics.redraw();
+    }
+}
+
+var paintedAt = -1000;      // tick of the latest paint: the device is on the screen
+var shownBefore = false;
+var busyAt = -1000;         // tick of the latest click
+
+// Is anything on the picture moving because of what the player does?
+function lively() {
+    return clock - lastOn < 120 || clock - busyAt < 60 || mood !== 0 || particles.length > 0 || popups.length > 0
+        || notes.length > 0 || (inJam() && dance.live) || clock < bannerUntil || clock - burstStart < 30
+        || clock - confettiStart < 60 || clock < pointsFlash.until || previewNotes.length > 0 || shownPoints !== progress.points;
 }
 
 var ticker = null;
-
 // Started once, from the first paint: by then the device is fully loaded,
 // which the file and the Live API need.
 function startTicker() {
@@ -8172,6 +8354,9 @@ function counselTick() {
     }
     if (clock % 144 === 0) {
         counselTurn++;
+    }
+    if (clock % 6 !== 0 && counsel.key !== "" && tally(recentSour) < 3 && tally(recentTrips) < 3) {
+        return;     // thought over twice a second; what is urgent does not wait
     }
     var want = bestAdvice();
     var shown = clock - counsel.since;
@@ -11655,6 +11840,7 @@ function drawNotes() {
 }
 
 function paint() {
+    paintedAt = clock;
     startTicker();
     if (inJam()) {
         jamLook();

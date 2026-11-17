@@ -424,7 +424,7 @@ function createTrainer(withLive) {
     t.press = (pitches) => { pitches.forEach((p) => sandbox.note(p, 100)); sandbox.paint(); };
     t.release = (pitches) => { pitches.forEach((p) => sandbox.note(p, 0)); sandbox.paint(); };
     t.releaseAll = () => t.release(t.run("held.slice()"));
-    t.ticks = (n) => { for (let i = 0; i < n; i++) { t.time += 83; sandbox.tick(); } sandbox.paint(); };
+    t.ticks = (n) => { for (let i = 0; i < n; i++) { t.time += 83; sandbox.tick(); sandbox.paintedAt = sandbox.clock; } sandbox.paint(); };
     // A deliberate click: the player has waited at least half a second.
     t.click = (button) => {
         const rect = t.run("BUTTONS." + button);
@@ -1186,6 +1186,7 @@ for (const pitch of [61, 63, 66]) {
     pal.ticks(1);
 }
 check(adviceOf(pal) === "sour", "three notes outside the scale should bring advice on the scale: " + adviceOf(pal));
+pal.ticks(6);       // the advice is thought over twice a second
 check(pal.run("counsel.key") === "sour" && /C D E F G A B/.test(pal.run("counsel.text")), "the advice should come at once and name the scale: " + pal.run("counsel.text"));
 pal.box.paint();
 check(/^МИМО ЛАДА:/.test(pal.run("jamHintText")), "the advice should stand under the keys: " + pal.run("jamHintText"));
@@ -1239,7 +1240,8 @@ pal.box.paint();
 pal.run("taskShown = -1000; counselPinned = -1000; counsel = { key: 'next', head: 'x', text: 'y', colour: 0, since: clock, urgent: false }; styleAt = clock;");
 pal.run("counselTick();");
 check(pal.run("counsel.key") === "next", "advice that has just come up should stay for a while");
-pal.run("counsel.since = clock - 80; counselTick();");
+pal.run("counsel.since = clock - 80;");
+pal.ticks(6);      // the advice is thought over twice a second
 check(pal.run("counsel.key") === "style", "after a while the advice may change: " + pal.run("counsel.key"));
 // The cursor on the advice holds it still, with corners drawn around it;
 // when the cursor leaves, the advice moves on.
@@ -1265,7 +1267,7 @@ check(pal.run("overAdvice()") === false, "the cursor has left the device");
 const drawnFrom = pal.rectangles;
 pal.box.paint();
 check(drawnHeld - (pal.rectangles - drawnFrom) >= 8, "the held advice should have eight strokes of corners around it");
-pal.ticks(2);
+pal.ticks(8);
 check(pal.run("counsel.key") !== "style", "once the cursor is gone the advice should move on: " + pal.run("counsel.key"));
 // a click on held advice still asks for another one
 pal.box.onidle(pal.run("KX + 80"), pal.run("KY + KEY_H + 30"));
@@ -1475,14 +1477,14 @@ copyA.time += 1000;
 copyA.run("selectLesson(LESSONS.filter(function (l) { return l.id === 'start/0'; })[0]); phase = 'intro'; startLesson(); completeStep(); completeStep();");
 copyA.ticks(8);
 copyB.time += 1000;
-copyB.ticks(13);
+copyB.ticks(40);
 check(copyB.run("current.id") === "start/0" && copyB.run("phase") === "run" && copyB.run("step") === 2,
       "the second copy should be on the same step: " + copyB.run("current.id + ' ' + phase + ' ' + step"));
 copyA.time += 1000;
 copyA.run("enterJam(); jamStyle(1); jamStyle(1);");
 copyA.ticks(8);
 copyB.time += 1000;
-copyB.ticks(13);
+copyB.ticks(40);
 check(copyB.run("inJam()") === true && copyB.run("jam.style") === copyA.run("jam.style"), "the second copy should follow into free play and its style");
 const saveName = Object.keys(files).filter((name) => /progress/.test(name))[0];
 const stampBefore = JSON.parse(files[saveName]).stamp;
@@ -1495,8 +1497,104 @@ copyB.time += 1000;
 copyB.run("leaveJam();");
 copyB.ticks(8);
 copyA.time += 1000;
-copyA.ticks(13);
+copyA.ticks(40);
 check(copyA.run("inJam()") === false && copyA.run("current.id") === "start/0", "the first copy should follow the second back to the lesson");
+// The trainer must not wear Ableton out. A device that is not on the screen
+// is not painted, and then it asks Ableton nothing; a still picture is
+// renewed a few times a second, a lively one on every tick; and one LiveAPI
+// object goes from place to place instead of a new one for every look.
+wipeDisk();
+const thrifty = createTrainer(true);
+let redraws = 0;
+thrifty.box.mgraphics.redraw = () => { redraws++; };
+thrifty.run("enterJam(); project = null; looking = { track: 0, rows: [], restAt: 0 }; paintedAt = -1000; shownBefore = false;");
+for (let i = 0; i < 200; i++) {
+    thrifty.time += 83;
+    thrifty.box.tick();     // no paint in between: the device is hidden
+}
+check(thrifty.run("project") === null && thrifty.run("looking.track") === 0, "a hidden trainer should not look through the Live Set");
+check(redraws <= 55, "a hidden trainer should ask for a paint only three times a second, asked " + redraws + " times in 200 ticks");
+thrifty.ticks(120);         // ticks() stands for a device on the screen
+check(thrifty.run("project && project.api") === true, "a trainer on the screen should look through the Live Set");
+thrifty.run("leaveJam(); mood = 0; vibe = 0; particles = []; popups = []; notes = []; lastOn = -1000; busyAt = -1000; bannerUntil = 0; shownPoints = progress.points;");
+redraws = 0;
+thrifty.ticks(36);
+check(redraws >= 16 && redraws <= 20, "a still picture should be painted six times a second, asked " + redraws + " times in 36 ticks");
+thrifty.time += 300;
+thrifty.press([60]);
+thrifty.release([60]);
+redraws = 0;
+thrifty.ticks(36);
+check(redraws >= 36, "a picture with something going on should be painted on every tick, asked " + redraws + " times in 36 ticks");
+// the roamer: with a LiveAPI that can be sent on, one object serves every look
+let born = 0;
+thrifty.box.LiveAPI = function (where) {
+    born++;
+    this.path = where;
+    this.id = "5";
+    Object.defineProperty(this, "type", { get: () => (this.path === "live_set" ? "Song" : "Track") });
+    this.goto = (next) => { this.path = next; };
+    this.get = () => [this.path];
+    this.getcount = () => 0;
+};
+thrifty.run("roams = ''; roamer = null;");
+check(thrifty.run("liveAt('live_set tracks 0').get('x')[0]") === "live_set tracks 0" && thrifty.run("liveAt('live_set tracks 1').get('x')[0]") === "live_set tracks 1",
+      "the roamer should go where it is sent");
+check(thrifty.run("roams") === "goto" && born <= 2, "one LiveAPI object should serve every look, made " + born);
+// The verdict on playing in free play, on whole stretches of it. Noise must
+// sink into cacophony even when every note is in the scale; real playing must
+// rise as it always did; a beginner who is slow and uneven must not be told
+// off. (The figures for good playing are the ones the trainer gave before
+// free play learnt to tell random strokes from music: they must not move.)
+function verdict(strokes, play) {
+    wipeDisk();
+    const t = createTrainer(true);
+    t.run("enterJam(); while (STYLES[jam.style].id !== 'classic') { jamStyle(1); }");
+    let chance = 12345;
+    const dice = (n) => { chance = (chance * 16807) % 2147483647; return chance % n; };
+    const wait = (ms) => { t.time += ms; for (let k = 0; k < Math.round(ms / 83); k++) { t.box.tick(); t.box.paintedAt = t.box.clock; } };
+    const out = { lowest: 0, highest: 0, storms: 0 };
+    for (let i = 0; i < strokes; i++) {
+        play(i, dice, (pitches, gap, hold) => {
+            pitches.forEach((p) => t.box.note(p, 100));
+            wait(hold);
+            pitches.forEach((p) => t.box.note(p, 0));
+            wait(gap - hold);
+        }, t);
+        out.lowest = Math.min(out.lowest, t.run("mood"));
+        out.highest = Math.max(out.highest, t.run("mood"));
+        out.storms += t.run("mood") === -2 ? 1 : 0;
+        out.vibe = t.run("vibe");
+    }
+    return out;
+}
+const WHITE_KEYS = [0, 2, 4, 5, 7, 9, 11];
+const UP_AND_DOWN = [60, 62, 64, 65, 67, 69, 71, 72, 71, 69, 67, 65, 64, 62];
+const A_TUNE = [72, 74, 76, 74, 72, 71, 69, 71, 72, 76, 79, 77, 76, 74, 72, 74];
+const FOUR_CHORDS = [[48, 52, 55], [53, 57, 60], [55, 59, 62], [57, 60, 64]];
+let heard = verdict(60, (i, dice, strike) => strike([48 + 12 * dice(3) + WHITE_KEYS[dice(7)]], 80 + dice(400), 60));
+check(heard.storms >= 20 && heard.highest <= 0, "random white keys in no rhythm should end in cacophony and never dance: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike([48 + dice(36), 48 + dice(36), 48 + dice(36)], 350 + dice(300), 250));
+check(heard.storms >= 40, "random bunches of keys should be cacophony: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike([UP_AND_DOWN[i % UP_AND_DOWN.length]], 300, 240));
+check(heard.lowest === 0 && heard.highest === 2 && Math.abs(heard.vibe - 0.61) < 0.03, "an even scale should rise to the second mood as before: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike(FOUR_CHORDS[i % 4].map((p) => p + 12), 600, 450));
+check(heard.lowest === 0 && heard.highest === 2 && Math.abs(heard.vibe - 0.75) < 0.03, "four chords in time should rise to the second mood as before: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike([i % 2 === 0 ? [48, 53, 55, 57][Math.floor(i / 4) % 4] : A_TUNE[Math.floor(i / 2) % A_TUNE.length]], 300, 240));
+check(heard.lowest === 0 && heard.highest >= 1 && Math.abs(heard.vibe - 0.52) < 0.04, "a bass and a melody two octaves apart, in time, are music and not wild leaps: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike, t) => {
+    if (i % 8 === 0) {
+        FOUR_CHORDS[(i / 8 + 3) % 4].forEach((p) => t.box.note(p, 0));
+        FOUR_CHORDS[(i / 8) % 4].forEach((p) => t.box.note(p, 100));
+        t.time += 20;
+    }
+    strike([A_TUNE[i % A_TUNE.length]], 300, 240);
+});
+check(heard.lowest === 0 && heard.highest === 3, "a melody over chords that change should reach the top mood as before: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike([A_TUNE[i % A_TUNE.length]], 270 + dice(60), 220));
+check(heard.lowest === 0 && heard.highest === 2, "a melody with a little rubato should rise as before: " + JSON.stringify(heard));
+heard = verdict(60, (i, dice, strike) => strike([UP_AND_DOWN[i % UP_AND_DOWN.length]], 700 + dice(900), 300));
+check(heard.lowest === 0 && heard.highest === 0, "a slow and uneven beginner should be left in peace: no dance, no trouble: " + JSON.stringify(heard));
 wipeDisk();
 Object.assign(files, diskBeforeCoach);
 
@@ -1605,10 +1703,10 @@ check(scout.run("project && project.has.drums") === true, "free play should look
 check(/Дорожка для мелодии есть/.test(scout.run("nextStep(project, STYLES[jam.style])")), "the advice should ask for the melody: " + scout.run("nextStep(project, STYLES[jam.style])"));
 scout.live["live_set tracks 3 clip_slots 0"].has_clip = 1;      // the melody goes into the first scene
 scout.live["live_set"].tempo = 100;
-scout.ticks(60);
+scout.ticks(130);
 check(/Темп сейчас 100/.test(scout.run("nextStep(project, STYLES[jam.style])")), "the wrong tempo should come first: " + scout.run("nextStep(project, STYLES[jam.style])"));
 scout.live["live_set"].tempo = 140;
-scout.ticks(60);
+scout.ticks(130);
 check(/Теперь сцены/.test(scout.run("nextStep(project, STYLES[jam.style])")), "with every part in place the advice should move on to scenes: " + scout.run("nextStep(project, STYLES[jam.style])"));
 scout.box.paint();
 for (const name of Object.keys(files)) {
