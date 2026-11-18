@@ -22,7 +22,7 @@ mgraphics.autofill = 0;
 
 // Shown in the corner of the panel, so it is plain which trainer Ableton has
 // loaded. release.py refuses to pack a release under any other number.
-var VERSION = "0.9.3";
+var VERSION = "0.10.0";
 
 var W = 986;      // wheel, keyboard, panel and stage side by side: see the geometry below
 var H = 169;
@@ -3928,6 +3928,121 @@ STYLES.push(
       bass: "Добавь бас 808 со съездами: длинные ноты, которые скользят вверх и вниз." }
 );
 
+// Jazz, soul and jazz-rock with their kin, from the saloon to the bedroom studio.
+STYLES.push(
+    { id: "ragtime", name: "Рэгтайм", mood: 0, tonic: 0, tempo: [80, 110], parts: ["bass", "chords", "melody"],
+      play: ["Левая рука шагает: низкая нота на долю, аккорд между долями. Это ум-па, и он не останавливается.",
+             "Правая играет мелодию мимо шагов левой: её ноты попадают между ударами. Ровно, без спешки."],
+      bass: "Начни с левой руки: низкая нота на первую и третью долю, основная нота аккорда и нота на квинту выше.",
+      chords: "Добавь аккорд на вторую и четвёртую долю в середине клавиатуры: C, F, G7. Вместе с басом это ум-па.",
+      melody: "Запиши мелодию правой руки: шестнадцатые по нотам аккорда, с ударами между долями." },
+    { id: "swing", name: "Свинг", mood: 2, tonic: 7, tempo: [120, 180], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Восьмые играй неровно: первая длинная, вторая короткая, та-а-та. Сильнее бери вторую и четвёртую долю.",
+             "Левая рука шагает басом: по ноте на долю, вверх и вниз по аккорду и к соседнему."],
+      drums: "Начни с тарелки: динь, динь-да, динь, динь-да. Хэт ногой на 2 и 4, бочка еле слышна.",
+      bass: "Добавь шагающий бас: четыре ноты на такт, по нотам аккорда и к следующему через соседнюю клавишу.",
+      chords: "Добавь короткие аккорды G7, C7, D7 на 2 и 4 долю, как гитара в оркестре.",
+      melody: "Запиши риф духовых: фраза в два такта, которая повторяется, и ответ на неё." },
+    { id: "bebop", name: "Бибоп", mood: 3, tonic: 2, tempo: [180, 260], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Мелодия бежит восьмыми без остановки: по гамме вверх, по аккорду вниз. К ноте аккорда подходи с соседней клавиши.",
+             "Левая рука бросает короткий аккорд из двух-трёх нот между долями и молчит."],
+      drums: "Начни с тарелки в быстром свинге. Бочка и снейр не держат ритм, а вставляют редкие удары.",
+      bass: "Добавь шагающий бас: нота на каждую долю, без повторов, весь трек.",
+      chords: "Добавь аккорды Dm7, G7, Cmaj7: коротко, между долями, по два на такт.",
+      melody: "Запиши тему: быструю, угловатую, в унисон двумя инструментами. Потом соло на тех же аккордах." },
+    { id: "cooljazz", name: "Кул-джаз", mood: 1, tonic: 5, tempo: [100, 140], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Играй тихо и ровно, без нажима. Фраза короткая, а пауза после неё длиннее самой фразы.",
+             "Аккорд бери двумя-тремя нотами в середине клавиатуры и не повторяй: нижнюю ноту играет бас."],
+      drums: "Начни со щёток: шорох по снейру вместо ударов, тарелка тихо. Бочки почти нет.",
+      bass: "Добавь шагающий бас: мягко, по ноте на долю.",
+      chords: "Добавь редкие аккорды: Fmaj7, Em7, Dm7. Один на такт или на два, очень тихо.",
+      melody: "Запиши мелодию трубой с сурдиной или саксофоном: длинные ноты и много воздуха между ними." },
+    { id: "modal", name: "Модальный джаз", mood: 3, tonic: 2, tempo: [110, 150], parts: ["bass", "chords", "drums", "melody"],
+      play: ["Один аккорд на восемь тактов: не спеши его менять. Гуляй по гамме лада и слушай каждую ноту.",
+             "Левая рука берёт аккорд квартами: D, G, C, каждая нота на кварту выше прежней. Он звучит открыто."],
+      bass: "Начни с баса: фигура из двух-трёх нот на тонике, которая повторяется и держит лад.",
+      chords: "Добавь два аккорда вместо прогрессии: Dm7 на восемь тактов, потом Ebm7 на восемь, и обратно.",
+      drums: "Добавь тарелку в свинге и редкие удары снейра. Громкость растёт вместе с соло.",
+      melody: "Запиши соло: начни с трёх нот и долгих пауз, с каждым кругом добавляй ноты и поднимайся выше." },
+    { id: "bossa", name: "Босса-нова", mood: 0, tonic: 0, tempo: [110, 140], parts: ["chords", "bass", "drums", "melody"],
+      play: ["Левая рука: бас на первую и третью долю, основная нота и квинта. Правая: мягкий аккорд между долями.",
+             "Мелодию играй тихо, почти шёпотом: длинные ноты, которые чуть опаздывают к доле."],
+      chords: "Начни с аккордов гитары: Cmaj7, Dm7, G7, с ударами между долями. Рисунок на два такта, он повторяется.",
+      bass: "Добавь бас: основная нота на первую долю, квинта на третью. Мягко и коротко.",
+      drums: "Добавь лёгкую перкуссию: шейкер восьмыми, стук по ободу в рисунке клаве, бочка тихо на 1 и 3.",
+      melody: "Запиши мелодию флейтой или голосом: мало нот, много длинных, с опозданием к доле." },
+    { id: "latinjazz", name: "Латин-джаз", mood: 4, tonic: 9, tempo: [160, 210], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Играй монтуно: аккорд по нотам вверх и вниз двумя руками в октаву, с ударами между долями. Одна фигура по кругу.",
+             "Бас не ждёт первой доли: он берёт ноту нового аккорда заранее, перед ней. Не выравнивай."],
+      drums: "Начни с клаве: три удара в первом такте, два во втором. Потом конги, ковбелл и тимбалес вокруг неё.",
+      bass: "Добавь бас тумбао: ноты на конец второй доли и на четвёртую, первая доля пустая.",
+      chords: "Добавь монтуно на пианино: Am, Dm, E7. Разложенный аккорд с синкопами, два такта по кругу.",
+      melody: "Запиши духовые: короткие резкие фразы в унисон, в ответ на пианино." },
+    { id: "fusion", name: "Джаз-рок", mood: 3, tonic: 4, tempo: [100, 150], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Риф в нижней октаве, громко и точно, в унисон с басом. После него длинное соло по гамме лада.",
+             "Смени счёт: сыграй фразу на семь восьмых вместо восьми. Она спотыкается, и в этом её сила."],
+      drums: "Начни с плотного бита: бочка и снейр как в роке, хэты шестнадцатыми, сбивки по томам в конце фразы.",
+      bass: "Добавь бас: быстрый риф шестнадцатыми в унисон с клавишами, потом долгие ноты под соло.",
+      chords: "Добавь электропиано с перегрузом: Em7 и A7, короткими ударами в ритм рифа.",
+      melody: "Запиши соло синтезатором с колесом Pitch: длинные ноты, подтяжки и быстрые пробежки." },
+    { id: "jazzfunk", name: "Джаз-фанк", mood: 3, tonic: 2, tempo: [95, 115], parts: ["bass", "drums", "chords", "melody"],
+      play: ["Бас играет одну фигуру из четырёх-пяти нот весь трек. Найди её и не меняй: всё держится на ней.",
+             "Правая рука отвечает коротким аккордом, как клавинет: резко, шестнадцатыми, с паузами."],
+      bass: "Начни с баса: синтезаторная фигура на два такта, с паузой на первую долю второго такта.",
+      drums: "Добавь бит: бочка на 1 и с синкопой, снейр на 2 и 4, хэты шестнадцатыми, тихие удары между ними.",
+      chords: "Добавь клавинет или электропиано: Dm7 и G7, коротко, в паузы баса.",
+      melody: "Запиши тему духовых: четыре ноты, пауза, ответ. Потом соло электропиано." },
+    { id: "smooth", name: "Смус-джаз", mood: 16, tonic: 7, tempo: [80, 105], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Мелодию веди как саксофон: длинная нота, короткий подъезд к следующей, колесо Mod для вибрато.",
+             "Аккорды мягкие и широкие, из четырёх нот: Gmaj7, Em7, Am7, D7. Бери их нежно и держи."],
+      drums: "Начни с мягкого бита: бочка на 1 и 3, стук по ободу на 2 и 4, хэты восьмыми. Ничего резкого.",
+      bass: "Добавь бас: плавный, с подъездами к нотам, иногда слэп на сильную долю.",
+      chords: "Добавь электропиано с хорусом: Gmaj7, Em7, Am7, D7, по аккорду на такт.",
+      melody: "Запиши мелодию саксофона: её должно хотеться напеть. В припеве подними на октаву." },
+    { id: "acidjazz", name: "Эйсид-джаз", mood: 3, tonic: 9, tempo: [95, 120], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Аккорд держи левой рукой, как на органе, а правой отбивай ритм короткими повторами его верхних нот.",
+             "Мелодию играй как флейта: фраза в четыре ноты, пауза, та же фраза выше."],
+      drums: "Начни с брейка: живой барабанный бит с пластинки, петля на два такта. Сверху конги.",
+      bass: "Добавь бас: упругая фигура на тонике и септиме, с прыжком на октаву.",
+      chords: "Добавь орган или электропиано: Am7 и D9, по два такта, с ритмом в правой руке.",
+      melody: "Запиши флейту или трубу: короткая тема и импровизация. В паузах скретчи и голос." },
+    { id: "nujazz", name: "Ню-джаз", mood: 13, tonic: 2, tempo: [100, 130], parts: ["drums", "chords", "bass", "melody"],
+      play: ["Играй живые аккорды поверх электронного бита: септаккорд на такт, чуть позже доли.",
+             "Мелодию разбей на обрывки по две-три ноты и оставляй между ними воздух: остальное доделает эхо."],
+      drums: "Начни с ломаного бита: бочка и снейр как в хаусе или брейкбите, сверху живые тарелки и щётки.",
+      chords: "Добавь электропиано: Dm9 и G13 по два такта. Запиши рукой и не выравнивай по сетке.",
+      bass: "Добавь бас: контрабас или глубокий синтезатор, три-четыре ноты с паузами.",
+      melody: "Запиши обрывки трубы или саксофона, нарежь и расставь с эхом." },
+    { id: "rnb", name: "Ритм-н-блюз", mood: 9, tonic: 0, tempo: [100, 150], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Левая рука катит буги восьмыми: основная нота, квинта, секста, квинта. Двенадцать тактов по кругу.",
+             "Правая стучит аккорд триолями: три удара на долю. В конце фразы скатись по блюзовым нотам."],
+      drums: "Начни с шаффла: тарелка триолями без средней ноты, тяжёлый снейр на 2 и 4, бочка на каждую долю.",
+      bass: "Добавь бас буги: по нотам аккорда вверх и вниз, восьмыми. Блюз на двенадцать тактов: C7, F7, G7.",
+      chords: "Добавь пианино триолями в верхней октаве и короткие аккорды духовых на 2 и 4.",
+      melody: "Запиши соло саксофона: хриплое, из блюзовой гаммы, с повтором одной ноты." },
+    { id: "soul", name: "Соул 60-х", mood: 0, tonic: 7, tempo: [95, 125], parts: ["drums", "bass", "chords", "melody"],
+      play: ["Аккорд и снейр бьют вместе на вторую и четвёртую долю: бери аккорд коротко, как хлопок.",
+             "Мелодию пой, а не играй: зов в два такта, ответ в два такта. Ответ сыграй октавой выше."],
+      drums: "Начни с бита: снейр и бубен на 2 и 4, бочка на 1 и 3, хэты восьмыми. Просто и плотно.",
+      bass: "Добавь бас: певучий, в движении, с подходами к каждому аккорду. Он тут вторая мелодия.",
+      chords: "Добавь гитару или пианино на 2 и 4: G, Em, C, D. И орган длинными нотами под ними.",
+      melody: "Запиши голос или духовые: зов и ответ. Духовые отвечают короткими ударами." },
+    { id: "gospel", name: "Госпел", mood: 0, tonic: 5, tempo: [70, 130], parts: ["chords", "bass", "drums", "melody"],
+      play: ["Между двумя аккордами вставь проходящий: от F к Bb через F7. Каждый аккорд тянет к следующему.",
+             "Правая рука берёт аккорд высоко и дрожит им: быстро чередуй нижнюю ноту с двумя верхними."],
+      chords: "Начни с пианино или органа: F, Bb, C7 и проходящие аккорды между ними. Левая рука ведёт бас октавами.",
+      bass: "Добавь бас: шагает от аккорда к аккорду через соседние ноты, в конце фразы поднимается.",
+      drums: "Добавь бит: хлопки на 2 и 4, бубен, бочка на 1 и 3. В быстром темпе шаффл.",
+      melody: "Запиши хор: зов солиста и ответ аккордом в три голоса. К концу поднимай тональность." },
+    { id: "neosoul", name: "Нео-соул", mood: 3, tonic: 7, tempo: [70, 95], parts: ["chords", "drums", "bass", "melody"],
+      play: ["Аккорды из четырёх-пяти нот, мягко и с опозданием: бери их чуть позже бита, будто лениво.",
+             "Перед аккордом скользни в него с соседней клавиши снизу: короткая нота-подъезд, и сразу аккорд."],
+      chords: "Начни с электропиано: Gm9, C13, Fmaj9. Широкие аккорды, по одному на такт, позже доли.",
+      drums: "Добавь бит, который хромает: бочка чуть раньше сетки, снейр чуть позже. Не выравнивай.",
+      bass: "Добавь бас: мягкий и тоже позади бита, с подъездами и долгими нотами.",
+      melody: "Запиши голос или гитару: короткие фразы с украшениями, второй голос в терцию." }
+);
+
 // Which shape a track of the style takes, as a family: see FORMS.
 var FORM_OF = {
     classic: "classic", lofi: "loop", ambient: "long", synthwave: "song", house: "club", techno: "club", trance: "club",
@@ -3937,7 +4052,10 @@ var FORM_OF = {
     hyperpop: "song", jersey: "beat", nightcore: "song", eurodance: "song", chiptune: "song", psydub: "long",
     psybass: "drop", metal: "riff", disco: "song", funk: "riff", kosmische: "long", synthpop: "song", italo: "song",
     electro: "beat", acid: "club", triphop: "loop", bigbeat: "drop", gabber: "drop", electrohouse: "drop",
-    minimal: "club", tropical: "drop", vaporwave: "loop", drill: "beat"
+    minimal: "club", tropical: "drop", vaporwave: "loop", drill: "beat",
+    ragtime: "classic", swing: "jazz", bebop: "jazz", cooljazz: "jazz", modal: "jazz", bossa: "song", latinjazz: "jazz",
+    fusion: "riff", jazzfunk: "riff", smooth: "song", acidjazz: "loop", nujazz: "long", rnb: "song", soul: "song",
+    gospel: "song", neosoul: "loop"
 };
 
 // The shape of a whole track, part by part, and how it grows.
@@ -3957,7 +4075,9 @@ var FORMS = {
     classic: ["Три части: тема 8-16 тактов, середина в другой краске (соседняя тональность или минор), снова тема, которая заканчивается на тонике.",
               "Повторяй тему с изменением: выше на октаву, тише, с другим басом. Перед возвращением темы сделай замедление или паузу."],
     riff: ["Риф один на 4 такта, куплет на рифе 8-16, вставка 4-8 с новым рифом, первый риф возвращается тяжелее, брейкдаун вдвое медленнее, финал на главном рифе.",
-           "Риф повторяют, пока он не вбит в голову, а потом ломают: меняют последнюю долю, счёт или темп вдвое. Тишина перед ударом тяжелее удара."]
+           "Риф повторяют, пока он не вбит в голову, а потом ломают: меняют последнюю долю, счёт или темп вдвое. Тишина перед ударом тяжелее удара."],
+    jazz: ["Тема на 12 или 32 такта, потом те же аккорды по кругу под соло, круг или два на каждого. Перед концом обмен с барабанами по четыре такта, и снова тема.",
+           "Аккорды не меняются, растёт игра: соло начинают тихо и редко, к середине оно гуще и выше. Аккомпанемент слушает солиста и отвечает ему."]
 };
 // What to think about at each stage of a track, whatever the style:
 // 0 an idea, 1 the loop, 2 its versions, 3 scenes ready, 4 a short
@@ -4192,6 +4312,72 @@ var SOUNDS = {
              drums: "808 Core Kit: хэты триолями с пропусками, снейр на третью долю и перед первой, бочка с синкопой.",
              bass: "Бас 808: Operator, синусоида, Decay длинный, Mono и Glide побольше: ноты съезжают. Saturator." }
 };
+
+// The sound of jazz, soul and jazz-rock: mostly instruments that are played
+// by hand, so the recipes name the nearest thing Live has.
+SOUNDS.ragtime = { bass: "Рояль: набери в поиске браузера Grand Piano. Нижние ноты, коротко. Chorus-Ensemble слегка: как старое пианино.",
+                   chords: "Тот же рояль в середине клавиатуры. Аккорд короткий, на слабую долю. Reverb почти не нужен.",
+                   melody: "Тот же рояль, верхние октавы. Играй сильнее, чем левой: мелодия должна звенеть над ум-па." };
+SOUNDS.swing = { drums: "Живой набор (ищи в Drums слова Acoustic и Jazz): тарелка ведёт ритм, хэт на 2 и 4. В клипе выбери грув со свингом.",
+                 bass: "Контрабас: Tension, Excitator Plectrum, на октаву ниже. Ноты ровные, по одной на долю.",
+                 chords: "Рояль (Grand Piano) или гитара: Tension с Plectrum. Короткие аккорды на 2 и 4.",
+                 melody: "Духовые: Wavetable, Saw, быстрая атака, фильтр прикрыт. Несколько голосов в унисон или аккордом." };
+SOUNDS.bebop = { drums: "Живой набор: быстрая тарелка, хэт на 2 и 4. Снейр и бочка редкими ударами, тихо.",
+                 bass: "Контрабас: Tension, Excitator Plectrum. Release короткий, чтобы быстрые ноты не сливались.",
+                 chords: "Рояль (Grand Piano): аккорды из двух-трёх нот в середине клавиатуры, коротко и сухо.",
+                 melody: "Саксофон или труба из сэмплов. Или Wavetable: Saw, Mono, фильтр прикрыт, чуть Glide. Сухо, без эха." };
+SOUNDS.cooljazz = { drums: "Живой набор, тихо: щётки вместо палочек (ищи в Drums слово Brush). Тарелка и шорох по снейру.",
+                    bass: "Контрабас: Tension, Excitator Plectrum, мягко. Громкость ниже мелодии.",
+                    chords: "Рояль или Electric, очень тихо. Или вибрафон: Collision, резонатор Beam, Decay длинный.",
+                    melody: "Труба с сурдиной: Wavetable, Saw, Mono, фильтр сильно прикрыт. Reverb побольше: звук далёкий." };
+SOUNDS.modal = { bass: "Контрабас: Tension, Excitator Plectrum. Фигура повторяется, поэтому звук ровный и глубокий.",
+                 chords: "Рояль (Grand Piano): аккорды квартами в середине клавиатуры. Release подлиннее.",
+                 drums: "Живой набор: тарелка в свинге, редкий снейр. Громкость рисуй автоматизацией: растёт к середине соло.",
+                 melody: "Труба или саксофон: Wavetable, Saw, Mono, фильтр прикрыт, Glide. Reverb: Decay 3 секунды." };
+SOUNDS.bossa = { chords: "Гитара с нейлоновыми струнами: Tension, Excitator Plectrum, мягко. Или Electric. Аккорды короткие, между долями.",
+                 bass: "Контрабас или мягкий бас: Tension (Plectrum) или Drift, Sine, Mono. Две ноты на такт.",
+                 drums: "Перкуссия вместо набора: шейкер, рим, тихая бочка. 707 Core Kit или звуки Perc в Drum Rack.",
+                 melody: "Флейта: Wavetable с мягкой атакой. Или Electric. Reverb немного, без эха." };
+SOUNDS.latinjazz = { drums: "Перкуссия: конги, ковбелл, тимбалес (ищи в Drums слова Latin и Perc). Клаве не останавливается.",
+                     bass: "Бас-гитара: Tension (Plectrum) или Drift, Triangle, Mono. Ноты длинные, с синкопой.",
+                     chords: "Рояль (Grand Piano), ярко, обе руки в октаву. Аккорд разложен по нотам: это монтуно.",
+                     melody: "Духовые: Wavetable, Saw, быстрая атака, короткие ноты в унисон. Или флейта." };
+SOUNDS.fusion = { drums: "Живой набор (ищи в Drums слова Acoustic и Rock): плотно и громко. Drum Buss: чуть Drive.",
+                  bass: "Бас-гитара: Tension (Plectrum) или Drift, Saw, Mono, фильтр прикрыт. Быстрые ноты, Compressor.",
+                  chords: "Electric через Pedal или Amp: электропиано с перегрузом. Phaser-Flanger медленно.",
+                  melody: "Соло: Drift или Analog, Saw, Mono, Glide. Колесо Pitch на два полутона, Echo." };
+SOUNDS.jazzfunk = { bass: "Синтезаторный бас: Analog или Drift, Saw, Mono, фильтр прикрыт, Res чуть-чуть. Короткие упругие ноты.",
+                    drums: "Живой набор (ищи в Drums слова Acoustic и Funk): сухо, хэты шестнадцатыми, тихие удары между ними.",
+                    chords: "Клавинет: Electric через Auto Filter с огибающей (Envelope). Или Electric с Phaser-Flanger.",
+                    melody: "Духовые: Wavetable, Saw, быстрая атака. Соло на Electric с Auto Pan: звук дрожит." };
+SOUNDS.smooth = { drums: "707 Core Kit или мягкий живой набор: рим вместо снейра, хэты тихо. Немного Reverb.",
+                  bass: "Бас-гитара: Tension (Plectrum) или Drift, Triangle, Mono, с небольшим Glide.",
+                  chords: "Electric с Chorus-Ensemble и Reverb: стеклянное электропиано. Аккорды длинные.",
+                  melody: "Саксофон из сэмплов или Wavetable: Saw, Mono, Glide, фильтр прикрыт. Reverb и Echo, вибрато колесом Mod." };
+SOUNDS.acidjazz = { drums: "Брейк из раздела Drums: живая петля на два такта. Drum Buss, сверху конги из Perc.",
+                    bass: "Бас-гитара: Tension (Plectrum) или Drift, Triangle, Mono. Упруго, с прыжком на октаву.",
+                    chords: "Орган: Operator, синусоиды в октаву и квинту. Или Electric. Auto Pan или Chorus-Ensemble.",
+                    melody: "Флейта: Wavetable с мягкой атакой. Или труба: Saw, фильтр прикрыт. Echo." };
+SOUNDS.nujazz = { drums: "909 Core Kit или брейк, сверху живые тарелки. Редкие щелчки и шорохи из Perc.",
+                  chords: "Electric: широкие аккорды. Echo с включённым Wobble и Reverb. Запись без выравнивания.",
+                  bass: "Контрабас: Tension (Plectrum). Или глубокий Drift: Sine, Mono. Sidechain от бочки слегка.",
+                  melody: "Обрывки трубы или саксофона в Simpler, режим Slice. Echo, Reverb, иногда Grain Delay." };
+SOUNDS.rnb = { drums: "Живой набор: шаффл на тарелке, тяжёлый снейр на 2 и 4. Сухо, чуть Saturator.",
+               bass: "Контрабас: Tension (Plectrum). Или нижние ноты рояля: буги левой рукой.",
+               chords: "Рояль (Grand Piano), верхние октавы, триолями. Saturator слегка: звук старой записи.",
+               melody: "Саксофон из сэмплов или Wavetable: Saw, Mono, через Saturator. Хрипло и громко." };
+SOUNDS.soul = { drums: "Живой набор (ищи в Drums слово Acoustic): сухо. Бубен на 2 и 4 вместе со снейром.",
+                bass: "Бас-гитара: Tension (Plectrum), мягко, фильтр прикрыт. Ноты плавно переходят одна в другую.",
+                chords: "Рояль или Electric на 2 и 4. Орган: Operator, синусоиды в октаву и квинту, длинные ноты.",
+                melody: "Духовые: Wavetable, Saw, быстрая атака, короткие аккорды. Струнные: Unison и долгая атака." };
+SOUNDS.gospel = { chords: "Рояль (Grand Piano), ярко. Или орган: Operator, синусоиды в октаву и квинту, Auto Pan быстро.",
+                  bass: "Бас-гитара: Tension (Plectrum). Или левая рука рояля октавами.",
+                  drums: "Живой набор и хлопки: клэп и бубен на 2 и 4. Reverb небольшого зала.",
+                  melody: "Хор: Wavetable с мягкой атакой, три голоса аккордом. Или голос в Simpler. Reverb: Decay 2-3 секунды." };
+SOUNDS.neosoul = { chords: "Electric: звук электропиано, Chorus-Ensemble и чуть Phaser-Flanger. Сила удара неровная, как у руки.",
+                   drums: "808 Core Kit или набор Boom Bap из Drums. Сдвинь снейр позже сетки, бочку раньше. Drum Buss.",
+                   bass: "Бас-гитара: Tension (Plectrum) или Drift, Sine, Mono, Glide. Мягко и низко.",
+                   melody: "Гитара: Tension (Plectrum) с Chorus-Ensemble. Или голос. Reverb и Echo тихо." };
 
 var PART_NAMES = { drums: ["БАРАБАНЫ", "барабанов"], bass: ["БАС", "баса"], chords: ["АККОРДЫ", "аккордов"], melody: ["МЕЛОДИЯ", "мелодии"] };
 
@@ -10864,6 +11050,532 @@ SCENES.drill = function (level) {
     }
 };
 
+// ---- the places of jazz, soul and jazz-rock
+
+// A saloon: plank walls, an oil lamp on a chain, an upright piano.
+SCENES.ragtime = function (level) {
+    var i, x;
+    box(0, 0, SW, G, ORANGE_DIM);
+    box(0, G, SW, SH - G, BROWN);
+    flush();
+    for (x = 0; x < SW; x += 14) {
+        box(x, 0, 1, G, BROWN);
+    }
+    box(0, 96, SW, 2, BROWN);
+    box(52, 82, 42, G - 82, NIGHT);
+    box(49, 106, 48, 5, STEEL);
+    flush();
+    for (i = 0; i < 11; i++) {
+        box(51 + i * 4, 107, 3, 3, level >= 1 && (i + beats) % 4 === 0 ? YELLOW : WHITE);
+    }
+    box(60, 88, 26, 12, WHITE);
+    var sway = Math.sin(clock / (12 - level * 2)) * (2 + level);
+    line(73, 0, 73 + sway, 24, NIGHT, 1);
+    box(69 + sway, 24, 9, 7, YELLOW);
+    box(67 + sway, 31, 13, 2, NIGHT);
+    flush();
+    for (i = 0; i < 4; i++) {
+        box(63, 91 + i * 2, 20, 1, SLATE);
+    }
+    for (x = 10; x < SW; x += 24) {
+        box(x, G + 2, 1, SH - G, ORANGE_DIM);
+    }
+    for (i = 0; i < level * 2; i++) {
+        var rise = (clock * 2 + i * 31) % 70;
+        var nx = 58 + i * 8 + Math.sin(clock / 5 + i) * 3;
+        box(nx, 80 - rise, 3, 2, WHITE);
+        box(nx + 2, 75 - rise, 1, 6, WHITE);
+    }
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 2, 3, RAINBOW[(i * 2) % 12]);
+        }
+    }
+};
+
+// A ballroom: a curtain of midnight blue, the desks of a big band, two beams.
+SCENES.swing = function (level) {
+    var i, x;
+    box(0, 0, SW, G, NAVY);
+    box(0, G, SW, SH - G, STEEL);
+    flush();
+    for (x = 4; x < SW; x += 10) {
+        box(x, 0, 2, 76 + Math.sin(x / 9 + clock / 20) * 2, BLUE);
+    }
+    twinkle(8 + level * 4, 60, YELLOW);
+    for (i = 0; i < 2; i++) {
+        var aim = 73 + Math.sin(clock / (18 - level * 4) + i * 3.1) * 46;
+        ray(i ? SW - 8 : 8, 0, aim - 7, G, SKY);
+        ray(i ? SW - 8 : 8, 0, aim + 7, G, SKY);
+    }
+    flush();
+    for (i = 0; i < 5; i++) {
+        box(6 + i * 29, 96, 18, 24, WHITE);
+        box(14 + i * 29, 120, 2, G - 120, SILVER);
+    }
+    flush();
+    for (i = 0; i < 5; i++) {
+        box(11 + i * 29, 101, 8, 2, NAVY);
+        box(14 + i * 29, 103, 2, 11, NAVY);
+        box(10 + i * 29, 112, 5, 3, NAVY);
+    }
+    box(0, G, SW, 2, YELLOW);
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 3) % SW, (hash(i) + clock * 2) % G, 2, 2, i % 2 ? YELLOW : WHITE);
+        }
+    }
+};
+
+// A cellar club: bricks, a sign of lamps with one tired tube, smoke.
+SCENES.bebop = function (level) {
+    var i, x, y;
+    box(0, 0, SW, G, STEEL);
+    box(0, G, SW, SH - G, INK);
+    flush();
+    for (y = 10; y < G; y += 10) {
+        box(0, y, SW, 1, NIGHT);
+        for (x = (y / 10) % 2 ? 0 : 9; x < SW; x += 18) {
+            box(x, y - 9, 1, 9, NIGHT);
+        }
+    }
+    box(42, 12, 62, 30, NIGHT);
+    flush();
+    var hum = level >= 2 || clock % 41 > 3;
+    box(44, 14, 58, 2, hum ? RED : ORANGE_DIM);
+    box(44, 38, 58, 2, hum ? RED : ORANGE_DIM);
+    box(44, 14, 2, 26, RED);
+    box(100, 14, 2, 26, RED);
+    for (i = 0; i < 4; i++) {
+        var lit = level >= 1 && (Math.floor(clock / 8) + i) % 4 === 0 ? WHITE : CYAN;
+        box(51 + i * 12, 20, 8, 2, lit);
+        box(51 + i * 12, 20, 2, 14, lit);
+        box(51 + i * 12, 32, 8, 2, lit);
+    }
+    for (i = 0; i < 6 + level * 3; i++) {
+        var drift = (clock * (0.4 + level * 0.2) + i * 23) % 90;
+        box((i * 37) % SW + Math.sin(clock / 11 + i) * 6, 112 - drift, 7, 1, SLATE);
+    }
+    box(0, G, SW, 1, SLATE);
+    if (level === 3) {
+        for (i = 0; i < 10; i++) {
+            box(hash(i * 7) % SW, (hash(i) + clock * 2) % G, 2, 2, RAINBOW[(i * 3) % 12]);
+        }
+    }
+};
+
+// A pier at dusk: a low moon, long quiet water, a lamp at the end.
+SCENES.cooljazz = function (level) {
+    var i, x;
+    box(0, 0, SW, 40, NAVY);
+    box(0, 40, SW, 36, BLUE);
+    box(0, 76, SW, G - 76, TEAL);
+    box(0, G, SW, SH - G, STEEL);
+    flush();
+    disc(104, 34, 13, WHITE);
+    twinkle(6 + level * 3, 36, SILVER);
+    for (i = 0; i < 9; i++) {
+        var len = 30 - i * 2 + Math.sin(clock / (14 - level * 3) + i) * 6;
+        box(104 - len / 2, 80 + i * 6, len, 1, WHITE);
+    }
+    for (x = 0; x < SW; x += 9) {
+        box(x, 79 + ((x / 9) % 4) * 14 + Math.sin(x / 11 + clock / 16) * 1.5, 5, 1, SKY);
+    }
+    flush();
+    box(0, G - 4, SW, 4, NIGHT);
+    for (x = 6; x < SW; x += 22) {
+        box(x, G - 14, 3, 14, NIGHT);
+    }
+    box(18, 66, 2, G - 66, NIGHT);
+    box(14, 60, 10, 6, YELLOW);
+    if (level === 3) {
+        for (i = 0; i < 10; i++) {
+            box(hash(i * 3) % SW, (hash(i) + clock) % 70, 1, 2, CYAN);
+        }
+    }
+};
+
+// Nothing but blue: slow discs drifting like the cover of a record.
+SCENES.modal = function (level) {
+    var i;
+    var hues = [BLUE, SKY, TEAL, CYAN];
+    box(0, 0, SW, G, NAVY);
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    for (i = 0; i < 3 + level; i++) {
+        disc(73 + Math.sin(clock / (40 + i * 7) + i * 2) * 52, 60 + Math.cos(clock / (33 + i * 5) + i) * 32, 22 - i * 3, hues[i % 4]);
+        flush();
+    }
+    if (level >= 2) {
+        for (i = 0; i < 5; i++) {
+            box(0, 18 + i * 24 + Math.sin(clock / 9 + i) * 3, SW, 1, WHITE);
+        }
+    }
+    box(0, G, SW, 1, SKY);
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, G - (hash(i) + clock * 2) % G, 2, 2, WHITE);
+        }
+    }
+};
+
+// A bay at sunset: the hump of a mountain, lights along the shore, a boat.
+SCENES.bossa = function (level) {
+    var i, x;
+    box(0, 0, SW, 26, PLUM);
+    box(0, 26, SW, 26, RED);
+    box(0, 52, SW, 24, ORANGE);
+    flush();
+    disc(38, 72, 16, YELLOW);
+    disc(112, 86, 34, NIGHT);
+    disc(84, 84, 16, NIGHT);
+    flush();
+    box(0, 76, SW, G - 76, TEAL);
+    box(0, G, SW, SH - G, TAN);
+    flush();
+    for (i = 0; i < 9; i++) {
+        box(78 + i * 8, 74, 2, 2, (clock + i * 5) % (34 - level * 7) < 4 ? WHITE : YELLOW);
+    }
+    for (x = 0; x < SW; x += 8) {
+        box(x, 82 + ((x / 8) % 4) * 13 + Math.sin(x / 9 + clock / (12 - level * 2)) * 2, 5, 1, CYAN);
+    }
+    var boat = (clock * 0.3) % (SW + 30) - 15;
+    box(boat, 98, 13, 3, WHITE);
+    box(boat + 6, 87, 1, 11, WHITE);
+    box(boat + 7, 88, 5, 7, ORANGE);
+    box(0, G, SW, 2, WHITE);
+    if (level === 3) {
+        for (i = 0; i < 10; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 2) % G, 3, 2, i % 2 ? PASTEL[0] : YELLOW);
+        }
+    }
+};
+
+// A street of painted houses: balconies, a string of flags, a floor of tiles.
+SCENES.latinjazz = function (level) {
+    var i, x;
+    var walls = [PASTEL[1], PASTEL[3], PASTEL[6], PASTEL[0]];
+    box(0, 0, SW, G, SKY);
+    flush();
+    for (i = 0; i < 4; i++) {
+        box(i * 37, 30 + (i % 2) * 10, 37, G - 30, walls[i]);
+    }
+    flush();
+    for (i = 0; i < 4; i++) {
+        var top = 30 + (i % 2) * 10;
+        box(i * 37 + 5, top + 10, 10, 15, NAVY);
+        box(i * 37 + 22, top + 10, 10, 15, NAVY);
+        box(i * 37 + 3, top + 27, 31, 2, WHITE);
+        box(i * 37 + 12, G - 28, 13, 28, ORANGE_DIM);
+    }
+    for (x = 0; x < SW; x += 9) {
+        var dip = 10 + Math.sin(x / 23) * 6 + Math.sin(clock / (9 - level * 2) + x / 7) * (1 + level * 0.5);
+        box(x, dip, 6, 6, RAINBOW[(x / 9 * 2) % 12]);
+    }
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    tiles([RED, YELLOW, ORANGE], level);
+    if (level === 3) {
+        for (i = 0; i < 14; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 3, 3, RAINBOW[(i * 2) % 12]);
+        }
+    }
+};
+
+// A stage of the seventies: walls of amplifiers and a fan of coloured beams.
+SCENES.fusion = function (level) {
+    var i, k;
+    box(0, 0, SW, G, NIGHT);
+    box(0, G, SW, SH - G, STEEL);
+    flush();
+    var turn = (clock / (30 - level * 7)) % 0.35;
+    for (i = 0; i < 9; i++) {
+        var a = Math.PI + turn + i * 0.35;
+        ray(73, 74, 73 + Math.cos(a) * 110, 74 + Math.sin(a) * 76, RAINBOW[(i * 4 + (level === 3 ? Math.floor(clock / 4) : 0)) % 12]);
+    }
+    flush();
+    for (i = 0; i < 2; i++) {
+        for (k = 0; k < 3; k++) {
+            box(i ? SW - 30 : 4, G - 22 - k * 22, 26, 20, SLATE);
+        }
+    }
+    flush();
+    for (i = 0; i < 2; i++) {
+        for (k = 0; k < 3; k++) {
+            var ax = i ? SW - 30 : 4;
+            var ay = G - 22 - k * 22;
+            box(ax + 3, ay + 5, 20, 12, NIGHT);
+            box(ax + 21, ay + 1, 2, 2, level >= 1 && (clock + k * 3 + i * 5) % 8 < 4 ? RED : ORANGE_DIM);
+        }
+    }
+    box(0, G, SW, 2, level >= 2 ? RAINBOW[Math.floor(clock / 6) % 12] : SLATE);
+};
+
+// Wallpaper of the seventies: half-suns in brown and orange, a floor of tiles.
+SCENES.jazzfunk = function (level) {
+    var i;
+    var rings = [ORANGE_DIM, ORANGE, YELLOW, ORANGE, ORANGE_DIM];
+    box(0, 0, SW, G, BROWN);
+    flush();
+    for (i = 0; i < 5; i++) {
+        var swell = level >= 2 ? Math.round(Math.sin(clock / 6 + i)) : 0;
+        disc(34, G, 62 - i * 11 + swell, rings[i]);
+        disc(120, 26, 46 - i * 8 + swell, rings[i]);
+        flush();
+    }
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    tiles([ORANGE, BROWN, YELLOW], level);
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 3, 3, i % 2 ? WHITE : YELLOW);
+        }
+    }
+};
+
+// A city by the bay in the evening: towers with lit windows, a bridge of lamps.
+SCENES.smooth = function (level) {
+    var i, x, y;
+    box(0, 0, SW, 30, PASTEL[5]);
+    box(0, 30, SW, 30, PASTEL[6]);
+    box(0, 60, SW, 30, PASTEL[0]);
+    box(0, 90, SW, G - 90, NAVY);
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    for (i = 0; i < 9; i++) {
+        var tall = 26 + hash(i * 3) % 38;
+        box(i * 17 - 2, 90 - tall, 14, tall, STEEL);
+    }
+    flush();
+    for (i = 0; i < 9; i++) {
+        var height = 26 + hash(i * 3) % 38;
+        for (y = 4; y < height - 4; y += 7) {
+            for (x = 0; x < 2; x++) {
+                if ((hash(i * 7 + y + x * 3) + Math.floor(clock / (50 - level * 12))) % 3 === 0) {
+                    box(i * 17 + 1 + x * 6, 90 - height + y, 3, 3, YELLOW);
+                }
+            }
+        }
+    }
+    for (x = 0; x < SW; x += 7) {
+        box(x, 96 + ((x / 7) % 5) * 8 + Math.sin(x / 10 + clock / 14) * 1.5, 4, 1, PASTEL[0]);
+    }
+    box(0, 91, SW, 1, SILVER);
+    for (x = 4; x < SW; x += 12) {
+        box(x, 89, 2, 2, level >= 1 && (Math.floor(clock / 5) + x / 12) % 6 === 0 ? WHITE : YELLOW);
+    }
+    if (level === 3) {
+        for (i = 0; i < 10; i++) {
+            box(hash(i * 5) % SW, hash(i) % 50 + Math.sin(clock / 4 + i) * 3, 2, 2, (clock + i * 4) % 9 < 5 ? WHITE : PASTEL[2]);
+        }
+    }
+};
+
+// A basement club: a record as big as the wall goes round, posters either side.
+SCENES.acidjazz = function (level) {
+    var i, k;
+    box(0, 0, SW, G, GREEN_DIM);
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    disc(73, 58, 44, INK);
+    box(3, 16, 20, 30, YELLOW);
+    box(123, 22, 20, 30, ORANGE);
+    flush();
+    disc(73, 58, 14, ORANGE);
+    box(6, 22, 14, 3, NIGHT);
+    box(6, 28, 9, 3, NIGHT);
+    box(126, 28, 14, 14, NIGHT);
+    flush();
+    disc(73, 58, 3, INK);
+    var spin = clock / (10 - level * 2);
+    for (i = 0; i < 2; i++) {
+        for (k = 0; k < 3; k++) {
+            var far = 22 + k * 8;
+            box(73 + Math.cos(spin + i * Math.PI + k * 0.25) * far - 1, 58 + Math.sin(spin + i * Math.PI + k * 0.25) * far - 1, 3, 2, SLATE);
+        }
+    }
+    flush();
+    tiles([GREEN_DIM, STEEL, ORANGE_DIM], level);
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 3, 3, RAINBOW[(i * 2 + 3) % 12]);
+        }
+    }
+};
+
+// A late cafe of glass: a row of hanging lamps, slow shapes behind the panes.
+SCENES.nujazz = function (level) {
+    var i, x;
+    box(0, 0, SW, G, TEAL);
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    for (i = 0; i < 3 + level; i++) {
+        var sx = wrapTo(clock * (0.2 + i * 0.07) + i * 47, SW + 30) - 15;
+        var sy = 30 + (i * 23) % 80;
+        if (i % 2) {
+            disc(sx, sy, 6 + i, SKY);
+        } else {
+            box(sx, sy, 10 + i * 2, 10 + i * 2, CYAN);
+        }
+    }
+    flush();
+    for (x = 0; x < SW; x += 36) {
+        box(x, 0, 2, G, GREEN_DIM);
+    }
+    box(0, 70, SW, 2, GREEN_DIM);
+    for (i = 0; i < 5; i++) {
+        var lx = 14 + i * 30;
+        var ly = 12 + (i % 2) * 8;
+        box(lx, 0, 1, ly, NIGHT);
+        box(lx - 3, ly, 7, 4, YELLOW);
+        if (level >= 1 && (Math.floor(clock / 6) + i) % 5 === 0) {
+            box(lx - 5, ly + 4, 11, 1, WHITE);
+        }
+    }
+    box(0, G, SW, 1, CYAN);
+    if (level === 3) {
+        for (i = 0; i < 14; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock) % G, 1, 1, WHITE);
+        }
+    }
+};
+
+// A diner of the fifties: a jukebox with an arch of lamps, a chequered floor.
+SCENES.rnb = function (level) {
+    var i, x;
+    box(0, 0, SW, 96, PASTEL[4]);
+    box(0, 96, SW, G - 96, RED);
+    flush();
+    box(0, 94, SW, 2, WHITE);
+    box(54, 62, 38, G - 62, ORANGE_DIM);
+    disc(73, 62, 19, ORANGE_DIM);
+    flush();
+    box(60, 68, 26, 20, YELLOW);
+    box(60, 98, 26, 30, NIGHT);
+    flush();
+    box(62, 77, 22, 2, NIGHT);
+    for (i = 0; i < 5; i++) {
+        box(62, 101 + i * 5, 22, 2, SLATE);
+    }
+    for (i = 0; i < 9; i++) {
+        var a = Math.PI + i * Math.PI / 8;
+        box(73 + Math.cos(a) * 16 - 1, 62 + Math.sin(a) * 16 - 1, 3, 3, RAINBOW[(i * 3 + Math.floor(clock / (9 - level * 2))) % 12]);
+    }
+    for (x = 0; x < SW; x += 12) {
+        box(x, G, 12, 9, (x / 12) % 2 ? NIGHT : WHITE);
+        box(x, G + 9, 12, 9, (x / 12) % 2 ? WHITE : NIGHT);
+    }
+    if (level >= 2) {
+        for (i = 0; i < 3; i++) {
+            var up = (clock * 2 + i * 27) % 60;
+            box(100 + i * 12, 56 - up, 3, 2, NIGHT);
+            box(102 + i * 12, 51 - up, 1, 6, NIGHT);
+        }
+    }
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 3, 3, RAINBOW[(i * 2) % 12]);
+        }
+    }
+};
+
+// A television stage: a curtain of gold tinsel, a star, two steps.
+SCENES.soul = function (level) {
+    var i, x;
+    box(0, 0, SW, G, ORANGE_DIM);
+    box(0, G, SW, SH - G, NIGHT);
+    flush();
+    for (x = 0; x < SW; x += 3) {
+        var glint = (hash(x) + Math.floor(clock / (10 - level * 2))) % 6;
+        box(x, 0, 2, G - 22 + hash(x * 3) % 8, glint === 0 ? WHITE : glint < 3 ? YELLOW : ORANGE);
+    }
+    flush();
+    box(20, G - 8, SW - 40, 8, STEEL);
+    box(34, G - 16, SW - 68, 8, SLATE);
+    box(71, 14, 4, 40, WHITE);
+    box(53, 32, 40, 4, WHITE);
+    box(65, 26, 16, 16, WHITE);
+    flush();
+    box(69, 30, 8, 8, level >= 1 && clock % 12 < 6 ? YELLOW : RED);
+    for (x = 22; x < SW - 22; x += 10) {
+        box(x, G - 2, 3, 2, (x / 10 + Math.floor(clock / 6)) % 3 === 0 && level >= 1 ? WHITE : YELLOW);
+    }
+    if (level === 3) {
+        for (i = 0; i < 12; i++) {
+            box(hash(i * 5) % SW, (hash(i) + clock * 3) % G, 2, 3, i % 2 ? WHITE : RAINBOW[10]);
+        }
+    }
+};
+
+// A church: three windows of coloured glass and the light that falls from them.
+SCENES.gospel = function (level) {
+    var i, r, c, x;
+    box(0, 0, SW, G, PLUM);
+    box(0, G, SW, SH - G, ORANGE_DIM);
+    flush();
+    for (i = 0; i < 3; i++) {
+        box(14 + i * 46, 30, 26, 62, NIGHT);
+        disc(27 + i * 46, 30, 13, NIGHT);
+    }
+    flush();
+    for (i = 0; i < 3; i++) {
+        var wx = 14 + i * 46;
+        for (r = 0; r < 5; r++) {
+            for (c = 0; c < 2; c++) {
+                box(wx + 2 + c * 12, 33 + r * 11, 10, 9, RAINBOW[(i * 4 + r * 2 + c * 5 + (level === 3 ? Math.floor(clock / 8) : 0)) % 12]);
+            }
+        }
+        disc(wx + 13, 28, 8, YELLOW);
+        if (level >= 1) {
+            ray(wx + 6, 94, wx - 8 + Math.sin(clock / 20 + i) * 2, G, YELLOW);
+            ray(wx + 20, 94, wx + 34 + Math.sin(clock / 20 + i) * 2, G, YELLOW);
+        }
+    }
+    for (x = 0; x < SW; x += 30) {
+        box(x + 4, G - 9, 22, 9, BROWN);
+    }
+    box(0, G, SW, 2, YELLOW);
+    if (level >= 2) {
+        for (i = 0; i < 6 + level * 2; i++) {
+            box(hash(i * 5) % SW, G - (hash(i) + clock * 2) % G, 2, 2, WHITE);
+        }
+    }
+};
+
+// A room at night: rain on the window, a string of small lamps, a plant.
+SCENES.neosoul = function (level) {
+    var i;
+    box(0, 0, SW, G, STEEL);
+    box(0, G, SW, SH - G, BROWN);
+    flush();
+    box(78, 22, 52, 50, NAVY);
+    box(38, G + 4, 70, 9, RED);
+    flush();
+    for (i = 0; i < 5; i++) {
+        box(84 + i * 10, 62 - hash(i) % 12, 3, 3, [YELLOW, ORANGE, RED][i % 3]);
+    }
+    for (i = 0; i < 10 + level * 4; i++) {
+        box(80 + hash(i * 3) % 48, 24 + (hash(i) + clock * 3) % 44, 1, 3, SKY);
+    }
+    box(76, 20, 56, 2, WHITE);
+    box(76, 72, 56, 2, WHITE);
+    box(76, 20, 2, 54, WHITE);
+    box(130, 20, 2, 54, WHITE);
+    box(103, 22, 2, 50, WHITE);
+    for (i = 0; i < 12; i++) {
+        box(4 + i * 12, 8 + Math.sin(i / 1.8) * 4, 3, 3, (i + Math.floor(clock / (14 - level * 3))) % 3 === 0 ? WHITE : YELLOW);
+    }
+    box(14, G - 14, 12, 14, ORANGE);
+    for (i = -2; i <= 2; i++) {
+        line(20, G - 14, 20 + i * 9, G - 46 + Math.abs(i) * 8 + Math.sin(clock / 12 + i) * level, GREEN, 3);
+    }
+    if (level === 3) {
+        for (i = 0; i < 10; i++) {
+            box(hash(i * 5) % SW, G - (hash(i) + clock * 2) % G, 3, 3, PASTEL[(i * 3) % 8]);
+        }
+    }
+};
+
 // ------------------------------------------------ the dancers of free play
 
 // Every style of free play has two dancers of its own and a dance of its own.
@@ -11174,6 +11886,72 @@ TROUPES.vaporwave = { dance: [2, 2, 0, 2, 0, 1, "tee leanL tee leanR dab open fl
 TROUPES.drill = { dance: [1, 1, 2, 0, 1, 0, "leanL woah leanR woah hipL dab hipR squat"], cast: [
     { skin: BROWN, hat: ["hood", SLATE], top: SLATE, body: "coat", legs: SLATE, shoes: WHITE, hands: BROWN },
     { skin: TAN, hat: ["cap", SLATE], top: SKY, stripe: WHITE, chain: SILVER, legs: SKY, shoes: WHITE }] };
+
+// The people of jazz, soul and jazz-rock.
+// a dandy with a cane and a girl in a short dress: the charleston
+TROUPES.ragtime = { dance: [1, 1, 3, 2, 1, 0, "kickL crossA kickR crossB heelL clap heelR clap"], cast: [
+    { hat: ["boater", YELLOW], face: "happy", top: WHITE, stripe: RED, legs: STEEL, shoes: WHITE, prop: ["cane", NIGHT] },
+    { hair: ["bob", NIGHT], hat: ["band", RED], top: RAINBOW[0], body: "dress", legs: PEACH, shoes: NIGHT }] };
+// a zoot suit and a wide skirt: the lindy hop
+TROUPES.swing = { dance: [1, 1, 3, 4, 1, 0, "stepL kickL stepR kickR jump tee squat clapUp"], cast: [
+    { hat: ["fedora", PLUM], top: PLUM, stripe: YELLOW, chain: YELLOW, legs: PLUM, shoes: WHITE, tall: 1 },
+    { hair: ["pony", ORANGE_DIM], top: RED, body: "skirt", skirt: WHITE, legs: PEACH, shoes: RED }] };
+// a beret, a goatee and a trumpet; a hat, shades and a saxophone: quick feet
+TROUPES.bebop = { dance: [0.5, 1, 2, 2, 0, 1, "snapL nodA snapR nodB heelL snapL heelR snapR"], cast: [
+    { hat: ["beret", NIGHT], face: "goatee", beard: NIGHT, top: SLATE, stripe: WHITE, legs: NIGHT, shoes: SILVER, prop: ["trumpet", YELLOW] },
+    { skin: BROWN, hat: ["fedora", NIGHT], face: "shades", top: ORANGE_DIM, stripe: YELLOW, legs: STEEL, shoes: WHITE, prop: ["sax", YELLOW] }] };
+// a black sweater and a long blue dress: fingers snap, nothing hurries
+TROUPES.cooljazz = { dance: [2, 2, 1, 2, 0, 1, "snapL leanL snapR leanR nodA open nodB hips"], cast: [
+    { hair: ["short", YELLOW], face: "shades", top: NIGHT, legs: SLATE, shoes: NIGHT, prop: ["trumpet", SILVER] },
+    { hair: ["long", ORANGE_DIM], top: BLUE, body: "dress", legs: PEACH, shoes: SILVER, prop: ["mic", SILVER] }] };
+// two in pale suits, eyes shut: they sway and listen
+TROUPES.modal = { dance: [4, 2, 0, 3, 0, 1, "float leanL open leanR reach pray"], cast: [
+    { skin: BROWN, hair: ["short", NIGHT], face: "calm", top: SILVER, stripe: NAVY, legs: SLATE, shoes: WHITE, prop: ["sax", YELLOW] },
+    { skin: TAN, hair: ["afro", NIGHT], face: "glasses", top: WHITE, stripe: TEAL, legs: NIGHT, shoes: WHITE }] };
+// a guitar and a girl from the beach: hips first, then the feet
+TROUPES.bossa = { dance: [2, 2, 1, 4, 1, 0, "hipL stepL hipR stepR waveL hips waveR hips"], cast: [
+    { skin: TAN, hair: ["short", NIGHT], top: WHITE, fore: TAN, legs: SILVER, shin: TAN, shoes: TAN, prop: ["guitar", ORANGE_DIM] },
+    { skin: TAN, hair: ["long", NIGHT], top: YELLOW, fore: TAN, body: "skirt", skirt: GREEN, legs: TAN, shoes: TAN }] };
+// a drummer in a white hat and a dancer in red: salsa
+TROUPES.latinjazz = { dance: [1, 1, 2, 4, 1, 0, "stepL crossA stepR crossB hipL clapUp hipR waveL"], cast: [
+    { skin: BROWN, hat: ["fedora", WHITE], top: RAINBOW[2], fore: BROWN, legs: WHITE, shoes: WHITE, prop: ["drum", ORANGE] },
+    { skin: TAN, hair: ["bun", NIGHT], hat: ["flowers", YELLOW], top: RED, body: "dress", legs: TAN, shoes: RED, prop: ["maracas", YELLOW] }] };
+// long hair and a guitar, an afro and shades: a solo that will not end
+TROUPES.fusion = { dance: [1, 1, 3, 0, 0, 1, "strumA strumB kneeL strumA horns pumpR kneeR pumpL"], cast: [
+    { hair: ["long", ORANGE_DIM], hat: ["band", RED], face: "beard", beard: ORANGE_DIM, top: RAINBOW[8], legs: BLUE, shoes: TAN, prop: ["guitar", RED] },
+    { skin: BROWN, hair: ["afro", NIGHT], face: "shades", top: RAINBOW[5], stripe: YELLOW, legs: ORANGE_DIM, shoes: WHITE, tall: 1 }] };
+// flares, a chain and a saxophone: low and on the one
+TROUPES.jazzfunk = { dance: [1, 1, 3, 3, 1, 0, "lowL kneeL lowR kneeR pointR hipL pointL hipR"], cast: [
+    { skin: BROWN, hair: ["afro", NIGHT], hat: ["band", YELLOW], top: SKY, fore: BROWN, chain: YELLOW, legs: WHITE, shoes: YELLOW, tall: 1 },
+    { skin: TAN, hair: ["dreads", NIGHT], face: "shades", top: GREEN, stripe: YELLOW, legs: NAVY, shoes: WHITE, prop: ["sax", YELLOW] }] };
+// a white suit with a saxophone and a lady in lilac: a slow sway
+TROUPES.smooth = { dance: [2, 2, 1, 3, 1, 1, "leanL waveL leanR waveR open heart hips snapR"], cast: [
+    { hair: ["pony", ORANGE_DIM], face: "shades", top: WHITE, stripe: PASTEL[4], legs: WHITE, shoes: SILVER, prop: ["sax", YELLOW] },
+    { hair: ["long", YELLOW], top: PASTEL[6], body: "dress", legs: PEACH, shoes: WHITE }] };
+// a woolly hat with a trumpet, a bob in glasses: step and snap
+TROUPES.acidjazz = { dance: [1, 1, 2, 3, 1, 0, "stepL snapL stepR snapR nodA hipL nodB hipR"], cast: [
+    { skin: BROWN, hat: ["beanie", ORANGE], face: "goatee", beard: NIGHT, top: WHITE, stripe: ORANGE, legs: STEEL, shoes: WHITE, prop: ["trumpet", SILVER] },
+    { hair: ["bob", ORANGE], face: "glasses", top: YELLOW, fore: PEACH, legs: ORANGE_DIM, shoes: WHITE }] };
+// headphones and a laptop face, a singer with two tails: small exact moves
+TROUPES.nujazz = { dance: [1, 2, 1, 2, 0, 2, "nodA tutA nodB tutB leanL boxA leanR boxB"], cast: [
+    { hair: ["short", SLATE], face: "glasses", phones: CYAN, top: NIGHT, stripe: CYAN, legs: STEEL, shoes: CYAN },
+    { hair: ["twin", PASTEL[5]], top: WHITE, stripe: TEAL, legs: SLATE, shoes: WHITE, prop: ["mic", SILVER] }] };
+// a blue jacket and a pink skirt: the jive
+TROUPES.rnb = { dance: [1, 1, 3, 2, 1, 0, "kickL stepL kickR stepR hipL hipR jump clap"], cast: [
+    { hair: ["spikes", NIGHT], face: "happy", top: SKY, stripe: WHITE, legs: NIGHT, shoes: WHITE },
+    { hair: ["pony", YELLOW], top: WHITE, body: "skirt", skirt: PASTEL[0], legs: PEACH, shoes: WHITE }] };
+// a singer in a white suit and one in white gloves: the same steps, side by side
+TROUPES.soul = { dance: [1, 1, 2, 3, 0, 0, "stepL snapL stepR snapR pointR clap pointL clap"], cast: [
+    { skin: BROWN, hair: ["short", NIGHT], top: WHITE, stripe: NIGHT, legs: WHITE, shoes: NIGHT, prop: ["mic", SILVER] },
+    { skin: BROWN, hair: ["afro", NIGHT], top: RAINBOW[10], body: "dress", legs: BROWN, shoes: SILVER, hands: WHITE }] };
+// two of the choir in robes: clap, step, hands to heaven
+TROUPES.gospel = { dance: [1, 1, 3, 2, 0, 0, "clap stepL clap stepR clapUp reach clapUp pray"], cast: [
+    { skin: BROWN, hair: ["short", NIGHT], face: "happy", body: "robe", top: WHITE },
+    { skin: TAN, hair: ["bun", NIGHT], face: "happy", body: "robe", top: RED }] };
+// a head wrap and a long dress, a woolly hat and a beard: late and lazy
+TROUPES.neosoul = { dance: [2, 2, 1, 2, 0, 1, "nodB hipL nodA hipR snapL leanR snapR leanL"], cast: [
+    { skin: BROWN, hat: ["wrap", ORANGE], top: ORANGE_DIM, body: "dress", legs: BROWN, shoes: TAN },
+    { skin: TAN, hat: ["beanie", TEAL], face: "beard", beard: NIGHT, top: PASTEL[2], legs: NIGHT, shoes: WHITE }] };
 
 // The names of the poses become the poses, and what a look leaves out is
 // filled in.
@@ -11535,7 +12313,7 @@ function figureFace(look, f) {
     var face = look.face || "eyes";
     var hair = look.hair;
     var hat = look.hat;
-    var covered = hat && /^(cap|beanie|bucket|wrap|rasta|mushroom|hood)$/.test(hat[0]);
+    var covered = hat && /^(cap|beanie|bucket|wrap|rasta|mushroom|hood|fedora|boater|beret)$/.test(hat[0]);
     var i;
     // long hair falls over the face when the head goes down
     var veiled = hair && hair[0] === "long" && f.nod >= 4;
@@ -11602,6 +12380,8 @@ function figureFace(look, f) {
             box(x + 2, y + 6, 2, 1, WHITE);
         } else if (face === "beard") {
             box(x - 4, y + 6, 8, 4, look.beard);
+        } else if (face === "goatee") {
+            box(x - 1, y + 7, 2, 3, look.beard);
         }
     }
     if (look.phones !== undefined) {
@@ -11654,6 +12434,18 @@ function figureFace(look, f) {
         } else if (hat[0] === "band") {
             box(x - 4, y, 8, 2, c);
             box(x + 4, y + 1, 3, 1, c);
+        } else if (hat[0] === "fedora") {
+            box(x - 3, y - 5, 2, 1, c);
+            box(x + 1, y - 5, 2, 1, c);
+            box(x - 3, y - 4, 6, 3, c);
+            box(x - 6, y - 1, 12, 2, c);
+        } else if (hat[0] === "boater") {
+            box(x - 3, y - 3, 6, 3, c);
+            box(x - 6, y, 12, 1, c);
+        } else if (hat[0] === "beret") {
+            box(x - 5, y - 2, 9, 3, c);
+            box(x - 4, y - 3, 6, 1, c);
+            box(x - 1, y - 4, 1, 1, c);
         }
     }
     if (look.chain !== undefined) {
@@ -11682,6 +12474,8 @@ function figureHands(look, f) {
         box(x - 4, y - 2, 2, 2, look.hat[1]);
         box(x - 1, y - 3, 2, 2, WHITE);
         box(x + 2, y - 2, 2, 2, look.hat[1]);
+    } else if (look.hat && look.hat[0] === "boater") {
+        box(x - 3, y - 1, 6, 1, RED);       // the ribbon of a straw hat
     }
     if (look.face === "mask") {
         box(x - 3, y + 2, 2, 2, WHITE);
@@ -11735,6 +12529,23 @@ function figureHands(look, f) {
         line(f.hipX - 1, f.hipY - 5, f.shX - 12, f.shY + 1, SILVER, 2);
         box(f.hipX - 2, f.hipY - 6, 8, 6, prop[1]);
         box(f.hipX - 1, f.hipY - 7, 6, 8, prop[1]);
+    } else if (prop[0] === "sax") {
+        // it hangs from the neck: mouthpiece, body across the chest, the bell turned up
+        line(x, y + 8, f.shX - 1, f.shY + 2, prop[1], 1);
+        line(f.shX - 1, f.shY + 2, f.shX + 3, f.shY + 10, prop[1], 2);
+        box(f.shX + 3, f.shY + 10, 5, 2, prop[1]);
+        box(f.shX + 6, f.shY + 6, 2, 5, prop[1]);
+    } else if (prop[0] === "trumpet") {
+        // at the lips, pointing to the side
+        box(x + 2, y + 6, 9, 2, prop[1]);
+        box(x + 10, y + 5, 2, 4, prop[1]);
+        box(x + 5, y + 4, 3, 2, prop[1]);
+    } else if (prop[0] === "mic") {
+        box(hand[4] - 1, hand[5] - 4, 2, 4, prop[1]);
+        box(hand[4] - 2, hand[5] - 7, 4, 3, prop[1]);
+    } else if (prop[0] === "cane") {
+        box(hand[4], hand[5], 1, Math.max(1, f.ground - hand[5]), prop[1]);
+        box(hand[4] - 2, hand[5] - 1, 3, 1, prop[1]);
     }
 }
 
