@@ -1,128 +1,119 @@
-# You Will Play. SMK Trainer: тренажёр, который научит играть любого
+# Void to Rockstar
 
-**Ты заиграешь. В любом случае.** Никогда не подходил к клавишам, нет слуха, нет времени, поздно начинать: тренажёру всё равно, он доведёт от первой ноты до своего трека.
+**English** | [Русский](README.ru.md)
 
-[![Реклама SMK Trainer: новичок играет какофонию, становится середнячком, проходит курс и выходит виртуозом](docs/smk-trainer-promo.gif)](docs/smk-trainer-promo.mp4)
+[![The ad: a beginner plays cacophony, becomes a middling player, takes the course and comes out a virtuoso](docs/smk-trainer-promo.gif)](docs/smk-trainer-promo.mp4)
 
-Ролик целиком и со звуком: [docs/smk-trainer-promo.mp4](docs/smk-trainer-promo.mp4), 37 секунд.
+The whole film with sound: [docs/smk-trainer-promo.mp4](docs/smk-trainer-promo.mp4), 37 seconds. Its titles are in Russian.
 
-**SMK Trainer** это устройство Max for Live. Оно стоит на дорожке Ableton Live, слышит каждую ноту и учит играть на клавишах с нуля: показывает, какую клавишу нажать, подсказывает аккорд, даёт задания по силам и честно оценивает игру, от какофонии до ранга виртуоза.
+**SMK Trainer will teach anyone to play.** You have never touched a keyboard, you have no ear, no time, and it is too late to start: the void has heard all of this before and does not object. The trainer takes you from the first note to a track of your own. Who walks on stage after that is up to you.
 
-- **1061 урок на 40 ступенях**: от первой ноты до полифонии, круга квинт и готового трека.
-- **Свободный режим в 67 стилях**: классика, хаус, техно, драм-н-бейс, джаз, соул, джаз-рок и их родня. У каждого стиля своя сцена, свои танцоры, свои советы по игре и звуку.
-- **Тренер и советы**: 27 заданий в свободной игре и совет по ситуации, который смотрит и на руки, и на проект в Ableton.
-- **Оценка игры**: шкала от шума до двух рангов выше «космоса». За комбо платят очки, за какофонию их списывают.
+**SMK Trainer** is a Max for Live device. It sits on a track in Ableton Live, hears every note and teaches the keys from zero: it shows which key to press, suggests the chord, sets tasks you can manage and judges your playing honestly, from cacophony to the rank of a virtuoso.
 
-Тренажёр написан для MIDI-клавиатуры M-Vave SMK-37 Elite (версия от Movetone) и Ableton Live 12. Уроки игры слушают обычные ноты MIDI, но на других клавиатурах не проверялись; номера ручек и пэдов в уроках о звуке рассчитаны на SMK-37. Рядом с тренажёром в наборе лежит всё, что нужно этой клавиатуре на Windows: подключение по Bluetooth и раскладка регуляторов.
+- **1061 lessons on 40 steps**: from the first note to polyphony, the circle of fifths and a finished track.
+- **Free play in 67 styles**: classical, house, techno, drum and bass, jazz, soul, jazz-rock and their kin. Every style has a scenery of its own, two dancers of its own, and advice on how to play it and how to make its sound.
+- **A coach and advice**: 27 tasks in free play, and one piece of advice at a time that looks both at your hands and at the project in Ableton.
+- **A verdict on your playing**: a gauge from noise up to two ranks above "cosmos". A combo earns points, cacophony costs them.
 
-В репозитории четыре вещи:
+> The trainer's own screen and its lessons are in Russian for now. This page and the licence are in English; the installation guide is in Russian.
 
-| Что | Где | Зачем |
+The trainer is written for the M-Vave SMK-37 Elite MIDI keyboard (the Movetone version) and Ableton Live 12. The playing lessons listen to plain MIDI notes but have not been tried on other keyboards; the knob and pad numbers in the lessons on sound are those of the SMK-37. Next to the trainer the kit holds what this keyboard needs on Windows: a Bluetooth connection and a mapping of its controls.
+
+## What is in the kit
+
+| What | Where | What for |
 |---|---|---|
-| Инструкция по Bluetooth MIDI | [SMK-37-Bluetooth-MIDI.md](SMK-37-Bluetooth-MIDI.md) | Подключить клавиатуру без провода через loopMIDI и MIDIberry |
-| Запуск моста | [bridge](bridge) | Одним щелчком поднять и проверить мост: порт loopMIDI, MIDIberry и то, что нота с клавиатуры доходит до порта |
-| Скрипт клавиатуры для Ableton | [ableton/SMK37](ableton/SMK37) | Энкодеры, фейдеры и пэды сразу управляют Ableton |
-| Тренажёр SMK Trainer | [trainer](trainer) | Учиться играть и осваивать Ableton прямо в нём |
+| Bluetooth MIDI guide | [SMK-37-Bluetooth-MIDI.md](SMK-37-Bluetooth-MIDI.md) | Connect the keyboard without a cable through loopMIDI and MIDIberry |
+| Bridge starter | [bridge](bridge) | One click brings the bridge up and checks it: the loopMIDI port, MIDIberry, and that a note from the keyboard reaches the port |
+| Keyboard script for Ableton | [ableton/SMK37](ableton/SMK37) | Encoders, faders and pads control Ableton at once |
+| SMK Trainer | [trainer](trainer) | Learn to play and to use Ableton, inside Ableton |
 
-Установка описана в [INSTALL.md](INSTALL.md).
+Installation is described in [INSTALL.md](INSTALL.md) (in Russian).
 
-## Скрипт клавиатуры
+## The keyboard script
 
-Control Surface для Ableton Live. Что он делает:
+A Control Surface for Ableton Live:
 
-- энкодеры K1–K8 управляют восемью главными параметрами выбранного устройства: набор берётся из таблицы Ableton, а для устройств, которых в ней нет (Drift, Delay, Chorus-Ensemble, Auto Filter, Redux, Limiter и другие), из таблицы `EXTRA_BANKS` в скрипте;
-- фейдеры 1–4 управляют громкостью дорожек 1–4;
-- 16 пэдов играют 16 видимых пэдов Drum Rack;
-- клавиши и колесо Mod переносятся на MIDI-канал 4, где идёт Pitch, чтобы дорожка клавиш слушала один канал, а пэды (канал 9) шли на свою дорожку.
+- encoders K1-K8 turn the eight main parameters of the selected device: the set comes from Ableton's own table, and for devices it lacks (Drift, Delay, Chorus-Ensemble, Auto Filter, Redux, Limiter and others) from the `EXTRA_BANKS` table in the script;
+- faders 1-4 set the volume of tracks 1-4;
+- the 16 pads play the 16 visible pads of a Drum Rack;
+- the keys and the Mod wheel are moved to MIDI channel 4, where Pitch already is, so the keys track listens to one channel and the pads (channel 9) go to their own track.
 
-Номера контроллеров и нот измерены на одной клавиатуре. У другого экземпляра или прошивки они могут отличаться; все они собраны константами в начале [SMK37.py](ableton/SMK37/SMK37.py).
+The controller and note numbers were measured on one keyboard. Another unit or firmware may differ; they are all constants at the top of [SMK37.py](ableton/SMK37/SMK37.py).
 
-## Тренажёр
+## The trainer
 
-Устройство Max for Live (MIDI-эффект), которое ставится на дорожку клавиш. Нужен Ableton Live Suite или отдельно купленный Max for Live.
+A Max for Live device (a MIDI effect) that goes on the keys track. It needs Ableton Live Suite, or Max for Live bought separately.
 
-- **Один путь**: 40 ступеней, 1061 урок, от первых нот до полифонии, круга квинт и готового трека. Ступени идут одна за другой: кнопка «Дальше» ведёт с последнего урока ступени в следующую, стрелки листают весь ряд, а линия на панели показывает, сколько пути пройдено и где стоит открытый урок. Порядок задан списком `PATH` в [smk_trainer.js](trainer/smk_trainer.js): игра чередуется со звуком и с Ableton.
-- **Короткие ступени** знакомят с темой (от 5 до 15 уроков), **длинные** оттачивают один навык в 40 уроках: ноты, чёрные клавиши, интервалы, аккорды, прогрессии, обращения, бас с аккордом, две руки, тональности, септаккорды, гаммы, биты, ручки синтезатора, эффекты, темпы жанров, синтезаторы Live, секвенсор, композиция, приёмы четырёх артистов, редкие аккорды, хроматика, многоголосие. Уроки длинной ступени всегда одни и те же и идут от простого к сложному, по пять на одну тему; она стоит сразу за короткой ступенью о том же.
-- **Синтезаторы Live**: Analog, Operator, Wavetable, Meld, Electric, Collision, Tension и Simpler, затем один и тот же звук на разных синтезаторах и слои из двух и трёх инструментов в Rack.
-- **Секвенсор**: клип и сетка, высота, длина и сила нот, синкопы, триоли и квантизация, бас, аккорды и мелодия мышью, вариации, генераторы Live 12, сцены, запись петли слоями и по шагам. Тренажёр читает ноты открытого клипа: сколько их, есть ли аккорд, стоят ли они на сетке.
-- **Композиция**: части трека как сцены, запись сцен в аранжировку, локаторы, петля, разрезание и вставка времени, нарастание и спад, переходы, форма хауса, техно, трэпа, драм-н-бейса и лоу-фая, проверка длины, сохранение и выгрузка файла.
-- **Как у мастеров**: 40 уроков о звуке и композиции Globular, Soulacybin, Symbolico и The Algorithm, по пять на звук и пять на композицию каждого. Ступень открывается на 1200 очках, уроки в ней можно брать в любом порядке. Псидаб с певучим басом, слабой долей и эхом; живое рядом с синтетикой, глитч на стыках и трек, который раскрывается постепенно; пси-бас, говорящий бас, свинг и смена жанра внутри трека; риф через усилитель, чип-арпеджио, счёт на семь и резкая смена частей. В текстах уроков только то, что артисты или их лейблы говорили сами; где рассказов об инструментах не нашлось (Symbolico, Soulacybin), урок учит приёмам жанра и прямо это говорит.
-- **Редкие аккорды, хроматика, многоголосие**: три курса по 40 уроков. Редкие аккорды: уменьшённые и увеличенные, sus и квинтаккорды, шестые и 6/9, dim7 и m7b5, нонаккорды, альтерированные доминанты (7b9, 7#9, 7#5, 7b5), минор с большой септимой и maj7#11, аккорды 11 и 13. Тренажёр теперь узнаёт 29 видов аккордов и называет их по нижней ноте: C E G A над до это C6, над ля Am7. Хроматика: проходящие и вспомогательные ноты, блюзовые ноты, побочные доминанты, заёмные аккорды, хроматический бас, медианты, модуляция. Многоголосие: терции, сексты и децимы, противоположное движение, педаль, поющий бас, мелодия над аккордом, хорал, канон.
-- **Свободный режим** (кнопка «Свободно» на панели): не урок, а площадка для своей музыки. Выбираешь стиль из 67 (от классики, лоу-фая и эмбиента через хаус, тек-хаус, техно, транс, пси-транс, драм-н-бейс, дабстеп, фьючер-бейс, трэп, хардстайл, гэридж и брейкс до амапиано, афро-хауса, фонка, гиперпопа, джерси-клаба, найткора, евродэнса и чиптюна, плюс псидаб, пси-бас и электронный метал, а также стили по десятилетиям: диско, фанк и берлинская школа семидесятых, синти-поп, итало-диско, электро и эйсид-хаус восьмидесятых, трип-хоп, биг-бит и габбер девяностых, электро-хаус и минимал двухтысячных, тропикал-хаус и вейпорвейв десятых, дрилл двадцатых, и шестнадцать стилей джаза, соула и джаз-рока: рэгтайм, свинг, бибоп, кул-джаз, модальный джаз, босса-нова, латин-джаз, джаз-рок, джаз-фанк, смус-джаз, эйсид-джаз, ню-джаз, ритм-н-блюз, соул шестидесятых, госпел и нео-соул) и настроение: 18 ладов. Десять настроений чувства (от светлого мажора до восточного фригийского и блюза) и восемь настроений места и времени: космическое (лидийский увеличенный лад), невесомое (целотонная гамма), футуристичное (лидийский доминантовый), загадочное (мелодический минор), эпичное (мелодический мажор), зловещее (локрийский), беззаботное (мажорная пентатоника) и японское (хирадзёси). Круг показывает ноты: опорные (ноты аккорда, который сейчас звучит), остальные ноты гаммы, ноту-краску лада и то, что мимо; те же метки стоят на клавишах, а строка над ними говорит, куда вести мелодию дальше. Щелчок по ноте круга делает её тоникой. У каждого стиля своя сцена на экране и своя пара танцоров со своим танцем: дирижёр с балериной в классике, робот и хедбэнгер в дабстепе, скелет в кепке в фонке, гном под мухомором в псидабе, трубач в берете в бибопе, хор в мантиях в госпеле и так далее: 134 персонажа и 67 танцев. Танцуют они в долю: пока играет Ableton, по позиции его песни (даже если клавиши молчат), иначе по ритму, который держит играющий, иначе в темпе стиля. Каждая нота ставит их на ближайшую половину доли, плохая игра заставляет заткнуть уши, на высшем уровне за ними тянется цветной след. Пока руки на клавишах, строка под ними подсказывает, как в этом стиле играют; через пять секунд тишины она возвращается к проекту.
-- **Тренер свободного режима**: 27 заданий одно за другим, в том ладу и от той тоники, что стоят на круге: найти тонику, сыграть опорные ноты, гамму вверх и вниз, взять аккорд, удержать ритм, повторить мотив, закончить фразу на тонике, терции, три аккорда лада, арпеджио, мелодия над аккордом, нота-краска, пауза, тихо и громко, каденция, бас с аккордом, широкая мелодия, секвенция, комбо, скорость, вплоть до рангов. Нужные клавиши подсвечены, сделанное считается, за каждое задание платят очки.
-- **Совет по ситуации и колонка задания**: под клавишами свободного режима две колонки. Справа задание тренера: оно видно всегда, его клавиши подсвечены оранжевым, ряд ячеек показывает, сколько сделано. Слева один совет, тот, что нужен сейчас. Пока звучат клавиши, он об игре: ноты мимо лада (с гаммой), сбой ритма, мелодия, которая кружит на двух нотах или топчется на пяти клавишах, один и тот же аккорд (с двумя аккордами лада на замену), мелодия без левой руки или аккорды без правой, ровная сила удара, а на высоком уровне чего именно не хватает до следующего ранга. Пока клавиши молчат, он о треке: звук партии, которая только что появилась в проекте или на чью дорожку вы перешли, следующий шаг, стадия, форма трека и его развитие. Совет под курсором замирает и обводится уголками, пока курсор не уйдёт. Щелчок по совету даёт другой, щелчок по заданию объясняет, зачем оно.
-- **Оценка игры**: шкала внизу сцены из семи отрезков: шум, тишина, танец, огонь, космос и два ранга выше него, виртуоз и легенда. Ранги даются только за игру, которая сразу ровная, разнообразная, широкая, с разными аккордами, в две руки, быстрая и чистая: нужны четыре признака из семи, для легенды шесть. В свободном режиме удары в гамме и в ритме складываются в комбо, каждый шестнадцатый платит очки, каждые шестнадцать поднимают множитель до пяти. За какофонию очки списываются: пять сразу и по одному за каждый удар, пока она длится, но не ниже порога уже открытой ступени. Случайные удары без ритма и со скачками опускают шкалу в какофонию, даже если все ноты из гаммы, а аккорд засчитывается, только если взят как аккорд, а не гроздью соседних клавиш. Игра в ритме, в том числе басом и мелодией в разных октавах, оценивается как прежде: это проверяют тесты на целых отрывках игры.
-- **Копии на нескольких дорожках** ведут себя как один тренажёр: урок, шаг, стиль свободного режима и очки одной копии через секунду подхватывают остальные, а ноты, сыгранные в любую дорожку с копией, показывает и оценивает та копия, что на экране. Пэды с дорожки барабанов в свободном режиме считаются за ритм, а не за ноты.
-- **Разбор проекта** в свободном режиме: тренажёр читает Live Set (устройства, названия дорожек, ноты клипов, сцены, ленту, темп) и говорит, чего треку не хватает по меркам выбранного стиля: темп, барабаны, бас, аккорды, мелодия, сцены, запись на ленту, длина, локаторы, пространство, лимитер.
-- **Тренировки**: 14 уроков, которые при каждом запуске дают новое задание того же вида: ноты, интервалы, аккорды, прогрессии в случайной тональности, обращения, бас с аккордом, септаккорды, гаммы, биты, ручки синтезатора, эффекты, темпы жанров. За каждый повтор начисляется 15 очков, счётчик повторов сохраняется.
-- **Синтезаторы**: фильтр, огибающая, генераторы и LFO на Drift, рецепты баса, пэда, плака и лида, затем Operator, Wavetable, Analog и арпеджиатор.
-- **Эффекты**: Reverb, Delay, Auto Filter, Saturator, Chorus, EQ Eight, Compressor, Redux, посылы и возвраты, порядок в цепочке, Limiter на главной дорожке.
-- **Барабаны на пэдах**: рок-бит, хаус, хип-хоп, трэп, брейкбит. Для них тренажёр ставится на дорожку барабанов. Отдельная ступень про звук набора: Drum Rack, настройка бочки, Drum Buss, рисование бита мышью, свинг.
-- **Приёмы Ableton**: сохранение и шаблон, Capture MIDI, Scale, запись с выравниванием, автоматизация, Rack и макросы, сайдчейн, Simpler, экспорт.
-- **Жанры**: хаус, техно, драм-н-бейс, дабстеп, гэридж, бум-бэп, трэп, лоу-фай, фонк, дрилл, синтвейв, фьюче-бейс, транс, эмбиент, чиптюн. У каждого «паспорт» (темп, гармония, бас, рецепт звука) и бит на пэдах. Уроки жанров открыты все сразу, в любом порядке.
-- **Миссии по Ableton**: метроном, первый клип, вторая дорожка, аранжировка. Тренажёр сам видит, что сделано, через Live API: какое устройство стоит на дорожке, в какую сторону повернули ручку, какой выставлен темп. Если проверка не сработала, шаг подтверждается кнопкой «Готово».
-- **Очки**: за урок, за игру без ошибок и за ровный ритм. Очки сохраняются в файл рядом с устройством и открывают новые ступени.
-- **Круг аккордов** показывает, какие аккорды сочетаются в тональности, и проигрывает аккорд по щелчку.
-- **Сцена** реагирует на игру: складная музыка запускает танцы, фейерверк и «космос», какофония вызывает грозу.
+- **One path**: 40 steps, 1061 lessons, from the first notes to polyphony, the circle of fifths and a finished track. Playing alternates with sound design and with Ableton itself. The order is the `PATH` list in [smk_trainer.js](trainer/smk_trainer.js).
+- **Short steps** introduce a subject in 5 to 15 lessons; **long ones** drill one skill in 40: notes, black keys, intervals, chords, progressions, inversions, bass with a chord, two hands, keys, seventh chords, scales, beats, synth knobs, effects, genre tempos, Live's synths, the sequencer, composition, the methods of four artists, rare chords, chromatics, polyphony.
+- **Live's synths**: Analog, Operator, Wavetable, Meld, Electric, Collision, Tension and Simpler, then one sound on different synths and layers of two and three instruments in a Rack.
+- **The sequencer**: clip and grid, pitch, length and force of notes, syncopation, triplets and quantisation, bass, chords and melody drawn with the mouse, variations, Live 12 generators, scenes, recording a loop in layers and step by step. The trainer reads the notes of the open clip.
+- **Composition**: parts of a track as scenes, recording scenes to the arrangement, locators, the loop, cutting and inserting time, build-ups and drops, transitions, the form of house, techno, trap, drum and bass and lo-fi, checking the length, saving and exporting.
+- **As the masters do**: 40 lessons on the sound and composition of Globular, Soulacybin, Symbolico and The Algorithm. The lesson texts hold only what the artists or their labels have said themselves; where nothing about their instruments could be found, the lesson teaches the methods of the genre and says so.
+- **Rare chords, chromatics, polyphony**: three courses of 40 lessons. The trainer recognises 29 kinds of chord and names them by the lowest note.
+- **Free play**: not a lesson but a place for your own music. Pick one of 67 styles and one of 18 moods (modes). The circle and the keys show the notes of the chord that sounds now, the rest of the scale, the colour note of the mode and what is outside it. Every style has its own scenery and its own pair of dancers with a dance of their own: 134 characters and 67 dances. They dance on the beat: of Ableton's song while it plays, otherwise of the pulse the player keeps, otherwise at the tempo of the style.
+- **The coach of free play**: 27 tasks one after another, in the mode and from the tonic on the circle: find the tonic, play the chord notes, a scale up and down, hold the rhythm, repeat a motif, end a phrase on the tonic, thirds, three chords of the mode, a melody over a chord, a cadence, and on up to the ranks.
+- **Advice for the moment**: two columns under the keys. On the right the coach's task, always in sight. On the left one piece of advice, the one that is needed now: about the playing while the keys sound (notes outside the mode, a stumbling rhythm, a melody that circles on two notes, the same chord again, no left hand), about the track while they rest (the sound of a part, the next step, the stage, the form of the track). It freezes under the cursor so it can be read.
+- **The verdict**: a gauge of seven stretches under the stage: noise, silence, dance, fire, cosmos and two ranks above it, virtuoso and legend. The ranks are given only for playing that is steady, varied, wide, rich in chords, two-handed, fast and clean at once. Random strokes without rhythm sink into cacophony even when every note is in the scale.
+- **Copies on several tracks** act as one trainer: the lesson, the step, the style and the points are shared, and notes played into any track with a copy are shown and judged by the copy on the screen. Pads on a drum track count for their rhythm in free play.
+- **A look at the project**: in free play the trainer reads the Live Set (devices, track names, clip notes, scenes, the arrangement, the tempo) and says what the track lacks by the measure of the chosen style.
+- **Drills**: 14 lessons that give a new task of the same kind on every run.
+- **Synths, effects, drums on the pads, Ableton methods, genres**: filter, envelope, oscillators and LFO on Drift; Reverb, Delay, Auto Filter, Saturator, EQ Eight, Compressor, sends and returns; rock, house, hip-hop, trap and breakbeat on the pads; templates, Capture MIDI, automation, Racks and macros, sidechain, export; a "passport" and a beat for fifteen genres.
+- **Missions in Ableton**: the trainer sees what has been done through the Live API: which device is on the track, which way a knob was turned, what the tempo is. If a check fails, the step can be confirmed with the "Done" button.
+- **Points** for a lesson, for playing without mistakes and for an even rhythm. They are saved in a file next to the device and open new steps.
+- **The stage** answers the playing: music that holds together starts the dancing, the fireworks and "cosmos", cacophony calls a thunderstorm.
 
-Тренажёр проверяет ноты и порядок ударов. Попадание в долю он не проверяет, вместо этого считает ровность между шагами.
+The trainer checks the notes and the order of the strokes. It does not check whether a stroke lands on the beat; it measures how even the time between steps is.
 
-### Как устроен код
+### How the code is built
 
-Всё рисуется закрашенными прямоугольниками в фиксированной палитре, включая текст, поэтому картинку можно отрисовать и вне Max.
+Everything is drawn with filled rectangles in a fixed palette, the text included, so the picture can be rendered outside Max too.
 
-| Файл | Назначение |
+| File | Purpose |
 |---|---|
-| [smk_trainer.js](trainer/smk_trainer.js) | Логика, уроки и отрисовка. Работает в объекте `jsui`, только ES5 |
-| [sprites_data.js](trainer/sprites_data.js) | Кадры анимаций, генерируется |
-| [export_sprites.mjs](trainer/export_sprites.mjs) | Запекает кадры из эффектов pixelfx |
-| [build.py](trainer/build.py) | Собирает `SMK Trainer.amxd` из заводского шаблона Ableton |
-| [test_trainer.js](trainer/test_trainer.js) | Проходит все уроки без Ableton и сверяет имена ручек с таблицей |
-| [live_parameters.py](trainer/live_parameters.py) | Достаёт имена ручек всех устройств из установленного Ableton в `live_parameters.json` |
-| [preview.mjs](trainer/preview.mjs) | Рисует состояния тренажёра в PNG без Ableton |
+| [smk_trainer.js](trainer/smk_trainer.js) | Logic, lessons and drawing. Runs in a `jsui` object, ES5 only |
+| [sprites_data.js](trainer/sprites_data.js) | Animation frames, generated |
+| [export_sprites.mjs](trainer/export_sprites.mjs) | Bakes the frames from pixelfx effects |
+| [build.py](trainer/build.py) | Builds `SMK Trainer.amxd` from Ableton's factory template |
+| [test_trainer.js](trainer/test_trainer.js) | Plays every lesson without Ableton and checks knob names against the table |
+| [live_parameters.py](trainer/live_parameters.py) | Reads the knob names of every device from the installed Ableton into `live_parameters.json` |
+| [preview.mjs](trainer/preview.mjs) | Renders states of the trainer to PNG without Ableton |
 
-### Команды
+### Commands
 
-Проверка логики:
+Check the logic:
 
 ```bash
 node trainer/test_trainer.js
 ```
 
-Сборка устройства в User Library Ableton (открытое устройство обновится само):
+Build the device into Ableton's User Library (an open device reloads itself):
 
 ```bash
 py trainer/build.py
 ```
 
-Предпросмотр в картинку, масштаб 2:
+Render a preview, scale 2:
 
 ```bash
 node trainer/preview.mjs preview.png 2
 ```
 
-Самопроверка в настоящем Ableton. Тесты играют на подставном Ableton и не знают, отвечает ли настоящий на вопросы уроков. Положите рядом с устройством (в ту же папку User Library) пустой файл `smk_trainer_probe.txt` и пересоберите устройство: через две секунды после загрузки тренажёр запишет туда же `smk_trainer_probe.json`. В нём то, что Ableton ответил: свойства проекта, число сцен и локаторов, ноты открытого клипа, имена всех ручек каждого устройства на дорожке и ответы нескольких проверок. Тренажёр при этом только читает. Пока файл-запрос лежит на месте, в `smk_trainer_clicks.json` пишется и журнал мыши: каждое обращение Max (щелчок или двойной щелчок), время, место и было ли оно принято. Так найдена причина перелистывания двух страниц за одно нажатие. Имена ручек из файла самопроверки переносит в таблицу для тестов вторая команда:
+Pack a release archive into `dist/`:
 
 ```bash
-py trainer/build.py
+py release.py 0.10.0
 ```
 
-```bash
-py trainer/live_parameters.py --seen
-```
+The self-check in a real Ableton and the remaining details are described in [README.ru.md](README.ru.md).
 
-Сборка архива релиза в `dist/`:
+## Licence
 
-```bash
-py release.py 0.1.0
-```
+The kit is under the [PolyForm Noncommercial License 1.0.0](LICENSE.md): installing it, playing, changing the code and building noncommercial projects on it is free. Any use for revenue needs a separate licence from the author for a share of that revenue: see [COMMERCIAL.md](COMMERCIAL.md).
 
-## Лицензия
+## Third-party code and material
 
-Набор распространяется по лицензии [PolyForm Noncommercial 1.0.0](LICENSE.md): ставить, играть, менять код и брать его за основу некоммерческих проектов можно бесплатно. Любое использование ради дохода требует отдельной лицензии автора за долю дохода: условия в [COMMERCIAL.md](COMMERCIAL.md).
+The animations of characters and effects are baked from the [pixelfx](https://github.com/patch-gg/pixelfx) library (MIT licence). Its text is in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-## Чужой код и материалы
-
-Анимации персонажей и эффектов запечены из библиотеки [pixelfx](https://github.com/patch-gg/pixelfx) (лицензия MIT). Текст лицензии лежит в [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-Программа MidiSuite производителя клавиатуры в репозиторий не входит.
+MidiSuite, the keyboard maker's own program, is not part of the repository.

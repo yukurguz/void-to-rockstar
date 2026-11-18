@@ -23,7 +23,7 @@
 
 ## Как получить
 
-Откройте обращение (Issue) в репозитории <https://github.com/yukurguz/you-will-play> с заголовком «Commercial license» и коротко опишите продукт. Подробности обсуждаются уже не публично.
+Откройте обращение (Issue) в репозитории <https://github.com/yukurguz/void-to-rockstar> с заголовком «Commercial license» и коротко опишите продукт. Подробности обсуждаются уже не публично.
 
 ## Чужие части
 
@@ -39,4 +39,4 @@ The kit is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE.md)
 
 Any use for revenue (selling the trainer or a product built on its code, bundling it with paid courses, subscriptions, hardware or software, reusing its artwork or lesson texts in a paid product) needs a separate commercial licence from the author. Its price is a share of the revenue of the product, set down in an agreement.
 
-To ask for one, open an issue titled "Commercial license" at <https://github.com/yukurguz/you-will-play>.
+To ask for one, open an issue titled "Commercial license" at <https://github.com/yukurguz/void-to-rockstar>.
