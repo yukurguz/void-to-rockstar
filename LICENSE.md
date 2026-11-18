@@ -74,7 +74,7 @@ The **licensor** is the individual or entity offering these terms, and the **sof
 
 ---
 
-Required Notice: Copyright (c) 2026 yukurguz (https://github.com/yukurguz/smk37-kit)
+Required Notice: Copyright (c) 2026 yukurguz (https://github.com/yukurguz/you-will-play)
 
 Commercial use is not a permitted purpose under these terms. It needs a separate
 licence from the author: see COMMERCIAL.md.
