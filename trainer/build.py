@@ -23,7 +23,7 @@ HERE = Path(__file__).parent
 DEVICE_NAME = "SMK Trainer"
 SCRIPT_NAME = "smk_trainer.js"
 # jsui loads a single file, so the baked animation frames go in front of the code.
-SCRIPT_SOURCES = ["sprites_data.js", "smk_trainer.js"]
+SCRIPT_SOURCES = ["sprites_data.js", "smk_trainer.js", "lang_en.js", "lang_en_rules.js"]
 def trainer_size():
     """The size the trainer draws in, as its script declares it."""
     source = (HERE / "smk_trainer.js").read_text(encoding="utf-8")

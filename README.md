@@ -10,12 +10,12 @@ The whole film with sound: [docs/smk-trainer-promo.mp4](docs/smk-trainer-promo.m
 
 **SMK Trainer** is a Max for Live device. It sits on a track in Ableton Live, hears every note and teaches the keys from zero: it shows which key to press, suggests the chord, sets tasks you can manage and judges your playing honestly, from cacophony to the rank of a virtuoso.
 
-- **1061 lessons on 40 steps**: from the first note to polyphony, the circle of fifths and a finished track.
+- **1061 lessons on 40 levels**: from the first note to polyphony, the circle of fifths and a finished track.
 - **Free play in 67 styles**: classical, house, techno, drum and bass, jazz, soul, jazz-rock and their kin. Every style has a scenery of its own, two dancers of its own, and advice on how to play it and how to make its sound.
 - **A coach and advice**: 27 tasks in free play, and one piece of advice at a time that looks both at your hands and at the project in Ableton.
 - **A verdict on your playing**: a gauge from noise up to two ranks above "cosmos". A combo earns points, cacophony costs them.
 
-> The trainer's own screen and its lessons are in Russian for now. This page and the licence are in English; the installation guide is in Russian.
+> The trainer speaks Russian and English. Pick RU or EN in the bottom left corner of its right-hand panel; the choice is remembered.
 
 The trainer is written for the M-Vave SMK-37 Elite MIDI keyboard (the Movetone version) and Ableton Live 12. The playing lessons listen to plain MIDI notes but have not been tried on other keyboards; the knob and pad numbers in the lessons on sound are those of the SMK-37. Next to the trainer the kit holds what this keyboard needs on Windows: a Bluetooth connection and a mapping of its controls.
 
@@ -23,12 +23,12 @@ The trainer is written for the M-Vave SMK-37 Elite MIDI keyboard (the Movetone v
 
 | What | Where | What for |
 |---|---|---|
-| Bluetooth MIDI guide | [SMK-37-Bluetooth-MIDI.md](SMK-37-Bluetooth-MIDI.md) | Connect the keyboard without a cable through loopMIDI and MIDIberry |
+| Bluetooth MIDI guide | [SMK-37-Bluetooth-MIDI.en.md](SMK-37-Bluetooth-MIDI.en.md) | Connect the keyboard without a cable through loopMIDI and MIDIberry |
 | Bridge starter | [bridge](bridge) | One click brings the bridge up and checks it: the loopMIDI port, MIDIberry, and that a note from the keyboard reaches the port |
 | Keyboard script for Ableton | [ableton/SMK37](ableton/SMK37) | Encoders, faders and pads control Ableton at once |
 | SMK Trainer | [trainer](trainer) | Learn to play and to use Ableton, inside Ableton |
 
-Installation is described in [INSTALL.md](INSTALL.md) (in Russian).
+Installation is described in [INSTALL.en.md](INSTALL.en.md).
 
 ## The keyboard script
 
@@ -45,8 +45,8 @@ The controller and note numbers were measured on one keyboard. Another unit or f
 
 A Max for Live device (a MIDI effect) that goes on the keys track. It needs Ableton Live Suite, or Max for Live bought separately.
 
-- **One path**: 40 steps, 1061 lessons, from the first notes to polyphony, the circle of fifths and a finished track. Playing alternates with sound design and with Ableton itself. The order is the `PATH` list in [smk_trainer.js](trainer/smk_trainer.js).
-- **Short steps** introduce a subject in 5 to 15 lessons; **long ones** drill one skill in 40: notes, black keys, intervals, chords, progressions, inversions, bass with a chord, two hands, keys, seventh chords, scales, beats, synth knobs, effects, genre tempos, Live's synths, the sequencer, composition, the methods of four artists, rare chords, chromatics, polyphony.
+- **One path**: 40 levels, 1061 lessons, from the first notes to polyphony, the circle of fifths and a finished track. Playing alternates with sound design and with Ableton itself. The order is the `PATH` list in [smk_trainer.js](trainer/smk_trainer.js).
+- **Short levels** introduce a subject in 5 to 15 lessons; **long ones** drill one skill in 40: notes, black keys, intervals, chords, progressions, inversions, bass with a chord, two hands, keys, seventh chords, scales, beats, synth knobs, effects, genre tempos, Live's synths, the sequencer, composition, the methods of four artists, rare chords, chromatics, polyphony.
 - **Live's synths**: Analog, Operator, Wavetable, Meld, Electric, Collision, Tension and Simpler, then one sound on different synths and layers of two and three instruments in a Rack.
 - **The sequencer**: clip and grid, pitch, length and force of notes, syncopation, triplets and quantisation, bass, chords and melody drawn with the mouse, variations, Live 12 generators, scenes, recording a loop in layers and step by step. The trainer reads the notes of the open clip.
 - **Composition**: parts of a track as scenes, recording scenes to the arrangement, locators, the loop, cutting and inserting time, build-ups and drops, transitions, the form of house, techno, trap, drum and bass and lo-fi, checking the length, saving and exporting.
@@ -61,7 +61,8 @@ A Max for Live device (a MIDI effect) that goes on the keys track. It needs Able
 - **Drills**: 14 lessons that give a new task of the same kind on every run.
 - **Synths, effects, drums on the pads, Ableton methods, genres**: filter, envelope, oscillators and LFO on Drift; Reverb, Delay, Auto Filter, Saturator, EQ Eight, Compressor, sends and returns; rock, house, hip-hop, trap and breakbeat on the pads; templates, Capture MIDI, automation, Racks and macros, sidechain, export; a "passport" and a beat for fifteen genres.
 - **Missions in Ableton**: the trainer sees what has been done through the Live API: which device is on the track, which way a knob was turned, what the tempo is. If a check fails, the step can be confirmed with the "Done" button.
-- **Points** for a lesson, for playing without mistakes and for an even rhythm. They are saved in a file next to the device and open new steps.
+- **Points** for a lesson, for playing without mistakes and for an even rhythm. They are saved in a file next to the device and open new levels.
+- **Two languages**: Russian and English. The lessons, the tips, the coach and every label are translated; the language is chosen on the panel and kept in the save file. The texts live in [trainer/lang](trainer/lang) and are packed into `lang_en.js` by `make_lang.py`.
 - **The stage** answers the playing: music that holds together starts the dancing, the fireworks and "cosmos", cacophony calls a thunderstorm.
 
 The trainer checks the notes and the order of the strokes. It does not check whether a stroke lands on the beat; it measures how even the time between steps is.
@@ -73,6 +74,8 @@ Everything is drawn with filled rectangles in a fixed palette, the text included
 | File | Purpose |
 |---|---|
 | [smk_trainer.js](trainer/smk_trainer.js) | Logic, lessons and drawing. Runs in a `jsui` object, ES5 only |
+| [lang_en.js](trainer/lang_en.js), [lang_en_rules.js](trainer/lang_en_rules.js) | English: the table of texts (made by `lang/make_lang.py`) and the rules for lines built from pieces |
+| [lang](trainer/lang) | The Russian texts and their English, the brief for translators, the checks |
 | [sprites_data.js](trainer/sprites_data.js) | Animation frames, generated |
 | [export_sprites.mjs](trainer/export_sprites.mjs) | Bakes the frames from pixelfx effects |
 | [build.py](trainer/build.py) | Builds `SMK Trainer.amxd` from Ableton's factory template |
@@ -86,6 +89,12 @@ Check the logic:
 
 ```bash
 node trainer/test_trainer.js
+```
+
+The same with the English screen: it also lists every line that has no English or does not fit its place:
+
+```bash
+SMK_LANG=en node trainer/test_trainer.js
 ```
 
 Build the device into Ableton's User Library (an open device reloads itself):

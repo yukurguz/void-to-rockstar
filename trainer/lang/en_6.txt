@@ -1,0 +1,287 @@
+1888	Add a fourth note to the chord: Dm7, G7, Cmaj7. Play the melody softly, mid-keyboard, with pauses.
+1889	Start with chords: Electric, seventh chords Dm7, G7, Cmaj7, Am7. Add Redux or Saturator on top for grit.
+1890	Add a lazy beat: kick on 1 and 3, snare on 2 and 4, eighth hi-hats. Nudge the snare just past the grid.
+1891	Add a soft bass: a sine in Drift or Operator, the roots of the chords, held long.
+1892	Record a short melody of three or four notes and repeat it with pauses: in lo-fi the silence plays too.
+1893	Ambient
+1894	Hold the notes long and do not hurry: one note a bar. Take the new chord while the old one fades.
+1895	Drop sparse notes in the upper octave, like raindrops. Leave silence between them.
+1896	Start with a pad: Wavetable or Drift with a long attack and tail, two chords of four bars each. Plenty of Reverb.
+1897	Add sparse notes over the pad: one note a bar, with echo (Delay). The fewer the notes, the more air.
+1898	The left hand taps one bass note in eighths, the right holds a long chord.
+1899	Play long melody notes and sway them with the Mod wheel. Hold phrase ends longer than you want to.
+1900	Start with an eighties beat: kick on 1 and 3, a loud snare with reverb on 2 and 4, hi-hats in eighths.
+1901	Add a bass in eighths on the root of the chord: Analog or Drift, a saw, the filter half closed.
+1902	Add chords with a supersaw or a pad: Am, F, C, G, a bar per chord.
+1903	Record a bright lead melody (saw and Glide): long notes and arpeggios on the home notes.
+1904	Take chords short and off the strong beat: one-and, two-and, on every and. The left hand rocks one note.
+1905	Find a motif of three notes and repeat it, changing only the last note.
+1906	Start with the beat: kick on every beat, clap on 2 and 4, open hat between the beats.
+1907	Add a bass between the kicks: short notes on the offbeat, the root of the chord.
+1908	Add chords as stabs: short seventh chords off the strong beat, on Electric or Operator.
+1909	Record a simple motif of two or three notes and repeat it: house lives on repetition, not on a long melody.
+1910	Play one or two notes in even sixteenths and turn the filter with encoders K1 and K2. Change timbre, not notes.
+1911	Take the tonic and the note a semitone up. Alternate them rarely, like an alarm.
+1912	Start with a kick on every beat and hi-hats in sixteenths. Clap on 2 and 4, the rest to taste.
+1913	Add a bass: one low note in sixteenths with a gap on the kick. Move the filter by hand.
+1914	Record a riff of two or three notes: the tonic and the colour note by it. Timbre shifts here, not notes.
+1915	Hold the chord with the left hand, the right runs its notes up and down in sixteenths.
+1916	Lead the melody along the home notes. Take the top note of each new phrase a step above the last.
+1917	Start with a kick on every beat, an open hat between beats and a clap on 2 and 4.
+1918	Add an offbeat bass: three sixteenths after every kick, the root of the chord.
+1919	Add a pad or a supersaw: Am, F, C, G for two bars each, the filter slowly opening.
+1920	Record a pluck melody: sixteenth arpeggios on the home notes, the top note carries the theme.
+1921	Psytrance
+1922	Bass: three short notes after every kick on one key. Even, like an engine.
+1923	Lead: fast phrases of the tonic and the colour note by it. Bend note ends with the Pitch wheel.
+1924	Start with a punchy kick on every beat and a hi-hat between the beats. Little else is needed.
+1925	Add a rolling bass: three sixteenths after every kick on one note, the tonic. Short and even.
+1926	Record an acid lead: short phrases of the tonic and the colour note a semitone up, echo and resonance on.
+1927	Tribal
+1928	Play a short three-note chant and answer with the same, but lower. Here rhythm outweighs notes.
+1929	Tap one key like a drum: change only how hard you hit and the pauses.
+1930	Start with drums: kick on every beat, syncopated toms and percussion over it. Three different ones will do.
+1931	Add a bass of one or two notes that answers the toms: short, in the gaps between hits.
+1932	Record a chant of five pentatonic notes: a short phrase and its answer. A flute, a voice or Collision will do.
+1933	Dub
+1934	Take the chord short on 2 and 4 and let go at once: echo does the rest.
+1935	Play an unhurried bass, with pauses. Here a note you did not play weighs more than one you did.
+1936	Start with a one drop beat: kick and rim together on beat three, eighth hi-hats. Sparse and slow.
+1937	Add the bass, it leads here: a deep sine, a singing line of three or four notes, many pauses.
+1938	Add chords on the offbeat: a short hit on 2 and 4, then a long echo (Delay or Echo).
+1939	Record sparse melody notes and feed them to echo with a send: in dub you play the effect knobs.
+1940	Rave
+1941	Take a minor chord and move the whole hand up and down the keys, keeping its shape.
+1942	Play the riff in the upper octave, staccato and loud. Repeat it every two bars.
+1943	Start with a broken beat or a straight kick on every beat: hi-hats in sixteenths, clap on 2 and 4.
+1944	Add a bass: a sub on long notes or a growling saw, the root of the chord.
+1945	Add rave stabs: one minor chord that is moved whole up and down the keys.
+1946	Record a piercing riff in the upper octave: three or four notes that are easy to hum.
+1947	Play half as fast as the drums: long notes and chords a whole bar long.
+1948	Bass: two or three long notes per four bars. Start the melody not on the first beat but right after it.
+1949	Break first: kick on 1 and between 3 and 4, snare on 2 and 4, eighth hi-hats.
+1950	Add a bass: long sub under the kick or growling reese, two or three notes in four bars.
+1951	Add a pad with a long attack: one or two chords per eight bars, to leave room to breathe.
+1952	Record a short theme: at this tempo notes twice as long as you think are enough.
+1953	Deephouse
+1954	Take four-note chords softly and hold them long: Am7, Dm7. Answer with one or two right-hand notes in the pauses.
+1955	Play the bass on the offbeat, short and quiet: it should bounce, not thump.
+1956	Start with a soft kick on every beat, a hi-hat between beats and a snap on 2 and 4. All quiet, no bright cymbals.
+1957	Add a warm bass: a sine or a triangle, chord notes on the offbeat, the filter half closed.
+1958	Add seventh chords on Electric: two chords per four bars, with a long Release and reverb.
+1959	Record a motif of three or four notes mid-keyboard and repeat it with echo. In deep house the melody whispers.
+1960	Techhouse
+1961	Play the bass in short notes between the kicks, two or three notes, a touch late. It leads here.
+1962	Instead of a melody, one short sound or word every two bars. The less, the better it grooves.
+1963	Start with a kick on every beat, a clap on 2 and 4 and tight hi-hats in sixteenths with swing. Add syncopated percussion.
+1964	Add a rolling bass: short offbeat notes, one or two notes, the filter half closed. Sidechain from the kick is a must.
+1965	Record a hook: a chopped voice or a short stab, one phrase per two bars. There are no long melodies here.
+1966	Melodic techno
+1967	Run the chord notes in sixteenths with one hand and slowly open the filter with encoder K1.
+1968	Play the melody in long notes in the upper octave: one note a bar, with a long tail.
+1969	Start with a punchy kick on every beat, a hi-hat between beats and a rare clap. Drums are just a frame here.
+1970	Add a bass in sixteenths on one note with a gap on the kick. Change the note once every eight bars.
+1971	Record an arpeggio of the chord notes and put a long Delay on it: the melody builds itself from repeats.
+1972	Add a pad with a very long attack: one chord per eight bars, the filter opening towards the climax.
+1973	Hold one long bass note and rock the filter with the Mod wheel or encoder K1: that is the wobble.
+1974	Play at half the tempo: the snare comes only on the third beat, leave room for it.
+1975	Start with a half-time beat: kick on 1, snare on 3, hi-hats in eighths. It should be empty between the hits.
+1976	Add a wobble bass: a saw in Drift or Wavetable, an LFO on the filter. Change the LFO rate each bar: 1/4, 1/8, triplets.
+1977	Record a dark intro melody of three or four long notes. In the drop the bass takes over.
+1978	Take big chords with both hands, four or five notes each, and let go sharply: the sound should cut off.
+1979	Play the melody high and staccato. Repeat a short phrase and change its ending.
+1980	Start with supersaw chords: Fmaj7, G, Am7, Em7. Pump the volume with sidechain or an LFO so the chords breathe.
+1981	Add a half-time beat: kick on 1, a loud snare on 3, hi-hats with fast rolls.
+1982	Add a sub: a clean sine on the root of each chord, in long notes.
+1983	Record a high melody with a pluck or a chopped voice: short notes, many repeats.
+1984	Play the melody in sparse minor notes, dark and simple: three or four notes per two bars.
+1985	Play long 808 bass notes and slide between them with the Pitch wheel.
+1986	Start with hi-hats: even eighths with rolls of sixteenths and thirty-seconds. Clap on the third beat, kick sparse.
+1987	Add an 808: a long sine with a punch at the start, on the same beats as the kick. Turn on Glide so the notes slide.
+1988	Record a dark melody: a bell, a flute or a piano, three or four minor notes in a loop.
+1989	Hardstyle
+1990	Play the melody in eighths, staccato and loud, two hands in octaves.
+1991	In the breakdown with no kick play the same melody slowly, in long chords: that sets up the hit.
+1992	Start with a kick on every beat: long, overdriven, with a pitch. Put Saturator or Pedal on it and turn up Drive.
+1993	Record a supersaw melody: simple as a football chant, in eighth notes, in the upper octave.
+1994	Add chords under the melody for the breakdown: Am, F, C, G in long notes, no drums.
+1995	Take the chords short and a touch late, between the kicks. The second sixteenth in a pair lags a little.
+1996	Play the bass in bouncy short notes an octave apart, with pauses.
+1997	Start with a broken beat: kick on 1 and before 3, clap on 2 and 4, swung hi-hats. Give the clip a Swing 16 groove.
+1998	Add a springy bass: short sine or organ notes, octave jumps, a gap on the strong beat.
+1999	Add organ or Electric stabs: short seventh chords off the strong beat.
+2000	Record a chopped voice or a short motif: two or three notes that answer the bass.
+2001	Festival EDM
+2002	In a build-up play one note ever faster: quarters, eighths, sixteenths. Then a pause and the hit.
+2003	Play the drop melody with one finger: four or five notes a stadium can sing.
+2004	Start with a kick on every beat and a clap on 2 and 4. A build-up needs a snare that speeds up and a rising noise.
+2005	Record the drop melody: one bright sound, four or five notes, the rhythm repeats every two bars.
+2006	Add chords for the breakdown: piano or supersaw, Am, F, C, G, with a long reverb.
+2007	Add a bass under the kick: a short offbeat note, the root of the chord, with sidechain.
+2008	Play short pentatonic riffs and leave holes: here the drums say more than the keys.
+2009	Answer the drums: after a fill, one loud note or chord.
+2010	Break first: kick on 1 and between 2 and 3, snare on 2 and 4, hi-hats in eighths. Or slice a ready loop in Simpler.
+2011	Add a bass that follows the kick: short saw notes, two or three notes a bar.
+2012	Record a riff: an organ stab, an acid line or a chopped voice, one phrase per two bars.
+2013	Chill
+2014	Play soft and sparse. Chord, pause, two melody notes, pause.
+2015	Lead the melody smoothly by neighbour notes and end phrases on a home note.
+2016	Start with warm chords: Electric or a pad, two chords per four bars, Chorus and Reverb.
+2017	Add a light beat: kick on 1 and 3, rim on 2 and 4, shaker in sixteenths. Quiet.
+2018	Add a round bass: the roots of the chords, long, with a few passing notes.
+2019	Record an unhurried melody: guitar, flute or a soft lead, two-bar phrases with pauses.
+2020	Break the habit: play a phrase of five or seven notes over an even count of four.
+2021	Repeat the phrase, each time changing one note to its neighbour.
+2022	Start with a glitchy beat: kick and snare in place, with clicks and rolls scattered between them. Try Beat Repeat.
+2023	Record a fragile bell melody on Operator or Collision: a phrase of five to seven notes in a loop.
+2024	Add a pad under the melody: one or two warm, slightly detuned chords. Contrast with the broken beat is the genre.
+2025	Hard techno
+2026	One note in sixteenths and a hand on the filter. Every eight bars lift the note a semitone and return it.
+2027	Play signals: a short high note once a bar, like a siren.
+2028	Start with an overdriven kick on each beat: Saturator or Pedal, Drive to the right. Hi-hat between beats, clap on 2 and 4.
+2029	Add a rumble under the kick: its own tail or one low note in sixteenths with a gap on the hit.
+2030	Record a signal: a stab or a two-note siren, once a bar. Almost no melodies here.
+2031	Amapiano
+2032	The bass plays the melody here: tap low short notes in syncopation, as on a wooden drum.
+2033	Take jazzy seventh chords softly and sparsely, and leave room for the bass.
+2034	Start with a shaker in sixteenths and a sparse kick. Syncopated claps and rim. No kick on every beat here.
+2035	Add a log drum, a short percussive bass: a sine in Operator or Drift with a fast pitch drop. Play a melody with it down low.
+2036	Add jazzy chords on Electric: Dm9 and G13 for two bars each, softly.
+2037	Record a short chant or a whistle: two or three notes that answer the log drum.
+2038	Afro house
+2039	Play a pentatonic chant in short phrases and repeat it like a spell.
+2040	Tap out a syncopated rhythm on one note: the hand works as percussion.
+2041	Start with a kick on every beat, then percussion over it: congas, shaker, rim in syncopation. Lots of it.
+2042	Add a warm bass of two or three notes that sways together with the congas.
+2043	Record a chant on marimba, kalimba or voice: a short pentatonic phrase with echo.
+2044	Add a pad or a piano: one minor chord per four bars, to give the chant something to lean on.
+2045	Play the melody with one finger, staccato, as if on a bell: four to eight notes in a loop.
+2046	Lean on the tonic and the note a semitone up: that pair gives phonk its sinister sound.
+2047	Brazilian phonk is simpler: two or three notes in the kick rhythm, loud, overdriven.
+2048	Start with a cowbell melody: a short ringing sound (Collision or a sample), eight notes in a dark mode in a loop.
+2049	Add a beat: a hard kick and clap with overdrive, hi-hats in eighths. Put Saturator on the whole drum group.
+2050	Add an overdriven 808: long notes on the tonic, Saturator with Drive to the right till the bass growls.
+2051	Hyperpop
+2052	Play major chords high and fast, like a nursery rhyme at double speed.
+2053	Play the melody staccato, repeating one note, and do not fear excess: here it is all over the top.
+2054	Start with bright supersaw or bell chords: C, G, Am, F, a bar each. All ringing and high.
+2055	Add a beat: an overdriven kick, a loud clap, hi-hats with rolls. Redux and Saturator on the drums for crunch.
+2056	Add an 808 with overdrive: it should growl and nearly drown out the rest.
+2057	Record a melody with a voice or a pluck and raise it an octave: a sweet, deliberately fake sound.
+2058	Jersey club
+2059	Play short chords in the kick rhythm: three hits in a row, a pause and two quick ones.
+2060	Cut the motif into two-note pieces and repeat them like a stutter.
+2061	Start with a Jersey rhythm kick: five hits a bar, three even and two quick at the end. Clap on 2 and 4.
+2062	Add an 808 on the same hits as the kick: short notes on the tonic.
+2063	Record chops: short pieces of a voice or a chord that repeat in the kick rhythm.
+2064	Nitecore
+2065	Take a familiar melody, play it an octave up and one and a half times faster: that is the whole trick.
+2066	Hit the chords in eighths, even and bright, as on a toy piano.
+2067	Start with simple chords in the upper octave: G, D, Em, C, a bar each, on bright piano or supersaw.
+2068	Add a straight beat: kick on every beat, clap on 2 and 4, open hat between the beats. Tempo above 150.
+2069	Record a song melody and raise it an octave: a thin fast voice is what nightcore is.
+2070	Add an offbeat bass: a short note between the kicks, the root of the chord.
+2071	Eurodance
+2072	Play the melody with one finger on a synth with a sharp attack: simple, eight notes, to stick at first hearing.
+2073	Bass hits the offbeat: one-and, two-and, a note on every and.
+2074	Start with a kick on every beat, a clap on 2 and 4 and an open hat between beats: a nineties beat.
+2075	Add an offbeat bass: a short note between the kicks, jumping an octave.
+2076	Record a chorus riff on a bright synth: eight notes in minor, the rhythm repeats every two bars.
+2077	Add a piano or a pad under the riff: Am, F, C, G, one a bar.
+2078	8-bit
+2079	There are no chords here: run their notes very fast, one at a time. You get a trill, as in old games.
+2080	Play the melody crisp and staccato, with octave jumps.
+2081	Start with a square wave melody: in Drift choose Rectangle, remove the attack and tail. Jumps, trills, repeats.
+2082	Add a triangle wave bass: Triangle in Drift, short eighth notes jumping an octave.
+2083	Add drums made of noise: short noise for the hi-hat and snare, a low click for the kick. Put Redux on everything.
+2084	Psydub
+2085	Play the bass as a melody: a singing line of four or five notes, calm, with pauses.
+2086	Take a short offbeat chord and let go: the echo plays out the tail.
+2087	Lead the melody in sparse long notes, bent with the Pitch wheel: the sound should flow.
+2088	Start with a relaxed beat: kick on 1 and 3, rim or snare on 3, hi-hats in eighths. Tempo from 80 to 110, lots of air.
+2089	Add the bass, it leads here: a sine or a triangle, one voice, a singing line of four bars.
+2090	Add a skank: a short chord between the beats, with Echo and a long Feedback on it. No offbeat, no psydub.
+2091	Record a bubbling line: a one-voice saw, Glide, resonance to the right, a hand on the filter. Or a live instrument: guitar, flute.
+2092	Psybass
+2093	Play with swing: the second sixteenth in a pair is late. Try triplets too, three notes to a beat.
+2094	Hold a long bass note and rock the filter: change the rocking speed every bar.
+2095	Chop the melody up: a phrase, a hole, the last note again. The sound should stumble.
+2096	Start with a half-time beat with swing: kick on 1, snare on 3, hi-hats in sixteenths and triplets.
+2097	Add a psybass: a saw, one voice, an LFO on the filter. Change the LFO rate each bar: 1/8, triplets, 1/16.
+2098	Record an acid phrase and put Beat Repeat on it: let it crumble into repeats now and then.
+2099	Add air: a pad with a long attack and a big reverb, one chord per eight bars.
+2100	Electronic metal
+2101	Play the riff on the low keys, one or two notes: rhythm rules here, broken and exact.
+2102	Do not count in fours: play a phrase of seven eighths over an even kick and repeat.
+2103	After a heavy part switch the colour sharply: four bars of clean arpeggios, then the hit again.
+2104	Start with fast tight drums: the kick copies the riff rhythm note for note, snare on the third beat, cymbals in quarters.
+2105	Add a riff: low short saw notes through Amp and Pedal, in a broken rhythm. Or record a guitar if you have one.
+2106	Record a fast synth lead or an arpeggio over the riff: in sixteenths, in the upper octave.
+2107	Add a four-bar electronic interlude: a clean pad or a techno bass with no guitars. Contrast beats loudness.
+2108	70s disco
+2109	The left hand jumps the bass in octaves: a low note, the same an octave up. The right takes a short chord between beats.
+2110	Play the melody like strings: long notes that rise smoothly to the end of the phrase.
+2111	Start with the beat: kick on every beat, open hat between the beats, clap on 2 and 4. That is disco.
+2112	Add a bass in octaves: low note on the beat, high one between the beats. It should bounce.
+2113	Add short guitar or electric piano chords between the beats, seventh chords: Dm7, G7, Cmaj7.
+2114	Record a string melody: long notes in the upper octave that answer the bass.
+2115	70s funk
+2116	The first beat matters most: hit it hard, play the rest softer and shorter. Leave pauses between notes.
+2117	Take the chord short, like a click, in sixteenths with gaps: chick, pause, chick-chick.
+2118	Start with the beat: kick on 1 and syncopated before 3, snare on 2 and 4, accented sixteenth hi-hats.
+2119	Add a bass: a strong note on the first beat, then short notes and pauses. Octave jumps.
+2120	Add short G7 and C7 chords, sixteenths with gaps: rhythm matters more than notes.
+2121	Record horns: short sharp phrases of two or three notes answer the bass.
+2122	Berlin school
+2123	The left hand holds one bass note or repeats it in eighths. The right slowly changes the chord once every four bars.
+2124	Play a phrase of eight notes and repeat it without stopping, changing one note at a time.
+2125	Start with a sequence: eight sixteenth notes looped, Arpeggiator or a clip. It runs the whole track.
+2126	Add a pad: one chord per four or eight bars, a slow filter.
+2127	Record a solo on top: long notes with Glide that climb higher and higher.
+2128	80s synth-pop
+2129	The left hand plays bass in even eighths, the right leads a simple melody of long notes.
+2130	Build the melody of two phrases: question up, answer down. You should want to hum it.
+2131	Drum machine first: kick on 1 and 3, echoed snare on 2 and 4, eighth hi-hats.
+2132	Add a synth bass in eighths: the root of the chord, sometimes the octave.
+2133	Add a pad or short chords: Am, F, C, G. One per bar.
+2134	Record an eight-note hook melody with a bright lead. In the chorus raise it an octave.
+2135	80s Italo disco
+2136	Left hand: bass in sixteenths across an octave, low-high-high-low. Right hand: melody in eighths.
+2137	The melody is simple and sweet, all on home notes. Play it twice, ending higher the second time.
+2138	Start with the beat: kick on every beat, clap on 2 and 4, open hat between beats.
+2139	Add a bass in sixteenths with an octave jump: it runs non-stop for the whole track.
+2140	Record a melody on a bright synth: eight notes that repeat.
+2141	Add a string pad under the melody: Am, F, G, Em.
+2142	80s electro
+2143	Play staccato, like a machine: every note the same length, no accents.
+2144	Bass and melody trade calls: two bass hits, two melody hits, a pause.
+2145	808 beat first: kick on 1, before 2 and syncopated on 3, snare on 2 and 4, cowbell, hi-hats.
+2146	Add a synth bass: short notes in the kick rhythm, octave jumps.
+2147	Record a robotic melody of five pentatonic notes. Or a voice through Vocoder.
+2148	80s acid house
+2149	Play sixteenths on two or three notes: the same one, octave up, neighbour. Move the filter with the other hand.
+2150	Overlap some notes: with Glide they slide, and the line starts to squeal.
+2151	Start with the beat: 909 kick on every beat, clap on 2 and 4, open hat between beats.
+2152	Add an acid line: sixteenths on one or two notes with octave jumps and slides.
+2153	Record the filter sweep: Freq and Res by automation, from muffled to squeal and back.
+2154	90s trip hop
+2155	Play slow, behind the beat, as if reluctant. Long pauses between phrases.
+2156	Left hand holds one low chord, right hand drops two or three notes and waits.
+2157	Start with the beat: a heavy slow break, kick on 1, snare on 3. Dusty and muffled.
+2158	Add a bass: deep, of two or three notes, with long pauses.
+2159	Add gloomy chords: strings or electric piano, Dm7 and Gm7. One per two bars.
+2160	Record a melody: a few notes of piano or voice with a big echo.
+2161	90s big beat
+2162	Play a riff like a guitarist: three or four pentatonic notes, loud, the same every time.
+2163	Before the riff returns pause for a whole beat: silence hits harder here.
+2164	Start with a loud break: live drums with overdrive, kick on 1, snare on 2 and 4.
+2165	Add a bass: overdriven, copying the riff an octave lower.
+2166	Record a four-note riff and an acid line over it. The riff repeats the whole track.
+2167	90s gabber
+2168	Play short and angry, in eighths: one note hammers, its semitone neighbour cuts in.
+2169	A melody of three or four notes in minor, no frills. Speed does all the rest.
+2170	Start with a kick: overdriven to a rasp, on every beat. It plays the bass too.
+2171	Record a harsh melody: short bright saw notes, three or four notes in a loop.
+2172	2000s electro house
+2173	The bass is the melody: play it staccato in the lower octave, syncopated, sliding.
+2174	One two-bar phrase, then the same with a changed ending.

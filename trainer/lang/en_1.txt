@@ -1,0 +1,371 @@
+0000	C
+0001	C#
+0002	D
+0003	D#
+0004	E
+0005	F
+0006	F#
+0007	G
+0008	G#
+0009	A
+0010	A#
+0011	B
+0012	D FLAT
+0013	A FLAT
+0014	E FLAT
+0015	B FLAT
+0016	KICK
+0017	RIM
+0018	SNARE
+0019	CLAP
+0020	TOM
+0021	HAT
+0022	TOM 2
+0023	OPEN HAT
+0024	CRASH
+0025	KIK
+0026	SNR
+0027	CLP
+0028	TM2
+0029	OPN
+0030	CRS
+0031	RIGHT HOLDS 
+0032	LEFT HOLDS 
+0033	LEFT PLAYS BASS
+0034	RIGHT PLAYS MELODY
+0035	DEVICE
+0036	KNOB
+0037	MODE
+0038	TEMPO
+0039	RECORD
+0040	CLIP
+0041	NOTES
+0042	SCENE
+0043	LOCATOR
+0044	ARR.
+0045	LOOP
+0046	ANY KEY
+0047	CLICK CIRCLE
+0048	The key of 
+0049	 major: its six chords are lit on the circle. Press the keys together.
+0050	Progression 
+0051	 in the key of 
+0052	 major. Twice in a row.
+0053	C major
+0054	G major
+0055	F major
+0056	D major
+0057	A minor
+0058	E minor
+0059	D minor
+0060	C major pentatonic
+0061	A minor pentatonic
+0062	E minor pentatonic
+0063	blues scale from A
+0064	Dorian mode from D
+0065	Mixolydian mode from G
+0066	Today, 
+0067	: up and back. Play evenly, do not rush.
+0068	Close the filter a bit: Freq (K1) left.
+0069	Open the filter: Freq knob (K1) right.
+0070	Add resonance: Res knob (K2) right.
+0071	Reduce resonance: Res knob (K2) left.
+0072	Make the note start softly: Attack (K3) right.
+0073	Make the note start sharply: Attack (K3) left.
+0074	Change the pluck length: turn Decay (K4).
+0075	Lower the hold level: Sustain (K5) left.
+0076	Raise the hold level: Sustain (K5) right.
+0077	Stretch the note tail: Release (K6) right.
+0078	Shorten the note tail: Release (K6) left.
+0079	Change timbre: turn Shape on the first oscillator.
+0080	Swap the first oscillator wave in the Osc 1 list.
+0081	Change the LFO speed: Rate knob.
+0082	This drill uses Drift. If it is not on this track, drag it from the Instruments section.
+0083	 Play a note and hear what has changed.
+0084	turn up Dry/Wet (K8): the sound sinks into the room.
+0085	turn up Feedback (K3): the echo repeats longer.
+0086	add Drive (K1): the sound warms and growls.
+0087	turn up Amount (K1): the sound gets wider.
+0088	turn down Bits (K3): the sound gets grainy.
+0089	lower Threshold (K1): loud parts get squeezed.
+0090	close the filter, frequency knob (K1): it sounds underwater.
+0091	To this track add 
+0092	 from Audio Effects. If it is already there, just wait.
+0093	 Play a note and listen.
+0094	Lo-fi
+0095	Boom bap
+0096	Synthwave
+0097	House
+0098	Techno
+0099	Garage
+0100	Trance
+0101	Dubstep
+0102	Trap
+0103	Phonk
+0104	Future bass
+0105	Drum n bass
+0106	. Recall the tempo of this genre and set it in Ableton. Hint: from 
+0107	 to 
+0108	 beats per minute.
+0109	Press again: a new task and another +
+0110	 points. Next takes you to the next drill.
+0111	Press the lit key. Any octave will do.
+0112	Press all the lit keys together. Any octave, any order of notes.
+0113	Left hand takes the low note (bass), right the whole chord.
+0114	Left hand holds the sound and never lets go. Right plays the melody note by note.
+0115	Right hand holds the chord and never lets go. Left walks the bass.
+0116	Hit the lit pads. The trainer must sit on the drum track.
+0117	Go step by step: the trainer will notice when it is done.
+0118	Play anything: the trainer names the chord and shows it on the circle. Click a circle sector to hear the chord.
+0119	Start
+0120	Where to start
+0121	This is a trainer: it shows a task, you play it on your keyboard. Press any key, let us check the connection.
+0122	The blue key on screen shows what to press. It is the note C: the white key left of the two black ones.
+0123	Notes are named by letters: C D E F G A B. Now find G.
+0124	A chord: three keys at once, every other one. Press C, E and G together. Sector C lights up on the circle.
+0125	The circle on the left is a chord map. Coloured sectors sound good together. Click any sector with the mouse to hear it.
+0126	Now Ableton. Top left, next to the tempo number, is the metronome button with two circles. Turn it on.
+0127	Press space: Ableton starts, the metronome clicks. You play to these clicks.
+0128	Space again to stop. Each lesson gives points, points open new levels. Off you go!
+0129	Intro: what is where on screen, how the trainer checks you and how it links to Ableton.
+0130	Beginner
+0131	C major notes
+0132	Seven white keys are the whole key of C major. Half of popular music is built from them.
+0133	Find a note
+0134	To play without looking, you must find any note at once, not count up from C.
+0135	Two notes: thirds
+0136	A third is two keys with one between. All chords are built of thirds.
+0137	Two notes: fifths
+0138	A fifth is the frame of a chord. Strong and hollow, it holds up rock and electronic music.
+0139	Three main chords
+0140	C, F and G are the three major chords of the key. Three chords are enough for hundreds of songs.
+0141	Major, minor
+0142	Every major chord has a sad minor neighbour. Listen to the difference in mood.
+0143	Mission: metronome, tempo
+0144	Tempo is the speed of music. Double-click the tempo number at top left, type 90 and press Enter.
+0145	Turn on the metronome: the two-circle button by the tempo.
+0146	Space starts Ableton. Play any notes to the clicks.
+0147	Space again to stop. The metronome is your drummer: with it you learn to play in time.
+0148	Tempo and metronome are the base of Ableton: without a steady count clips will not line up.
+0149	Mission: Ableton explains itself
+0150	Point the mouse at any Ableton button and look at the bottom left corner: it says what it is called and what it does. If that box is missing, press the question mark key.
+0151	Ctrl+Z undoes the last action, even a deleted track. Delete something you do not need and bring it back. You cannot break anything here.
+0152	Tab switches the two main views: clips and the arrangement. Shift+Tab switches the bottom panel between the track devices and the clip notes. Try it and press done.
+0153	Ableton has hundreds of buttons, no need to remember them: the program explains each one. Three habits that remove the fear.
+0154	Drills
+0155	Drill: notes
+0156	Twelve random white keys. Five minutes a day, and your hand finds the note before you have time to think.
+0157	Drill: all twelve notes
+0158	Now with the black keys too. A sharp (#) is the black key right of a note, a flat (b) left of it.
+0159	Drill: intervals
+0160	Two keys at once: thirds, fifths, sixths and octaves. All chords and all melodies are made of intervals.
+0161	Press both lit keys together. The lower note is written first.
+0162	Drill: chords
+0163	The six chords of C major in random order. Goal: take any of them at once, without studying the keys.
+0164	Drill: a new key
+0165	The same six chords, but in another key: a new one every time. This is how you stop fearing the black keys.
+0166	Drill: progressions
+0167	A random common progression in a random key. The numerals are scale degrees: I the main chord, V the fifth, vi the sixth, minor.
+0168	Drill: inversions
+0169	A chord with another note below. With inversions the hand barely jumps between chords.
+0170	After the slash comes the low note. C/E means chord C with E below.
+0171	Drill: bass and chord
+0172	Left hand takes the bass, right the chord, the chord order is new each time. The main exercise for two hands.
+0173	Drill: seventh chords
+0174	Four-note chords in random order. You need them in house, lo-fi, soul and jazz.
+0175	Drill: scales
+0176	One random scale up and back. Scales mean nimble fingers and a stock of notes for melodies.
+0177	Drill: beats
+0178	A random beat from the stash: rock, hip-hop, house, disco, break, reggae. Keep a steady count all the way.
+0179	Drill: synth knobs
+0180	Six random tasks on Drift: filter, envelope, oscillator, LFO. Your hand should find the knobs by itself, like keys.
+0181	Drill: effects
+0182	Three random effects: put each on the track and turn its main knob. This is how you remember what each effect does.
+0183	Drill: genre tempos
+0184	Five genres in a row: recall each tempo and set it in Ableton. Tempo is the first thing that defines a genre.
+0185	Synths
+0186	Mission: your first synth
+0187	A new instrument will now appear on the track and the old one will vanish. To keep your sound, save it: the instrument title bar has a floppy disk icon on the right. Click it, then Enter.
+0188	In the browser on the left open Instruments and drag Drift onto this track. It takes the place of the old instrument.
+0189	Drift is a synth: sound is born in the oscillator, then goes through the filter and envelope. Play C and hear where we start.
+0190	It plays chords too. Press A, C and E together.
+0191	Click the Drift title bar. Now the eight keyboard encoders turn its main knobs: K1 and K2 the filter, K3 to K6 the envelope, K8 the volume. Turn them and press done.
+0192	A synth is an instrument whose sound you sculpt yourself. We start with Drift: all that matters is on one screen.
+0193	Filter: dark and bright sound
+0194	The lesson needs Drift on this track. If it is not there, drag it from Instruments in the browser.
+0195	The filter cuts high frequencies. In the Filter block turn Freq left (encoder K1) and play notes: the sound darkens, as if a door closed.
+0196	Now to the right: the sound opens up and turns bright. Opening the filter smoothly is the main trick of electronic music.
+0197	The Res knob (K2) is resonance: it boosts the cutoff frequency. Turn it up.
+0198	With resonance, move Freq again while holding a note: the filter sings. That is acid bass.
+0199	Leave the filter half closed and take Am: a soft background chord is ready.
+0200	The filter decides if the sound is dark or bright. It is the first knob any producer grabs.
+0201	Envelope: attack and tail
+0202	Drift must be on this track. If it is not, drag it from the Instruments section.
+0203	The envelope draws the volume of a note over time. Attack (K3) is the rise time. Turn it up and play: the note swells in, like strings.
+0204	Turn Attack back fully left: the sound hits at once again, like a piano key.
+0205	Release (K6) is the tail after you let go of the key. Turn it up: notes melt instead of breaking off.
+0206	Sustain (K5) is the level a note holds at while the key is down. Take it to zero.
+0207	Now the note is a short pluck, and Decay (K4) sets its length. Turn it: this makes plucks and basses.
+0208	The four knobs Attack, Decay, Sustain and Release turn the same timbre into a hit, a pluck, a pad or an organ.
+0209	Oscillators: raw timbre
+0210	The oscillator (Osc) gives the raw timbre. In Osc 1 open the wave list and pick another: Saw is bright and buzzy, Rectangle hollow and nasal, Sine pure.
+0211	The Shape knob nearby bends the chosen wave. Turn it and watch the wave picture below: the timbre changes smoothly.
+0212	The second oscillator sounds along with the first. Its Detune knob shifts pitch by semitones: set 7, and a fifth sounds in every note.
+0213	Return Detune to zero and drop Osc 2 an octave with Oct: the sound gains a low end.
+0214	Find the Mode list, it usually says Poly. Choose Unison: every note is played by four slightly detuned voices. The sound is now wide and fat.
+0215	Timbre starts in the oscillator: which wave, how many oscillators, how they are tuned to each other.
+0216	LFO: sound moves itself
+0217	LFO is a slow wave that turns knobs for you. In the Filter block find the Freq Mod section: pick LFO as the source in the list and move the slider beside it right.
+0218	Press and hold A: the filter sways by itself. This is called modulation.
+0219	In the LFO block the Rate knob sets the sway speed. Slow is a breathing pad, fast is a trembling, growling bass. Turn it.
+0220	There too, pick another LFO wave shape: Square switches abruptly, Sample and Hold jumps at random, like a computer in an old film.
+0221	Another source of motion is at hand: the Mod wheel on the left of the keyboard. In the Mod block you can assign it to any knob. Press done.
+0222	A living sound keeps changing a bit. LFO does it by itself while your hands play the keys.
+0223	Recipe: bass
+0224	Bass plays one note at a time. In the Mode list choose Mono: the notes will stop overlapping.
+0225	Drop the sound an octave: Oct knob on Osc 1.
+0226	Close the filter a bit with Freq (K1): bass needs no bright top, it needs solid lows.
+0227	The bass is ready. Play the line short and even: the bass must hit with the kick.
+0228	Bass is the foundation of a track. One recipe for any genre: one voice, low octave, filter half shut.
+0229	Recipe: pad
+0230	A pad is a soft bed of chords. In the Mode list choose Stereo: the voices spread to left and right speakers.
+0231	Turn up Attack (K3): no hit, the chord swells in.
+0232	Turn up Release (K6): the chords flow into each other.
+0233	Close the filter a bit (K1) so the pad does not fight the melody for highs.
+0234	Play a progression in long chords and hear how they wash over one another.
+0235	A pad fills the space and glues the track. Barely noticed, yet without it things feel empty.
+0236	Recipe: pluck, lead
+0237	A pluck is a short plucked note. Sustain (K5) to zero.
+0238	Set Decay (K4) short, about a quarter turn.
+0239	Play an arpeggio: short notes fall like drops. House and trance love this sound.
+0240	Now the lead, the melody voice. Turn Sustain back right so the note lasts while you hold the key.
+0241	In the Mode list choose Mono, turn on Legato and add Glide.
+0242	Play a melody overlapping: press the next key before letting the last go. Notes slide into each other, like a voice. Had your fill? Press done.
+0243	A pluck plays arpeggios and riffs, a lead carries the main melody. The difference is two envelope knobs.
+0244	Operator: frequency sound
+0245	Drag Operator from Instruments to the track, it replaces Drift. Operator is different: one oscillator shakes another. This is FM synthesis.
+0246	Now only oscillator A sounds, with a pure wave. Play C: a plain sound, like a dial tone.
+0247	Turn on oscillator B (the little square marked B) and turn up its Level (encoder K7). B itself is silent: it shakes A, and the sound turns metallic.
+0248	The Coarse knob on B (K5) sets how many times B is faster than A. Small numbers give a pure tone, big ones a bell. Try a few.
+0249	There is a filter here too: turn on the Filter block if it is off, and turn its frequency (K1). Harsh metal becomes a soft electric piano.
+0250	Take a couple of chords. FM synthesis made the eighties electric pianos, bells and basses.
+0251	FM synthesis gives metal, glass and bells: sounds you cannot sculpt with a filter.
+0252	Wavetable: living waves
+0253	Drag Wavetable from Instruments to the track. Its oscillator holds a whole table of waves and can glide smoothly across it.
+0254	Hold a note and turn encoder K1: the position in the wave table. Timbre flows from one to another, a plain oscillator cannot do it.
+0255	The filter here is on K5. Close it a bit: same idea as Drift.
+0256	Find the Unison block and pick its Classic mode: one voice becomes a choir. This makes the supersaw for trance and future bass.
+0257	Play chords with the wide sound.
+0258	Wavetable is the sound of modern electronic music: a timbre that moves inside one note.
+0259	Analog: a warm classic
+0260	Drag Analog from Instruments onto the track. It is built like the old analogue synths: two oscillators, two filters, two amplifiers.
+0261	Encoder K1 is the frequency of the first filter. Close it a bit: familiar move, familiar result.
+0262	K7 slightly detunes the second oscillator against the first. Two nearly identical tones give a warm, living pulse.
+0263	Analog has vibrato: find the Vib switch and turn it on. Now the Mod wheel on the left of the keyboard adds a tremble to the note.
+0264	Play notes and on a long note move the Mod wheel: the sound comes alive like a singer.
+0265	The same blocks sit in every synth. Understand Drift and you already understand Analog.
+0266	Arpeggiator: a chord scatters itself
+0267	In the browser open MIDI Effects and drag Arpeggiator onto this track.
+0268	Arpeggiator must sit right of the trainer and left of the instrument. If it is elsewhere, drag it by the title bar.
+0269	Hold down Am: the arpeggiator itself plays its notes one by one.
+0270	The Rate knob sets the speed in fractions of a bar: 1/8 is calm, 1/16 is lively. Change it.
+0271	In the Style list choose another pattern: Up goes up, UpDown there and back, Random jumps at random.
+0272	Play a progression, holding each chord for a bar. With one hand you play like a sequencer from the eighties.
+0273	The button at the left of its title bar turns the arpeggiator off, the Delete key removes it. Press done.
+0274	An arpeggiator turns a held chord into a running pattern. Synthwave, trance and half the soundtracks stand on it.
+0275	Recipe: sub bass
+0276	Drag Drift from Instruments onto the track if another instrument is there now.
+0277	Sub bass is the very bottom of a track, more felt than heard. In the Osc 1 wave list choose Sine: a pure tone, no overtones.
+0278	In the Mode list choose Mono: down low, two notes at once just rumble.
+0279	Drop the sound an octave or two: Oct knob on Osc 1.
+0280	Play a line in long notes. On small speakers the sub is almost inaudible: check it in headphones.
+0281	Sub bass holds the lows in trap, dubstep and drum and bass. Simple, but no track bumps without it.
+0282	Recipe: acid bass
+0283	Acid is the squealing bass of Chicago clubs. In the Mode list choose Mono.
+0284	Turn on the Legato switch next to it and turn up Glide: notes played overlapping will slide into one another.
+0285	Turn resonance (K2) up almost fully: this is the voice of acid.
+0286	Close the filter (K1) to about halfway.
+0287	Play the riff in fast short notes.
+0288	Main thing: one hand plays the riff, the other sweeps the filter to and fro. The bass sings and squeals.
+0289	Acid bass is a few notes, resonance and a hand on the filter. It began acid house and techno.
+0290	Recipe: supersaw
+0291	In the Osc 1 wave list choose Saw: the brightest wave.
+0292	In the Mode list choose Unison: four voices play every note.
+0293	The Strength slider nearby detunes the voices from each other. Raise it: the sound spreads wide.
+0294	Turn up Release (K6) so the chords do not cut off.
+0295	Play big chords. This is the supersaw: the sound of trance, future bass and stadium electronica.
+0296	A supersaw is many detuned saws at once. The most recognisable sound of big dance music.
+0297	Effects
+0298	Mission: reverb
+0299	Effects sit on the track after the instrument and change the final sound. In the browser open Audio Effects and drag Reverb to this track.
+0300	Reverb puts the sound in a room. The Dry/Wet knob (encoder K8) mixes the clean sound with the room echo. Turn it up and play a note.
+0301	Decay Time (K1) is the tail length in seconds. Turn it up: the room becomes a cathedral.
+0302	Compare: turn the effect off at the left of its title bar. The sound is dry and close again.
+0303	Turn it back on. Simple rule: the more reverb, the farther the sound. Lead parts get a little, the background a lot.
+0304	Reverb gives the sound space. Without it a synth sounds as if in a cupboard.
+0305	Delay: echo in time
+0306	Drag Delay from Audio Effects to the track. It repeats the sound at even gaps, like an echo in the mountains.
+0307	Turn up Dry/Wet (K8) and play a short note: repeats run after it.
+0308	Feedback (K3) is how many times the echo repeats. Turn it up, but not all the way: at maximum the echo never dies.
+0309	The buttons with numbers set the repeat time in sixteenths. Choose 3: you get a dotted echo, a favourite in house and techno.
+0310	Play short notes with pauses and hear how the echo fills the gaps by itself.
+0311	Delay syncs to the track tempo and makes three notes a whole pattern.
+0312	Auto Filter: filter as an effect
+0313	Drag Auto Filter from Audio Effects. It is the same filter as in a synth, but you can put it on any sound, even on drums.
+0314	Play a chord and close the filter, frequency knob (K1): the sound goes underwater. Intros and transitions use this.
+0315	Open it back up: that famous rise before the chorus.
+0316	In the LFO block add Amount: the filter sways itself to the track rhythm.
+0317	Filter moves can be recorded into a clip: this is called automation. We reach it on the level about Ableton tricks. Press done.
+0318	The filter as an effect is the main DJ tool and the basis of any build-up in a track.
+0319	Saturator: warmth and dirt
+0320	Drag Saturator from Audio Effects. It overdrives the sound like an old amplifier and adds new overtones.
+0321	Turn up Drive (K1): first the sound warms and thickens, then it starts to growl.
+0322	Overdrive made the sound louder. Turn down Output (K7) to compare fairly: louder always seems better.
+0323	Too much? Dry/Wet (K8) mixes the clean sound back in. Turn it down to half.
+0324	A little saturation on bass and drums makes them audible even on small speakers. Press done.
+0325	Overdrive is a colour, not a flaw: from mild warmth to growling bass.
+0326	Chorus: width
+0327	Drag Chorus-Ensemble from Audio Effects. It adds slightly detuned copies to the sound.
+0328	Turn up Amount (K1) and play a chord: the sound is wider and softer, like several synths playing.
+0329	Rate (K2) is the speed at which the copies sway. Slow gives smooth depth, fast gives a tremble.
+0330	Play two chords. Chorus on pads and electric piano is the synthwave and lo-fi sound.
+0331	Chorus makes an ensemble out of one voice. One turn of the knob, and a flat sound becomes wide.
+0332	EQ Eight: cut the excess
+0333	Drag EQ Eight from Audio Effects. An equaliser makes separate frequencies louder or quieter: lows, mids, highs.
+0334	The graph has numbered points. Drag point 3 up and down while playing a chord: you hear which part of the sound it holds.
+0335	Now move the same point left and right: this chooses the frequency you adjust.
+0336	Click point 1 and under the graph give it the first type in the list: low cut. Everything left of the point vanishes.
+0337	Low cut goes on almost all but kick and bass: so they do not drown in rumble. Press done.
+0338	An equaliser frees up room: each instrument gets its own frequency shelf, and the track stops sounding like mush.
+0339	Compressor: density
+0340	Drag Compressor from Audio Effects. It turns down loud spots by itself, and the sound gets even and dense.
+0341	Play a note, then a chord, and lower Threshold (K1) until the GR bar starts twitching down: the compressor is squeezing the loud parts.
+0342	Ratio (K2) is how much it squeezes. 2:1 gentle, 4:1 marked, 10:1 hard. Turn it up.
+0343	It got quieter: a compressor can only turn down. Restore volume with the Out knob (K8).
+0344	A compressor keeps bass at one level and glues the drums. Do not squeeze too hard: a squashed sound soon tires. Press done.
+0345	A compressor evens out the volume. The most puzzling effect for a beginner, the most needed in mixing.
+0346	Mission: shared reverb
+0347	On the right of the mixer are tracks A and B: these are return tracks, shared effects for all tracks. Reverb should sit on one of them. If not, drag Reverb onto track A.
+0348	On your track find the Sends A knob and turn it up: part of the sound goes to the shared reverb.
+0349	One reverb for all tracks is a shared room: the sounds glue into one space, and it is easier on the computer. Set the send by ear and press done.
+0350	Sends and return tracks are a way to give one effect to many tracks at once. Any mixing desk works this way.
+0351	Redux: an old console
+0352	Drag Redux from Audio Effects. It ruins the sound on purpose: like the first samplers and game consoles.
+0353	Turn down Bits (K3): the sound gets grainy and noisy.
+0354	Turn down Rate (K1): the top breaks into metallic ringing.
+0355	Mix in clean sound with the Dry/Wet knob (K8), so the dirt is seasoning, not the dish.
+0356	Play a few seventh chords: a lo-fi beat base is ready.
+0357	Sound spoiled on purpose is character. Lo-fi, chiptune and half of hip-hop rest on it.
+0358	Order of effects
+0359	The order of effects changes the result. Put Saturator on the track and turn up its Drive.
+0360	Add Reverb to the same track and turn up its Dry/Wet.
+0361	Put Saturator left of Reverb: a device is dragged by its title bar. The signal runs left to right, so the reverb gets an already overdriven sound.
+0362	Play a chord: a dirty sound in a clean room.
+0363	Now drag Reverb left of Saturator: now the whole reverb tail is overdriven.
+0364	Play again: a wall of noise, like guitar bands. Neither order is a mistake, just different colours.
+0365	The same effects in another order give another sound. The chain is read left to right.
+0366	Mission: loud but no crackle
+0367	All the sound of the track meets on the Main track, the rightmost one. Click it and drag Limiter there from Audio Effects.
+0368	Limiter keeps the sound under a ceiling, so the track does not crackle. Turn up its Gain: all is louder, the peaks hit the ceiling.
+0369	Watch the meter of the Main track: red means overload. While you compose, keep some headroom: loudness is topped up at the very end. Press done.
+0370	The loudness of a track has a ceiling. A limiter on the Main track prevents crackle and adds density.

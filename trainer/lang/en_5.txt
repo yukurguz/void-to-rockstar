@@ -1,0 +1,401 @@
+1487	While recording runs, launch the scenes one by one, about eight bars each: Intro, Verse, Drop, Outro. You are playing the arrangement live. Press done.
+1488	All you played now lies in the arrangement as clips. If this track is empty there, record again: a clip must play during recording.
+1489	Tracks in the arrangement are grey? Then scene clips still run them. Press the orange Back to Arrangement button above it on the right: the recording plays. Press done.
+1490	Recording runs. Play chords over what is already in the arrangement.
+1491	Turn on the record button (Arm) on this track.
+1492	Put the cursor at a section start, right-click the ruler above the arrangement and choose Add Locator. Name it after the section: Intro, Verse, Drop.
+1493	Put another locator at the start of the next section. Locators show the whole form of the track, and a double-click on one takes you there.
+1494	Drag over a piece of the arrangement and press Ctrl+L: it loops. Work on one spot without hearing the whole track.
+1495	Make a loop of exactly eight bars: select eight bars in the arrangement, press Ctrl+L. The length shows top right.
+1496	Make a loop of sixteen bars: the length of one section in many genres.
+1497	Turn the loop off with the top button, by its length: the track runs start to end again.
+1498	Click inside the clip of this track in the arrangement and press Ctrl+E: it is cut in two. The halves move and delete separately.
+1499	Select a few arrangement clips in a row and press Ctrl+J: they join into one. Press done.
+1500	Select a whole section in the arrangement, top to bottom on all tracks, and press Ctrl+Shift+D: the copy lands after it, the rest shifts.
+1501	Delete a spare piece along with its time: select it and press Ctrl+Shift+Delete. All to its right slides in. Press done.
+1502	Select one bar in the arrangement and press Ctrl+I: silence appears there and all to its right moves away. This makes room for a new section.
+1503	In the arrangement press A: the tracks show automation lines. They are graphs of how the knobs move along the track. Press done.
+1504	Turn on Automation Arm at the top: knob moves are now recorded.
+1505	Put Auto Filter from Audio Effects on this track: it is handy for steering the brightness of a whole part.
+1506	Close the filter with the frequency knob: the part is underwater. Build-ups start like this.
+1507	Now slowly open the filter: the sound comes into the light. Eight bars of this, and the listener awaits the hit.
+1508	Record this move: press F9 and open the filter slowly over eight bars. Stop. A red line stays on the track: from now on the filter opens by itself. Press done.
+1509	Draw a fade: press A, pick Mixer and Track Volume on the track, set two points at the track end and pull the second to the bottom. Press done.
+1510	Count the tracks sounding in the loudest section and in the quietest. Energy comes from the number of parts: two or three at first, all at the peak. Press done.
+1511	Open the clip of this track and add three fast notes at the very end of the loop: a fill, it announces a change.
+1512	In the clip erase the last note before the loop end: a short silence before the hit works harder than any effect.
+1513	While the clip plays, turn send A of this track to the right (Send A): the reverb tail fills the gap between sections.
+1514	As the new section starts, turn the send back left. This echo throw on the last note of a phrase is a delay throw. Press done.
+1515	On the first beat of a new section goes a cymbal hit (Crash), and before it the same sound reversed: the Rev button of an audio clip. Find it in any audio clip. Press done.
+1516	House. Set its tempo: 120 to 128. Sections last 16 and 32 bars, and the drums-only intro is there for the DJ to mix tracks.
+1517	Techno. Set the tempo from 128 to 140. The notes hardly change, it develops through timbre: filters, echo, new hi-hats every 16 bars.
+1518	Trap. Set the tempo from 130 to 150. A short intro, 4 or 8 bars, hook 8 bars, verse 16. Before the hook the beat cuts out for a bar.
+1519	Drum and bass. Set the tempo from 170 to 176. Intro of 16 or 32 bars with no bass, then a build-up and a 32-bar drop with bass.
+1520	Lo-fi. Set the tempo from 70 to 90. A short track, about two minutes: a chord loop, drums come in after 4 bars and drop out briefly in the middle.
+1521	Now mark out the form: put locators where the sections of this genre change, and name them. The plan is ready before the notes are written. Press done.
+1522	Create an audio track (Ctrl+T) and drag onto it a favourite track in the genre you write in. It is a reference to check form and loudness against.
+1523	Turn the reference down so it does not deafen, and switch off Warp on its clip if it is on: the track must sound like the original. Press done.
+1524	Listen to the reference and put locators where something changes in it. You get a ready plan: how many bars each section lasts. Press done.
+1525	The eight-bar rule: every 8 bars something in the track changes. A hi-hat enters, the bass leaves, a filter opens. Find a spot where nothing happens for 16 bars in a row and change it. Press done.
+1526	Make an ending: in the last 8 or 16 bars remove parts one by one, starting with bass and kick. The last to stay is the one that came first. Press done.
+1527	Check the length: the sketch must fill at least 32 bars of the arrangement. If shorter, extend sections by copying (Ctrl+Shift+D).
+1528	Listen to the track start to end, touching nothing, and note where it got dull. A change is needed right there. Press done.
+1529	Select the whole arrangement (Ctrl+A), press Ctrl+Shift+R. Format WAV, button Export. Play the file on headphones and a phone: it sounds different there. Press done.
+1530	Save the project (Ctrl+S). Through File and Collect All and Save, Ableton puts every sound you used into the project folder: it can be moved to another computer. Press done.
+1531	scene per section
+1532	verse and climax
+1533	intro
+1534	ending
+1535	play by scene
+1536	subtract
+1537	a part on its own
+1538	pause before the hit
+1539	a copy grows
+1540	four scenes
+1541	the two views
+1542	record the scenes
+1543	arranging live
+1544	play on top
+1545	back to the recording
+1546	locators
+1547	loop a piece
+1548	split and join
+1549	repeat a section
+1550	room for a new section
+1551	the filter builds tension
+1552	record a knob move
+1553	energy by part count
+1554	quiet before the hit
+1555	fade at the end
+1556	fill
+1557	echo tail
+1558	filter at joins
+1559	cymbal and reverse
+1560	full transition
+1561	house form
+1562	techno form
+1563	trap form
+1564	drum and bass form
+1565	lo-fi form
+1566	example
+1567	the eight-bar rule
+1568	how to end a track
+1569	length, fresh ears
+1570	final track
+1571	sections
+1572	A track is not one loop but sections: intro, verse, climax, ending. In Ableton each section is a scene.
+1573	loop into sections
+1574	New sections are made from one loop: copy a scene and take out or add parts. You hardly ever compose from scratch.
+1575	You play scenes live and Ableton writes it into the arrangement. In five minutes a sketch gets a start and an end.
+1576	timeline
+1577	In the arrangement the track lies left to right. Locators, the loop, splitting and inserting time are editing tools.
+1578	energy
+1579	A track holds attention when energy rises and falls. Move it with the filter, volume and the number of parts.
+1580	the joins
+1581	The join of two sections is set up ahead: fill, pause, echo tail. With no transition the new section falls out of the blue.
+1582	form by genre
+1583	Each genre has its usual plan: how many bars a section lasts and when the climax comes.
+1584	from sketch to track
+1585	Last steps: compare the form with a favourite track, check the length, finish, save and export the file.
+1586	The lesson needs Drift on this track. If another instrument is there, drag Drift in from Instruments.
+1587	Drag Operator from Instruments onto this track.
+1588	Drag Wavetable from Instruments onto this track.
+1589	Drag Collision from Instruments onto this track: it sounds like wood, metal and skin.
+1590	Drag Tension from Instruments onto this track: it is a string, almost a guitar.
+1591	Put Echo from Audio Effects after the instrument: in dub the echo is a second instrument.
+1592	Put Reverb from Audio Effects on the track.
+1593	Put Saturator from Audio Effects on the track.
+1594	Put Beat Repeat from Audio Effects on the track: it catches a piece of sound and repeats it.
+1595	Put Grain Delay from Audio Effects on the track: it crumbles sound into grains.
+1596	Put Auto Filter from Audio Effects on the track.
+1597	Put Amp from Audio Effects after the instrument: it is a guitar amplifier.
+1598	Put Cabinet right after Amp: with no speaker an amp sounds like a razor.
+1599	Put Pedal from Audio Effects on the track: it is an overdrive pedal.
+1600	Put Redux from Audio Effects on the track.
+1601	Drag Arpeggiator from MIDI Effects onto this track.
+1602	The return track needs an echo. If it has only Reverb, drag Echo or Delay onto the return track.
+1603	In the Mode list of Drift choose Mono: one voice, notes do not overlap.
+1604	In the Mode list of Drift choose Unison: four voices play each note.
+1605	In the Osc 1 wave list choose Sine: a pure round tone.
+1606	In the Osc 1 wave list choose Saw: a bright saw for the filter to cut.
+1607	In the Osc 1 wave list choose Rectangle: the hollow sound of old game consoles.
+1608	Lower the filter: Freq left (K1).
+1609	Resonance (K2) right, almost full: the filter starts to squelch and sing.
+1610	Now move Freq (K1) back and forth: the sound gurgles. That is the squelch.
+1611	Turn on Legato: if you overlap notes, a note does not restart but flows on.
+1612	Take Sustain (K5) to zero: the sound becomes a short pluck.
+1613	Remove Release (K6): the note stops as soon as you let the key go.
+1614	Under Filter find Freq Mod, pick the LFO source and move the slider: the filter sways by itself.
+1615	Change the LFO speed with Rate. In psy bass it changes all the time: quarters, eighths, triplets.
+1616	Turn up Strength: the voices spread into a wall of sound.
+1617	Turn up Dry/Wet on Echo: repeats run after every note.
+1618	Turn up Feedback: repeats live longer and pile up. In dub this knob is turned all song long.
+1619	In the Echo filter turn LP down: repeats darken and drift away, as on old tape.
+1620	Turn up Reverb on Echo: the echo blurs into space.
+1621	Turn on Wobble in Echo and turn it up: the repeats drift in pitch like a chewed tape.
+1622	Turn up Dry/Wet on Reverb: the sound goes deep.
+1623	Turn up Decay Time: the tail lasts several seconds.
+1624	Turn up Saturator Drive: it gets rough and growls.
+1625	Turn up Chance on Beat Repeat: further right, it grabs and repeats sound more often.
+1626	Change Grid: the length of the piece. 1/16 gives a roll, 1/32 a buzz.
+1627	Turn up Variation: the piece length differs each time, and the repeat stops being predictable.
+1628	Turn up Spray on Grain Delay: the grains scatter in time, the sound crumbles into a cloud.
+1629	Move Pitch on Grain Delay up by 12: a ghost of the sound hangs over it an octave higher.
+1630	Turn up DryWet on Grain Delay to make the cloud heard.
+1631	In the filter type list of Auto Filter choose Vowel: the filter starts to speak vowels.
+1632	Now move the main filter knob as you play: the bass says ah, oh, oo. So talking basses are made.
+1633	Turn down Bits on Redux: the sound turns grainy, as if from an old computer.
+1634	Turn up Gain on Amp: the sound overdrives like a guitar in heavy music.
+1635	In the amp type list choose Heavy or Lead: the meanest of the set.
+1636	Turn up Gain on Pedal: the overdrive gets denser.
+1637	Turn on oscillator B in Operator and raise its Level: glass and metal appear in the tone.
+1638	Change Coarse of B: small numbers give a warm tone, large ones give a bell.
+1639	Turn on Pitch Env in Operator: a note will start higher and fall.
+1640	Move the Pitch Env amount: you get a drip, bleep or laser, depending on how far.
+1641	In the Wavetable Amp envelope add Attack: the sound floats in.
+1642	Turn up Release: chords flow into one another.
+1643	Move the wavetable position (K1) while holding a chord: the timbre slowly changes.
+1644	In Resonator 1 of Collision choose Marimba or Beam: a wooden knock.
+1645	Turn Decay of the resonator: a short knock or a long ring.
+1646	In Excitator of Tension choose Plectrum: a pick plucks the string.
+1647	Turn Decay under String: how long the string sounds.
+1648	Set Rate on Arpeggiator to 1/16 or 1/32: the chord scatters into a fast trill.
+1649	Play bass as a melody: no rush, with gaps between notes. In psydub the bass sings.
+1650	Play the line legato, move the filter: notes slide and squelch.
+1651	Skank: take the chord short, on the offbeat, and let go at once. Count one-and, two-and, play on each and.
+1652	Play a five-note tune: the way a marimba, kalimba or koto would sound.
+1653	Play a bass with octave jumps: the low note holds, the high one hops. This is from funk.
+1654	Take two chords and hold each one long: hear how the sound lives inside.
+1655	Play a few high notes: bleeps and drips that scatter across the echo.
+1656	Play long low notes and listen to the filter sway.
+1657	Play a phrase in the upper octave. Then once more, and cut it off halfway.
+1658	Play a riff: one note hammers, its neighbours cut in. Short and hard.
+1659	A seven-note riff. Play it and start again at once, no pause: the count comes out broken.
+1660	Hold the chord: the arpeggiator turns it into a trill.
+1661	Set the psydub tempo: 80 to 110. This is slower than a walk: the music should sway, not rush.
+1662	Set a medium tempo: 85 to 110. The page of his album Stazi carries that very tag: midtempo.
+1663	Set the tempo from 130 to 144. The beat will be half-time: kick on 1, snare on 3, and the track sways at half the number.
+1664	Set a fast tempo: 140 to 180. In such music the rhythm must fly.
+1665	Draw a chord in the clip between the beats, on every and. Globular says he can hardly write a track without the offbeat.
+1666	Fill the whole loop with bass: a singing line of six to eight notes, with gaps. Here bass is the melody.
+1667	Stretch a pair of bass notes to two beats or more: the line must sing, not poke.
+1668	In the copy add an answer: three or four notes higher or lower. Phrase and answer: that builds both bass and squelch.
+1669	Draw a melody of four or five notes and nothing else. The label praises his tracks for a simple strong melody.
+1670	Draw a riff on one or two low notes: five to seven short hits with uneven gaps.
+1671	Under Loop set Length 0.3.2: three beats and two sixteenths, or seven eighths. The loop is shorter than a bar and drifts against the even kick.
+1672	Name the scenes (Ctrl+R): mist, groove, dropout, second groove, exit. Such tracks run about eight minutes and grow slowly: each scene adds one part. Press done.
+1673	Drag a nature recording from Samples (look for rain, forest, water) onto a new track and turn it down: it is the air of the track. Press done.
+1674	Record the move: press the Session Record circle and in the last bar of the phrase push Chance to full, then back to zero. The glitch sounds only at the join. Press done.
+1675	Dropout: for one or two bars only echo and air remain, no bass and no drums. The longer the silence, the stronger the return. Press done.
+1676	In the browser on the left open Grooves, find Swing 16ths and drag any of them onto the clip: every second sixteenth comes late, and the rhythm sways as in hip-hop. Press done.
+1677	On the drum track tap in a half-time beat: kick on the first beat, snare on the third, hi-hats in sixteenths and triplets. Press done.
+1678	Make two scenes with different drums: a half-time beat in one, a straight kick on every beat in the other, as in psytrance. Same bass and melody. Press done.
+1679	Launch the first scene, after eight bars the second, then back. The track changes genre yet stays itself: so a fusion of styles works. Press done.
+1680	Make an intro scene of one pad and sparse notes, no beat. The track ends with it too: out of the air, back into the air. Press done.
+1681	If you have a guitar, record the riff on it: audio track, sound card input, Amp and Cabinet on the track. Gallego began with guitar. No guitar, press done.
+1682	Make an insert scene of four bars: no riff, only a synth or a techno beat. Gallego says his electronic pieces do not sound for long. Press done.
+1683	Launch the riff, after eight bars the insert, after four the riff again. The change must come with no warning: he himself names surprising the listener as his aim. Press done.
+1684	Under the loop of seven eighths put an even beat in four quarters. Each bar the riff shifts against the kick and meets it again after seven bars. Press done.
+1685	singing bass
+1686	squelch
+1687	dub echo
+1688	tape drifts
+1689	wood and string
+1690	tempo and offbeat
+1691	bass leads
+1692	slow growth
+1693	echo throw
+1694	call and answer
+1695	jumping bass
+1696	live string
+1697	glitch percussion
+1698	grain cloud
+1699	bleeps, drips
+1700	medium tempo, simple melody
+1701	live next to synthetic
+1702	glitch at joins
+1703	the track unfolds
+1704	dropout
+1705	psy bass
+1706	talking bass
+1707	the melody scatters
+1708	acid lead
+1709	air
+1710	swing
+1711	triplets over straight
+1712	half-time
+1713	two genres in one track
+1714	air at both ends
+1715	riff, no guitar
+1716	mean lead
+1717	chip arpeggio
+1718	bass of steel
+1719	sound crumbles
+1720	in seven
+1721	broken riff
+1722	sudden change
+1723	fast and tight
+1724	heavy computer music
+1725	Globular sound
+1726	Globular writes in Ableton, mostly with its built-in devices. His psydub rests on a singing bass, the offbeat and echo.
+1727	Globular composition
+1728	Globular calls himself a songwriter, not a sound designer. We build psydub the same way: from bass and offbeat, no rush.
+1729	Soulacybin sound
+1730	The label describes his sound as a balance of live and synthetic: guitar, nature noise and strings next to dub and glitch.
+1731	Soulacybin composition
+1732	The label praises his tracks for a simple strong melody. We learn to build a track that unfolds gradually.
+1733	Symbolico sound
+1734	Symbolico fuses psystep, psydub, glitch and psytrance. No account of his tools was found, so we build the sound with the tricks of the genre.
+1735	Symbolico composition
+1736	His bio puts swing, hip-hop, dub and psytrance side by side. We learn to sway the rhythm and switch genre in one track.
+1737	The Algorithm sound
+1738	Remi Gallego began with a guitar and a drum program, then added synths. A heavy riff and electronics in one sound.
+1739	The Algorithm composition
+1740	He wants the music to be unpredictable: rhythms change all the time, and the electronic pieces do not last long.
+1741	Go step by step. Unsure of a button: hover the mouse over it, and Ableton shows its name bottom left.
+1742	diminished and augmented
+1743	A diminished triad is tight and uneasy, an augmented one stretched and pulling on. Both are passing: you do not stop on them, you go through.
+1744	sus, fifths
+1745	In a sus chord a neighbour note replaces the third, and it asks for resolution. A power chord has no third at all: that is rock and synthwave.
+1746	sixths
+1747	An added sixth makes major soft and minor bitter. C69 is a major with a sixth and a ninth: a chord without a single hard edge.
+1748	diminished seventh
+1749	A diminished seventh chord is built of minor thirds only and leads a semitone up. The half-diminished one opens the minor turn ii V i.
+1750	ninths
+1751	The ninth is two notes up from the seventh. With it a chord gets wider and airier: the sound of neo-soul, house and lo-fi.
+1752	spicy dominants
+1753	A dominant can have its fifth or ninth shifted by a semitone. The chord gets spicier and pulls home harder: a jazz and funk trick.
+1754	minor with a major seventh
+1755	Minor with a major seventh sounds like a spy film, and major with a raised eleventh like the Lydian mode: bright and weightless.
+1756	big chords
+1757	Elevenths and thirteenths: five and six notes at once. Use two hands: bass and seventh in the left, colours in the right.
+1758	Five notes need two hands: the lower two left, the upper three right.
+1759	Five notes need two hands: bass and seventh left, the rest right.
+1760	Six notes: left takes the lower three, right the upper three. Any order and octave.
+1761	A chromatic note sits between two scale notes and joins them by semitones. It is an outsider, but you do not linger on it, and the melody turns smooth.
+1762	approach notes
+1763	Approach a chord note from the next key a semitone below. Jazz and funk lines do this: the outsider resolves at once into a note that belongs.
+1764	blue notes
+1765	The lowered third, fifth and seventh degrees. All the blues feeling lives between the minor and the major third.
+1766	secondary dominants
+1767	Any chord of the key can be led into by its own dominant. An outside note appears, and the harmony starts to move forward.
+1768	borrowed chords
+1769	Chords from the parallel minor: Fm, Ab, Bb, Eb in C major. A major song darkens for a moment: a favourite trick of rock and film.
+1770	chromatic bass
+1771	The bass moves by semitones while the chords above it barely change. Ballads and bossa nova rest on such a bass.
+1772	mediants
+1773	Chords a third apart with one note in common: C and E, C and Ab. The key seems to fall through: the sound of sci-fi and film music.
+1774	modulation
+1775	An outside dominant leads the music into a new key. All that came before it stays behind: the track rises to a new floor.
+1776	Black and white in a row, by semitones. Play evenly, do not stop on outside notes.
+1777	First of a pair is outside, second inside. Take the first short, then slide straight on.
+1778	After the slash is the low note: left hand walks the bass by semitones.
+1779	thirds
+1780	Two voices move together a third apart: so duets are sung. The lower note is written first, take both at once.
+1781	sixths, octaves, tenths
+1782	Same two voices, wider: a sixth is warmer than a third, an octave doubles the melody, a tenth spreads over two hands.
+1783	meeting and parting
+1784	The voices go opposite ways: one up, the other down. Polyphony starts here: each voice lives on its own.
+1785	pedal
+1786	One bass note stays while the melody roams above. A pedal holds tension: a trick of organ, trance and techno.
+1787	bass melody
+1788	The right hand holds a chord, the left plays its own melody below. Bass is a voice too, not just support.
+1789	melody over a chord
+1790	The left hand holds a chord, the right sings over it, passing through notes the chord lacks.
+1791	choir
+1792	Four voices, each moving to the nearest note of the next chord. The letter after the slash is the low note.
+1793	canon
+1794	The second voice repeats the first with a delay. First the melody sounds alone, then it answers itself.
+1795	Two keys at once: the lower is written first. Any octave.
+1796	Two keys at once: the lower is written first. Take wide pairs with two hands.
+1797	The lower voice in the left hand, the upper in the right. Watch them part and meet.
+1798	One note is one voice, a pair is both voices at once. Lower in the left hand, upper in the right.
+1799	Notes
+1800	Black keys
+1801	Black
+1802	Intervals
+1803	Chords: practice
+1804	Progression
+1805	Inversions
+1806	Two hands: practice
+1807	Musical keys
+1808	Sevenths
+1809	Scales: practice
+1810	Scales
+1811	Beats
+1812	Synth knobs
+1813	Knobs
+1814	Effects: practice
+1815	Genre tempos
+1816	Tempos
+1817	Synths of Live
+1818	Synths
+1819	Sequencer
+1820	Composition
+1821	Masters at work
+1822	Masters
+1823	Rare chords
+1824	Rare
+1825	Chromatics
+1826	Part writing
+1827	Voices
+1828	Bright
+1829	major
+1830	MAJOR
+1831	Dreamy
+1832	Lydian mode
+1833	LYDIAN
+1834	Warm
+1835	Mixolydian mode
+1836	MIXOLYD
+1837	Thoughtful
+1838	Dorian mode
+1839	DORIAN
+1840	Sad
+1841	minor
+1842	MINOR
+1843	Dramatic
+1844	harmonic minor
+1845	HARM
+1846	Dark
+1847	Phrygian mode
+1848	PHRYG
+1849	Eastern
+1850	Phrygian dominant mode
+1851	EAST
+1852	Simple
+1853	minor pentatonic
+1854	PENTA
+1855	Bluesy
+1856	blues scale
+1857	BLUES
+1858	Cosmic
+1859	Lydian augmented mode
+1860	COSMOS
+1861	Weightless
+1862	WHOLE
+1863	Futuristic
+1864	Lydian dominant mode
+1865	LYD 7
+1866	Mysterious
+1867	melodic minor
+1868	MELMIN
+1869	Epic
+1870	melodic major
+1871	MELMAJ
+1872	Sinister
+1873	Locrian mode
+1874	LOCR
+1875	Carefree
+1876	major pentatonic
+1877	MAJ 5
+1878	Japanese
+1879	Hirajoshi scale
+1880	JAPAN
+1881	Classical
+1882	The left hand takes the chord note by note, bottom up, the right plays the melody. End phrases on a home note and pause, like a breath.
+1883	Play now softer, now louder: grow to the middle of a phrase, fade to the end. Touch is the main colour here.
+1884	Start with chords: put Electric or a grand piano on a new track and record four chords, one per bar.
+1885	Record a melody on the lit notes: two-bar phrases, each ending on a home note.
+1886	Add bass: on a new track repeat the lowest notes of the chords as long notes, an octave lower.
+1887	Play lazily, just behind the beat. Roll the chord bottom up, not all at once.

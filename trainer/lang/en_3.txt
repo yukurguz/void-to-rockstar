@@ -1,0 +1,470 @@
+0696	Recipe: a cowbell melody, overdriven 808 bass, a straight kick, fast hi-hats and a clap. Find the cowbell in the 808 kits under Drums. Press done.
+0697	Phonk is cowbell, overdrive and speed. Music of night roads and short videos.
+0698	Phonk beat
+0699	Straight kick, as in house, but with a clap and anger. Play hard and evenly.
+0700	Drill: genre profile
+0701	Drill grew up in Chicago and was reborn in London. Tempo about 140: set 142.
+0702	The melody is cold and uneasy, in minor, often on piano or strings.
+0703	The mark of the genre is the sliding 808 bass: notes slide into each other. Play the line, the Glide knob adds the slide.
+0704	Recipe: sliding 808 bass, hi-hats in threes, snare not on 3 but a bit later, a dark melody. The hi-hat rhythm and sliding bass set drill apart from trap. Press done.
+0705	Drill is a cold melody and a bass that slides between notes.
+0706	Drill beat
+0707	Hi-hats and kick group in three, three and two. So the beat sounds like a broken step.
+0708	Synth genres
+0709	Synthwave: genre profile
+0710	Synthwave is nostalgia for the eighties: neon, sunset, video tapes. Tempo from 80 to 118: set 100.
+0711	Simple big chords on a wide pad with chorus. Hold each for a bar.
+0712	The bass hammers even eighths on one note and changes with the chord. Play like a motor.
+0713	Recipe: bass in eighths, arpeggio on top, pad with chorus, big-reverb snare, melody on a bright lead. You already know the arpeggiator and chorus. Press done.
+0714	Synthwave is a film that never was: simple chords, a pulsing bass and lots of reverb.
+0715	Synthwave beat
+0716	A simple confident eighties beat: kick, big snare, even hi-hats and a tom at the end of the phrase.
+0717	Future bass: genre profile
+0718	Future bass is bright chords that breathe and pulse. Tempo from 140 to 160, with the beat at half time: set 150.
+0719	Rich, bright chords on a wide supersaw. Take them with all your fingers.
+0720	The main trick is pulsing: an LFO or a sidechain from the kick pumps the chord volume. In the Mod block of Drift assign the LFO to Main Volume and switch it to Sync. Try it and press done.
+0721	Recipe: a supersaw with unison, pumping volume, snare on 3, ringing accents and a long build before the climax. Press done.
+0722	Future bass is big chords that sway like waves.
+0723	Future bass beat
+0724	A half-time beat with a bouncy kick: the snare is sparse and the kick pushes the chords.
+0725	Trance: genre profile
+0726	Trance is uplift and euphoria: long builds and a melody the whole crowd sings. Tempo from 136 to 142: set 138.
+0727	The harmony is simple and solemn. First take the chords whole.
+0728	Now the same chords note by note: this arpeggio is the motor of trance. Play evenly, like a machine.
+0729	Recipe: straight kick, bass between the hits, arpeggio or pluck with echo, supersaw at the climax and a filter that opens all through the build. Press done.
+0730	Trance is a long road up: arpeggio, build and a burst of melody.
+0731	Trance beat
+0732	A straight kick with an open hat between the hits, as in house, only faster. At the end the snare leads to the next round.
+0733	Ambient: genre profile
+0734	Ambient is music as a landscape: no beat and no hurry. You hardly hear the tempo here, set from 60 to 90.
+0735	The chords are open and vague, each lasts a long time. Hold a chord until you feel like changing it.
+0736	Space is the main instrument here. Put Reverb on the track, turn Decay Time almost all the way up and Dry/Wet past half.
+0737	Recipe: a slow attack and a long tail, huge reverb and echo, few notes and lots of air. Listen to the silence between sounds. Press done.
+0738	Ambient teaches the main thing: sound and space outweigh note count.
+0739	Chiptune: genre profile
+0740	Chiptune is the music of eighties game consoles. The tempo is lively, from 120 to 160: set 140.
+0741	The sound is simple: in Drift pick the Pulse or Rectangle wave, open the filter fully and take Release down. You get an old console squeak. Do it and press done.
+0742	Consoles had few voices, so chords were played as fast arpeggios. Play two chords as evenly as you can.
+0743	Recipe: a rectangle wave, fast arpeggios instead of chords, a simple bass, noise instead of drums. Redux adds crunch. Press done.
+0744	Chiptune teaches less is more: three voices and noise, yet the melody stays for life.
+0745	Chip beat
+0746	Console drums are clicks and noise. A simple, fast pattern with a roll at the end.
+0747	5ths circle
+0748	Fifths clockwise
+0749	Each step on the circle is a fifth up and one new black key. This is how all musical keys are built.
+0750	Fourths anticlockwise
+0751	The other way it is fourths. This is how chords move in jazz and soul.
+0752	Minor circle
+0753	The inner ring is the minor keys. Each has a major partner outside.
+0754	The key of G major
+0755	Move one sector to the right and the six working chords move with you.
+0756	The key of F major
+0757	One sector left of C. The same chord relations, a different pitch.
+0758	The key of D major
+0759	Two sectors to the right: two sharps. The favourite key of guitarists and dance tracks.
+0760	The key of E minor
+0761	Minor partner of G major. Same chords, but the centre is now Em.
+0762	One progression, four keys
+0763	Moving to another key is called transposing. This is how a song is fitted to a voice.
+0764	ii - V - I, fourths circle
+0765	Each move leads to a new key one step anticlockwise. This is modulation.
+0766	Modulation by a common chord
+0767	A chord shared by two keys serves as a door from one to the other.
+0768	Mission: arrangement
+0769	Press Tab: the Arrangement view opens. It is a timeline where the track runs left to right.
+0770	Press the record button at the top (the big circle): Ableton will record all you launch.
+0771	Launch clips one by one, like a DJ, then press space. The track is now in the arrangement.
+0772	Tab returns to the clips. The arrangement is the finished song, clips are drafts.
+0773	In the arrangement clips turn into a song: intro, build, climax, ending.
+0774	Polyphony
+0775	Parallel thirds
+0776	Two voices move together a third apart. This is how duets sing.
+0777	Parallel sixths
+0778	A sixth is a third upside down: wider and warmer. The lower note is written first.
+0779	Contrary motion
+0780	The voices move apart. This is the basis of polyphony: each voice lives its own life.
+0781	Pedal: bass stays, melody sings
+0782	A long note in the bass is called a pedal. The melody roams freely above it.
+0783	Chord and melody, passing notes
+0784	Passing notes go between the notes of the chord, and the melody becomes smooth.
+0785	Walking bass under a chord
+0786	The bass walks the chord notes, as in jazz. The left hand plays its own melody.
+0787	Chorale in four voices
+0788	Each note of the chord is a separate voice. Make sure they move smoothly.
+0789	The letter after the slash is the lowest note. Change chords with small finger moves.
+0790	Mission: effects
+0791	From the browser on the left, under Audio Effects, drag Reverb or Delay onto your track.
+0792	Turn the encoders on the keyboard: they control the parameters of the selected device.
+0793	Effects are the colours of sound. Find a setting you like and press done.
+0794	Effects turn a dry sound into space. Half the character of a track is in them.
+0795	Virtuoso
+0796	Arpeggio over two octaves
+0797	Wide arpeggios need a hand shift. This is already concert technique.
+0798	Seventh chord arpeggios
+0799	Broken seventh chords are the language of jazz solos and synth sequences.
+0800	Jazz ninth chords
+0801	Five notes in a chord: use both hands. The sound of neo-soul and lo-fi.
+0802	Tritone sub
+0803	A chord a tritone away can replace the dominant. The bass slides nicely by semitones.
+0804	ii - V - I in all keys
+0805	To play this move freely in any key is to read any song freely.
+0806	Polyrhythm 3 against 2
+0807	One hand counts to two, the other to three. The brain resists, then it clicks.
+0808	Kick and hi-hat start together. Then count aloud: one, two-and, three.
+0809	Fast hi-hats and kick
+0810	A tricky kick pattern under even hi-hat sixteenths. That is drum and bass.
+0811	Bass, chord and melody
+0812	The left holds a seventh chord, the right plays a melody on its notes. One player, full texture.
+0813	Mission: your track
+0814	Build an 8-bar loop: drums, bass, chords, melody. Each part on its own track.
+0815	Open the arrangement (Tab) and lay the clips out in time: intro, main part, ending.
+0816	Save the project: Ctrl+S. This is your first track, made entirely by your own hands. Press done.
+0817	The end of the path: use it all at once and finish your own music.
+0818	three keys
+0819	C, D and E: three white keys in a row. The whole keyboard starts with them.
+0820	five keys
+0821	Five keys under five fingers. The hand stays put, the fingers learn to work in turn.
+0822	full octave
+0823	All seven white keys. After that they only repeat higher and lower.
+0824	leaps
+0825	Melodies rarely move by neighbouring keys. We learn to jump over one, two and three.
+0826	at random
+0827	Notes in random order. The hand must find any key at once, without counting from C.
+0828	broken thirds
+0829	Forward over one, a step back and forward again. A classic piano exercise for evenness.
+0830	arpeggios
+0831	Chords broken into single notes. Half of electronic music rests on arpeggios.
+0832	long phrase
+0833	Long lines with leaps. The task: play to the end evenly and without a single mistake.
+0834	C sharp and E flat
+0835	Two black keys on the left: C sharp and E flat. Sharp is above the white key, flat below.
+0836	three on the right
+0837	The group of three black keys: F sharp, A flat and B flat.
+0838	black only
+0839	The five black keys are a ready pentatonic: you cannot play a wrong note on them.
+0840	by semitones
+0841	White and black in a row, one semitone a step. So the hand learns the keyboard terrain.
+0842	sharps
+0843	The same black key can have different names. Here all are named as sharps.
+0844	flats
+0845	The same five black keys, but under flat names. Sheet music uses both names.
+0846	chromatic runs
+0847	All keys in a row, up and down. An exercise for fluency and knowing the keyboard.
+0848	all twelve
+0849	Any of the twelve notes under any name. After this no key is a stranger.
+0850	thirds in order
+0851	A third is two keys with one between. We go up and down step by step.
+0852	thirds at random
+0853	The same thirds in random order: the hand learns the distance, not the place.
+0854	fifths
+0855	A fifth frames any chord: thumb and little finger with three keys between.
+0856	thirds and fifths
+0857	Two distances mixed. The hand learns to change its span on the fly.
+0858	sixths
+0859	A sixth is a third upside down: wider and warmer.
+0860	fourths, octaves
+0861	A fourth is just under a fifth, an octave the same note higher. Both sound hollow and mighty.
+0862	seconds, sevenths
+0863	The edgiest intervals: neighbouring keys and almost an octave. Tension rests on them.
+0864	all intervals
+0865	Any distance from a second to an octave. It readies the hand for chords of any shape.
+0866	C, F
+0867	The first two chords. They share one note, C: hold it and move the other fingers.
+0868	C, F, G
+0869	The three major chords of the key. Hundreds of songs use only them.
+0870	adding Am
+0871	The first minor chord. With it you get the most famous four chords of all.
+0872	Dm, Em
+0873	Two more minor chords. Now you have all six working chords of the key in hand.
+0874	all six
+0875	Six chords in random order. Each must be taken at once, with one hand shape.
+0876	sus, dim
+0877	Chords with a suspended note and the diminished chord. They sound unstable and ask to go on.
+0878	outside chords
+0879	Chords from neighbouring keys: with them a progression stops being predictable.
+0880	quick changes
+0881	All chords in a row, no pauses. Evenness matters here: count to yourself.
+0882	one black key, F sharp
+0883	one black key, B flat
+0884	two sharps: F and C
+0885	B flat major
+0886	two flats: B and E
+0887	A major
+0888	three sharps: F, C and G
+0889	E flat major
+0890	three flats: B, E and A
+0891	E major
+0892	four sharps
+0893	A flat major
+0894	four flats
+0895	. The same six chords, moved to a new place on the circle.
+0896	. Its chords are lit on the circle, press the keys together.
+0897	three chords
+0898	The first, fourth and fifth degrees: I, IV and V. Blues, rock and pop rest on these three chords.
+0899	with minor
+0900	We add the sixth degree, a minor one. The four I, V, vi, IV sound in thousands of hits.
+0901	second and third
+0902	Degrees two and three make the motion softer and less expected.
+0903	The same progressions, but from G. The degrees stay as they were, only the keys change.
+0904	Now from F. The more keys you have at hand, the easier it is to fit a song to a voice.
+0905	D and A major
+0906	Keys with two and three sharps: favourites of guitarists and of dance music.
+0907	B flat and E flat
+0908	Flat keys: horns, soul and jazz play in them.
+0909	with sevenths
+0910	The same degrees, but each chord has four notes. So the progression sounds grown-up.
+0911	C chord
+0912	One chord in three positions: C, E or G at the bottom. Same notes, different sound.
+0913	F, G
+0914	The same for the other two major chords. The letter after the slash is the lowest note.
+0915	minor
+0916	Inversions of minor chords Am, Dm and Em.
+0917	Any of the six chords in any position. First find the lowest note, then build the rest.
+0918	smooth bass
+0919	Progressions where the lowest note moves by steps. So the chords flow instead of jumping.
+0920	Inversions in G major: F sharp appears.
+0921	Inversions in F major: B flat appears.
+0922	the hand hardly moves
+0923	Each chord is taken in the position closest to the last. This is how band keyboardists play.
+0924	The left hand takes one low note, the right a whole chord. Now it sounds like a band.
+0925	Am joins the three major chords. The bass is always the first letter of the chord.
+0926	step by step
+0927	All six chords in order, up and down. The left hand steps along neighbouring keys.
+0928	Chords in random order: both hands jump at the same time.
+0929	progression
+0930	Real progressions, two hands. This is how songs are accompanied.
+0931	Bass and chord in a new key.
+0932	F and D major
+0933	Two more keys for two hands.
+0934	sevenths with bass
+0935	Bass on the left, a four-note chord on the right. The full sound of one player.
+0936	Cmaj7, Fmaj7
+0937	A major seventh chord: a fourth note joins the three, skipping one key. The sound is dreamy.
+0938	dominant G7
+0939	G7 sounds tense and pulls back to C. Harmony rests on this pull.
+0940	Am7, Dm7 and Em7: soft chords of house, soul and lo-fi.
+0941	The six seventh chords of the key at random.
+0942	ii V I move
+0943	Dm7, G7, Cmaj7: the main move of jazz. Preparation, tension, resolution.
+0944	Seventh chords of a new key: Gmaj7, Cmaj7, D7 and minor ones.
+0945	Seventh chords of F major: Bbmaj7 appears.
+0946	colours
+0947	Ninth chords, add9, sixth chords and half-diminished. One added note changes the whole mood.
+0948	B minor
+0949	G minor
+0950	F sharp minor
+0951	C minor
+0952	C sharp minor
+0953	F minor
+0954	B major
+0955	G sharp minor
+0956	G major pentatonic
+0957	D minor pentatonic
+0958	blues scale from E
+0959	A harmonic minor
+0960	E harmonic minor
+0961	B harmonic minor
+0962	Phrygian mode from E
+0963	Lydian mode from F
+0964	Dorian mode from A
+0965	Mixolydian mode from C
+0966	Lydian mode from C
+0967	whole tone scale
+0968	chromatic scale
+0969	F sharp major
+0970	First scales: C major and its circle neighbours. A scale is the stock of notes for building a melody.
+0971	Scales with one and two sharps or flats. Each major scale has a minor partner with the same keys.
+0972	Three sharps or flats. More black keys, but the step pattern is the same.
+0973	Four and five sharps or flats. After them no key is scary any more.
+0974	Pentatonics: five notes you cannot go wrong with. The main material for solos and melodies.
+0975	The blues scale and harmonic minor: one spicy note changes the whole character.
+0976	Modes: the same white keys, but with another centre. Each mode is a mood of its own.
+0977	Unusual scales: whole tone, chromatic and the most distant keys.
+0978	Scale: 
+0979	. Up and back, evenly, no rush.
+0980	one pad
+0981	One pad and an even count. A drummer starts not with speed but with evenness.
+0982	kick and snare
+0983	The two main drums. The kick asks, the snare answers.
+0984	kick and hat
+0985	Two pads at once: the hands learn to hit together and in turn.
+0986	rock
+0987	Kick, snare and hi-hat together. The basic beat and its close relatives.
+0988	open hat and clap
+0989	New colours: the hissing open hat and the clap. With them you get house and disco.
+0990	sixteenths
+0991	The hi-hat goes twice as often. Keep up and stay loose.
+0992	offbeats
+0993	Hits between the beats: the beat stops marching and starts to groove.
+0994	fills
+0995	Transitions between track parts: a roll on snare and toms and a cymbal hit.
+0996	Close the filter a bit: Freq (K1) left. It gets darker.
+0997	Open the filter: Freq knob (K1) right. It gets brighter.
+0998	Holding a note, slowly sweep Freq (K1) from end to end.
+0999	Add resonance: Res knob (K2) right. A whistle appears at the cutoff frequency.
+1000	Cut the lows: HP knob right. The sound becomes thin.
+1001	Restore the lows: HP left.
+1002	Raise Attack (K3): no hit, the note floats in.
+1003	Lower Attack (K3): the note hits again.
+1004	Turn Decay (K4): the pluck length changes.
+1005	Lower Sustain (K5): the note fades even while the key is held.
+1006	Raise Sustain (K5): the note lasts while you hold the key.
+1007	Raise Release (K6): the note melts after you let go.
+1008	Lower Release (K6): the note stops at once.
+1009	Change the wave in the Osc 1 list, compare.
+1010	In the Osc 1 list pick Saw: a bright buzzing saw.
+1011	In the Osc 1 list pick Sine: a pure tone, no overtones.
+1012	In the Osc 1 list pick Rectangle: hollow sound of old consoles.
+1013	In the Osc 1 list pick Triangle: soft, a bit brighter than sine.
+1014	Turn Osc 1 Shape: the wave bends, the timbre shifts smoothly.
+1015	Drop the sound an octave: Oct knob of Osc 1.
+1016	Shift the second oscillator an octave: Oct knob of Osc 2.
+1017	Set Detune of Osc 2 to 7 semitones: a fifth will sound in every note.
+1018	Change the second oscillator wave: Osc 2 list.
+1019	Change the LFO speed: Rate knob.
+1020	Change the LFO waveform in its list.
+1021	Under Freq Mod pick LFO as source and move the slider beside it: the filter will sway.
+1022	Turn the overall LFO depth: Amount knob (K7).
+1023	In the Mode list pick Mono: the synth plays one note at a time.
+1024	In the Mode list pick Poly: you can play chords.
+1025	In the Mode list pick Stereo: voices spread to both speakers.
+1026	Raise Glide: the notes slide into each other.
+1027	Turn on Legato: when notes overlap, a note does not restart.
+1028	Raise Strength: voices drift apart, the sound widens.
+1029	Make the sound darker and more muffled. You decide which knob.
+1030	Brighten the sound. Pick the knob.
+1031	Give the sound whistle and edge.
+1032	Let the note float in, not hit.
+1033	Let the note hit at once, no run-up.
+1034	Let the note melt away slowly after you let go of the key.
+1035	Let the note stop the moment you let go of the key.
+1036	Make the sound a short pluck.
+1037	Let the note stay steady while you hold the key.
+1038	Remove the lows, make the sound thin.
+1039	Make the sound fat and wide, like a choir.
+1040	Make only one note sound at a time.
+1041	Let the notes slide into each other.
+1042	Let the filter sway by itself, hands off.
+1043	bass
+1044	sub-bass
+1045	acid
+1046	lead
+1047	brass
+1048	pad
+1049	pluck
+1050	keys
+1051	supersaw
+1052	organ
+1053	filter
+1054	The filter decides if a sound is dark or bright. Freq, Res and HP: three knobs every sound starts with.
+1055	envelope
+1056	Attack, Decay, Sustain and Release draw the life of a note: how it starts, holds and melts.
+1057	oscillators
+1058	Raw timbre: which wave, which octave and what the second oscillator does.
+1059	The LFO turns the knobs for you. Speed, shape and depth of sway.
+1060	voices
+1061	How many notes sound at once and how they are linked: Poly, Mono, Stereo, Unison, glide.
+1062	recipes: low and solo
+1063	Ready sounds from familiar knobs. The same Drift becomes a bass, a sub or a lead.
+1064	recipes: chords
+1065	Sounds for chords: pad, pluck, keys, supersaw and organ.
+1066	by ear
+1067	The task is given in words, not as a knob name. This is how a producer works: hears and knows what to turn.
+1068	The course runs on Drift. If it is not on this track, drag it from the Instruments section.
+1069	 Play notes and listen.
+1070	Done. Sound: 
+1071	. Play and hear what you got.
+1072	Play and hear what you got.
+1073	Remember: Freq is brightness, Attack the start of a note, Release the tail, Mode the voice count.
+1074	Go step by step. Turn a knob with the mouse or an encoder: the trainer watches the knob itself.
+1075	It puts the sound in a room.
+1076	lower Dry/Wet (K8): the sound is close again.
+1077	raise Decay Time (K1): the tail melts longer.
+1078	lower Decay Time (K1): the room becomes small.
+1079	raise Predelay (K3): the reverb comes a bit later, and the note stays clear.
+1080	turn Size (K2): the size of the room changes.
+1081	It repeats sound as an echo.
+1082	raise Dry/Wet (K8): repeats run after the note.
+1083	raise Feedback (K3): there are more repeats.
+1084	lower Feedback (K3): the echo fades faster.
+1085	change repeat time on the number buttons.
+1086	turn the filter frequency (K4): the repeats darken or brighten.
+1087	It is a filter for any sound.
+1088	open the filter with frequency (K1).
+1089	add resonance (K2): the cutoff starts to whistle.
+1090	raise Amount in the LFO block: the filter sways.
+1091	It overdrives the sound like an old amp.
+1092	lower Drive (K1): overdrive is gone.
+1093	lower Output (K7) so the volume stays the same.
+1094	lower Dry/Wet (K8): the clean sound is mixed back in.
+1095	It adds to the sound its own detuned copies.
+1096	turn Rate (K2): the speed of the sway changes.
+1097	turn Width (K4): the effect spreads to the sides.
+1098	set the amount of effect with Dry/Wet (K8).
+1099	It cuts moving notches in the sound.
+1100	raise Amount (K1): a wave sweeps the sound.
+1101	raise Feedback (K3): the effect gets sharper.
+1102	switch the mode: Phaser, Flanger or Doubler.
+1103	It controls the width and volume of a signal.
+1104	lower Width to zero: the sound is in the centre.
+1105	raise Width: the sound spreads out.
+1106	It squashes loud parts and makes the sound dense.
+1107	lower Threshold (K1) until the GR bar starts to twitch.
+1108	raise Ratio (K2): more compression.
+1109	turn Attack (K3): a fast one eats the hit, a slow one lets it through.
+1110	turn Release (K4): how soon the compressor lets the sound go.
+1111	restore the volume with Out (K8).
+1112	It makes certain frequencies louder or quieter.
+1113	drag any point on the graph up or down.
+1114	move a point left or right: this picks the frequency.
+1115	It spoils sound on purpose, like an old console.
+1116	lower Bits (K3): the sound becomes grainy.
+1117	lower Rate (K1): highs crumble into ringing.
+1118	lower Dry/Wet (K8): the dirt becomes a seasoning.
+1119	An echo with old tape character.
+1120	raise Dry/Wet (K8): repeats appear.
+1121	raise Feedback (K6): more repeats.
+1122	raise Reverb: the echo drifts away.
+1123	reverb
+1124	Reverb gives the sound space. Amount of effect, tail length, room size.
+1125	echo
+1126	Delay repeats the sound in time with the track. How many, how often, what colour.
+1127	filter, overdrive
+1128	Auto Filter and Saturator: brightness and warmth for any sound, not only for a synth.
+1129	width and motion
+1130	Chorus, Phaser and Utility: the sound gets wider and starts to float.
+1131	density and tone
+1132	Compressor and equaliser: the main tools of mixing.
+1133	dirt and character
+1134	Redux and Echo: a sound spoilt on purpose that gains a face of its own.
+1135	two effects in a row
+1136	Effects go in a chain, and order matters: the signal runs left to right.
+1137	a chain of three
+1138	Full processing of one track: three effects, each in its place.
+1139	 from Audio Effects. 
+1140	 must sit to the left of 
+1141	: the signal goes left to right. If the order differs, drag the device by its title bar.
+1142	Play the chord and hear what you got. Compare: switch the effect off with its title bar button.
+1143	2 genres
+1144	Tempo is the first thing that tells genres apart. We start with a pair of opposites.
+1145	2 genres, new names
+1146	The list of genres grows, and the hint is still at hand.
+1147	3 genres
+1148	Three tempos in a row. You also learn to change tempo fast in Ableton.
+1149	3 genres, wider choice
+1150	Even more genres. Slow, medium and fast.
+1151	4 genres, shorter hint
+1152	Now the hint gives only a rough figure.
+1153	4 genres
+1154	Almost the whole list of genres and a short hint.
+1155	5 genres by heart
+1156	No more hints. You must remember the tempo of each genre.
+1157	all genres by heart
+1158	Any genre on the list, five in a row, by heart.
+1159	 Hint: from 
+1160	 Hint: about 
+1161	 Forgot? Look in the genre profile.
+1162	. Recall the tempo of this genre and set it in Ableton.
+1163	Double-click the tempo figure at top left, type a number and press Enter.
+1164	bass stays
+1165	The left hand holds one note, the right plays a melody. First step to independent hands.

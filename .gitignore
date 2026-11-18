@@ -14,3 +14,7 @@ promo/node_modules/
 promo/assets/*.mp4
 promo/assets/t-*.png
 promo/*.mp4
+missed_en.json
+glued_en.json
+failed_en.json
+missed_sample.txt

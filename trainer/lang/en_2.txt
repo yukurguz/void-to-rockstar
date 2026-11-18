@@ -1,0 +1,325 @@
+0371	Echo: echo with attitude
+0372	Drag Echo from Audio Effects. It is the big brother of Delay: its echo can be aged, wobbled and drowned in reverb.
+0373	Turn up Dry/Wet (K8) and play a short note.
+0374	Feedback (K6) sets how many repeats the echo has. Turn it up.
+0375	Find the Reverb knob: it gives the repeats a room. Turn it up and the echo drifts away.
+0376	Play notes with gaps. Dub and ambient are built on this echo.
+0377	Echo is an echo with a mood: from a clean repeat to old tape that wobbles and hisses.
+0378	Phaser-Flanger: sound swirls
+0379	Drag Phaser-Flanger from Audio Effects. It cuts moving notches in the sound, and the timbre starts to swirl.
+0380	Turn up Amount (K1) and take a chord: a wave runs through it.
+0381	Feedback (K3) makes it sharper and brighter. Turn it up.
+0382	Three modes at the top: Phaser, Flanger and Doubler. Switch and compare: a flanger sounds like a jet taking off.
+0383	Play a couple of long chords and hear how they shimmer.
+0384	Phaser and flanger add motion without a single new note. A classic for pads, guitars and hi-hats.
+0385	Utility: width and mono
+0386	Drag Utility from Audio Effects. It adds no colour but controls the signal itself: volume, width, balance.
+0387	Lower Width to zero: the sound shrinks to a point in the middle. That is mono. Use it to check nothing vanishes on a phone or in a club.
+0388	Now raise Width above 100: the sound is wider than the speakers.
+0389	Rule: bass and kick stay in mono in the middle, pads and effects go to the sides. Utility has a Bass Mono button for the bass. Press Done.
+0390	Width is another dimension of mixing: what sits in the centre, what at the edges.
+0391	Chords
+0392	Six chords of the key
+0393	A key has six working chords. They go together in any order: this is your palette.
+0394	Progression Am - F - C - G
+0395	The most famous four chords. A progression is chords in a loop, the backbone of a song.
+0396	In Ableton: record this progression as a clip, one chord to a bar.
+0397	Progression C - G - Am - F
+0398	The same chords in another order give another mood. Choosing the order is composing.
+0399	Progression Dm - G - C - Am
+0400	Dm, G and C are neighbours on the circle. Moving round it sounds natural.
+0401	Progression Am - Dm - G - C
+0402	Each next chord is a fifth lower. This motion pulls the music forward.
+0403	Inversions: same chord, new way
+0404	The notes of a chord can be reordered. Then the hand barely moves between chords.
+0405	Descending bass
+0406	The bass steps down as the chords change above it. A trick from thousands of ballads.
+0407	After the slash comes the bottom note. Watch the bass step down.
+0408	Three-chord blues
+0409	The twelve-bar blues is the pattern that rock, funk and house grew from.
+0410	Mission: first clip
+0411	Find the record button with a circle (Arm) at the bottom of your track. Turn it on: ready to record.
+0412	In an empty slot of this track press the record circle and play four chords. Then press space.
+0413	You have made a clip. Start it with the triangle on its left: it plays in a loop.
+0414	Space stops everything. A clip is a brick: songs are built of clips.
+0415	A clip is a recorded bit of playing. An Ableton song is built of clips like toy blocks.
+0416	Mission: align the notes
+0417	Double-click your clip: the notes open below. You can see they sit unevenly.
+0418	Click the notes, press Ctrl+A (select all), then Ctrl+U. The notes snap to the grid.
+0419	This is quantization. Listen again: the clip is more even. Press Done.
+0420	Quantization puts notes exactly on the beats. Nearly all electronic music sounds this even.
+0421	Progression F - C - G - Am
+0422	The same four chords started on F: it sounds like lift-off. Dance music loves this progression.
+0423	Canon: eight chords
+0424	The chords from the Pachelbel Canon. Hundreds of pop songs are built on them.
+0425	Progression Am - G - F - E
+0426	A descent from Spanish music. The last chord, E, is major, foreign to the key, and so it pulls hard back to Am.
+0427	Drums
+0428	Mission: the trainer on drums
+0429	Drums are played on pads. Drag SMK Trainer from the Ableton browser to the Drum Rack track and continue there.
+0430	Hit the kick pad: bottom row, far left. The kick is the pulse of a song.
+0431	Now the snare: bottom row, third pad. It answers the kick.
+0432	And the hi-hat: bottom row, seventh pad. It fills in between the hits.
+0433	Drums have their own lessons and track. Here we find out which drum is where.
+0434	Kick on every beat
+0435	A steady kick is the heart of dance music. What matters here is steadiness, not speed.
+0436	Kick and snare
+0437	Kick on one and three, snare on two and four. All pop and rock stand on this.
+0438	Hi-hat eighths
+0439	The hi-hat plays twice per kick and sets the motion. Keep it even as a clock.
+0440	Kick with the hi-hat
+0441	Two pads in one hit: the hands learn to work together and apart.
+0442	Rock
+0443	The first real beat: kick, snare and hi-hat together. You can play anything over it.
+0444	In Ableton: record this beat as a clip on the drum track and loop it.
+0445	House: 4 on floor
+0446	Kick on every beat, clap on the second and fourth, open hat between them. This is house.
+0447	Hip-hop
+0448	The kick shifts off the even beats and the beat bounces. That is boom bap.
+0449	Trap: fast hi-hats
+0450	Hi-hats in sixteenths, sparse kick and snare. The familiar trap pattern.
+0451	Breakbeat
+0452	Broken rhythm from jungle and drum and bass. Kick and snare trade calls.
+0453	Fill
+0454	A fill links the parts of a song: a roll on snare and toms and a hit with a cymbal.
+0455	Disco
+0456	Kick on every beat, snare on two and four, open hat between the hits. People have danced to this beat since the seventies.
+0457	Reggae: one drop
+0458	The first beat is empty, kick and rim land together only on the third. This gap makes the beat sway.
+0459	Funk
+0460	The kick plays between beats and argues with the snare. Funk is a rhythm where every sixteenth matters.
+0461	Drum sound
+0462	Mission: inside Drum Rack
+0463	This level runs on the drum track: the trainer must sit where the Drum Rack is. If there is no kit yet, drag any Kit from the Drums section onto the track.
+0464	A Drum Rack is a box with its own instrument on every pad. Hit the kick.
+0465	Click the kick pad in the Drum Rack window: its instrument opens on the right with a picture of the sound. Each pad has its own. Press Done.
+0466	Hit the snare and look at the Drum Rack: another pad lights up.
+0467	Drag another sound from the browser, section Drums, onto any pad. This is how to build your own kit. Press Done.
+0468	A drum kit is not one instrument but sixteen small ones. Each can be replaced and adjusted.
+0469	This lesson is done in the trainer on the drum track.
+0470	Tune the kick
+0471	This track needs a Drum Rack and the trainer beside it.
+0472	Hit the kick, then click its pad with the mouse to open its instrument.
+0473	Find the pitch knob (Transpose) on the kick instrument and turn it: the kick goes higher or lower. It is tuned to the bass so the lows do not rumble.
+0474	Listen to the result: four even hits.
+0475	Now the sound length: the Decay knob. A short kick sounds dry and tight, a long one booms, as in trap.
+0476	Four more hits. Kick pitch and length set the tone of the whole song.
+0477	The kick is the main sound in electronic music. Two knobs, pitch and length, decide the whole song.
+0478	Drum Buss: the kit sounds thick
+0479	Drag Drum Buss from Audio Effects onto the drum track. This effect was made specially for drums.
+0480	Turn up Drive (K1) and tap the pads: the kit sounds thicker and meaner.
+0481	Boom (K4) adds deep lows to the kick. Turn it up and hit the kick.
+0482	Transients makes the hits sharp or soft. Turn right for more click, left for a duller hit.
+0483	Play a beat and compare: turn Drum Buss off and on with its title bar button.
+0484	Drums are processed all together, as one instrument: then the kit sounds like a whole.
+0485	Mission: mouse beat
+0486	A beat can be drawn instead of played. Double-click an empty slot on the drum track: an empty clip appears.
+0487	A grid has opened below: rows are pads, columns are beats. Double-click to put a kick on 1, 1.2, 1.3 and 1.4.
+0488	Add snare or clap on 1.2 and 1.4, hats between kicks. Start the clip with the triangle.
+0489	The B key turns the mouse into a pencil: handy for drawing long rows of hi-hats. Try it and press Done.
+0490	Half the beats in the world are drawn, not played. Easy to hit the grid and to change the pattern.
+0491	Mission: swing
+0492	This track needs a clip with a beat: record one or take the one drawn in the last lesson.
+0493	In the browser on the left open Grooves, find any Swing 16ths and drag it right onto your clip.
+0494	Start the clip: every second sixteenth is a bit late, and the beat is no longer robotic. Swing is the soul of hip-hop and house. Press Done.
+0495	An even beat sounds like a machine. Swing shifts notes by a hair, and the beat bounces.
+0496	Two hands
+0497	Bass + chord
+0498	Left takes the bass, right the chord. At once it sounds full, like a whole band.
+0499	Bass + chord: C - G - Am - F
+0500	Same technique, new progression. Get used to hands doing different things.
+0501	Arpeggio: a chord note by note
+0502	An arpeggio is a chord spread out into a melody. A favourite trick of synth music.
+0503	Held bass, moving melody
+0504	One hand holds a note, the other plays. The first step to independent hands.
+0505	Chord left, melody right
+0506	This is how keys are played: harmony left, melody right.
+0507	Chord right, walking bass
+0508	Now the reverse: right holds, left moves. A walking bass brings the chord to life.
+0509	Mission: second track
+0510	A song is made of several tracks. Press Ctrl+Shift+T: a new MIDI track appears.
+0511	Drag any bass sound onto it from the browser on the left: Sounds section, Bass folder.
+0512	Turn on recording (Arm) on the new track and record bass: one bottom note of the chord per bar. Press Done.
+0513	In a song every part lives on its own track: chords, bass, drums, melody.
+0514	Scales, modes
+0515	C major up and down
+0516	A scale is the notes of a key in order. Melodies and solos are made of scales.
+0517	A minor
+0518	The same white keys, but from A. You get minor, the sad twin of C major.
+0519	Major pentatonic
+0520	Five notes you cannot get wrong: any of them sounds good. This is where improvising starts.
+0521	Minor pentatonic
+0522	The main scale of rock, blues and hip-hop. Learn it like the times table.
+0523	Blues scale
+0524	The pentatonic plus one spicy note. It gives that famous blues flavour.
+0525	Harmonic minor
+0526	Minor with a raised seventh: an Eastern colour and a strong pull to the tonic.
+0527	G major
+0528	The first key that has a black note: F sharp. On the circle it is the next sector.
+0529	F major
+0530	A key with one flat: B flat. On the circle it is one step left of C.
+0531	Dorian mode
+0532	Minor with a bright sixth. Funk, house and a lot of Daft Punk are built on it.
+0533	Mixolydian mode
+0534	Major with a lowered seventh: it sounds like rock and blues.
+0535	Lydian mode
+0536	Major with a raised fourth: a dreamy, cosmic colour.
+0537	Phrygian mode
+0538	Minor with a lowered second: a dark Spanish and techno character.
+0539	Chromatic scale
+0540	All twelve keys in a row. An exercise for fluency and for knowing the keyboard.
+0541	Whole tone scale
+0542	Six notes a whole tone apart: dreamy and weightless, a film favourite.
+0543	Mission: mixer
+0544	Every track has its own volume. Move the first fader on your keyboard: it controls track 1.
+0545	On your track find the Sends A knob and turn it right: the sound goes to the shared reverb.
+0546	A balance of volumes and a little echo: that is mixing. Set the volume by ear and press Done.
+0547	Mixing is balance: what is louder, quieter, further away. Without it a song is mush.
+0548	Ableton tricks
+0549	Mission: save, lose nothing
+0550	An unsaved project is lost in a crash or a restart. Press Ctrl+S, give the project a name and save. From now on press Ctrl+S from time to time.
+0551	Now let us make every new project open with your tracks and the trainer already in place. Open the File menu and choose Save Live Set as Default Set.
+0552	An instrument sound is saved separately: the floppy disk icon in the device title bar. It lands in User Library and stays at hand in any project. Press Done.
+0553	Three kinds of saving: a project, a starting template and a single sound. With them you never set things up twice.
+0554	Mission: catch your playing
+0555	Turn on the record button (Arm) on the track if it is off.
+0556	Just play. Recording is not on, and that is fine.
+0557	Played well but recording was off? Press Ctrl+Shift+C, that is Capture MIDI: Ableton pulls what you just played out of its memory and makes a clip.
+0558	Ableton listens to armed tracks all the time, so a good idea is never lost. The Capture button is also at the top, next to record. Press Done.
+0559	The best ideas come when recording is off. Capture pulls them out of memory.
+0560	Mission: scale under fingers
+0561	At the top by the tempo: a Scale button and the scale name. Turn it on: Ableton remembers the key of the song.
+0562	Next to it pick tonic A and scale Minor. Open any clip with notes: the keys of this scale are lit in the editor.
+0563	In the note editor turn on the Scale button next to Fold: only scale notes stay, you cannot draw a wrong one. Press Done.
+0564	Ableton can light up scale notes and hide the others. With this you can write melodies before you know theory by heart.
+0565	Mission: record on the grid
+0566	Open the Edit menu, Record Quantization, and choose Sixteenth-Note Quantization. Now the notes you play snap to the grid on their own.
+0567	Record a new clip in an empty slot: play a few notes to the metronome and stop recording with space.
+0568	Open the clip: the notes sit evenly, though you played as best you could. For a live feel, turn it off in the same menu. Press Done.
+0569	Quantized recording forgives loose fingers. Handy while your hand is not yet trained.
+0570	Automation: a knob moves itself
+0571	Start any clip on this track: let it play in a loop.
+0572	At the top by the record buttons turn on Automation Arm. Not sure which button: hover the mouse and Ableton shows its name at the bottom left.
+0573	Press the record circle at the top (Session Record) and slowly turn the synth filter or any effect knob. After a couple of bars press the circle again.
+0574	The knob movement is recorded in the clip. Start it again: the knob moves by itself, and a red dot appears by it.
+0575	Automation brings a song to life: the filter opens for the chorus, echo grows as a phrase ends. You can draw it by mouse too, in the clip Envelopes tab. Press Done.
+0576	A song where nothing changes gets boring in a minute. Automation turns the knobs for you as the music plays.
+0577	Rack and macros: your panel
+0578	Click the title bar of your instrument and press Ctrl+G. It is wrapped in a Rack: a container that keeps the instrument together with its effects.
+0579	On the left of the Rack turn on the Macro button: knobs appear. Right-click the instrument filter and choose Map to Macro 1.
+0580	Click the title bar of the Rack and turn encoder K1: now it is your personal knob. One macro knob can carry several parameters at once.
+0581	Save the Rack with the floppy disk icon: your own preset with a panel at hand. Press Done.
+0582	A Rack gathers an instrument, effects and eight main knobs into one preset. Nearly all library sounds are built this way.
+0583	Sidechain: breathe with the kick
+0584	Sidechain is when one sound turns another down. Put Compressor on this track, with a bass or a pad.
+0585	Press the triangle in the left corner of the Compressor title bar: a side panel opens. Turn on its Sidechain button.
+0586	In the Audio From list choose the drum track. Now the compressor listens to the drums but squeezes your sound.
+0587	Start a clip with drums and lower Threshold until your sound starts to dive on every kick.
+0588	This is the famous pump of house and future bass: the kick punches out a space, the rest breathes around it. Press Done.
+0589	Sidechain clears space for the kick and makes the whole song pump in time.
+0590	Simpler: an instrument from any sound
+0591	The track will now get a new instrument. To keep this sound, save it with the floppy disk icon in the title bar.
+0592	Drag any sound from the Samples section of the browser onto the track. Ableton adds Simpler: an instrument that plays an audio file from the keys.
+0593	Play the notes: the same sound goes higher and lower. So any noise, voice or knock becomes an instrument.
+0594	On the left Simpler has three modes. Choose Slice: the file is cut into pieces, each lands on its own key.
+0595	Press the keys in a row from the bottom up: the pieces of the file in order. Drum breaks and old records are chopped this way. Press Done.
+0596	A sampler turns any recording into an instrument. Hip-hop, jungle and house grew up on it.
+0597	Mission: export a song
+0598	A finished song lives in the arrangement. Press Tab to open it.
+0599	Select a piece of the timeline with the mouse and press Ctrl+L: Ableton plays only that piece in a loop. Handy when you work on one part.
+0600	Now select the whole song from start to end and press Ctrl+Shift+R: the export window opens.
+0601	Leave the format as WAV and press Export. You get a file you can listen to anywhere and show to friends. Press Done.
+0602	Tab returns to the clips.
+0603	A song is not finished until it can be played without Ableton. Export turns a project into a plain audio file.
+0604	Harmony
+0605	Seventh chords of the key
+0606	Add a fourth note to a chord and it sounds richer. Jazz, soul and lo-fi are built on seventh chords.
+0607	The ii - V - I move
+0608	The main move of jazz: preparation, tension, resolution. It turns up everywhere.
+0609	sus chords
+0610	A sus chord swaps the third for a neighbour note: it hangs and asks to resolve.
+0611	Diminished and augmented
+0612	Two edgy chords for tension. Use them for a moment, like a spice.
+0613	Sixths, add9
+0614	Soft colours for beautiful chords: one added note changes the whole mood.
+0615	Minor and dominant E7
+0616	In minor the fifth degree is made major, E7: it pulls harder home, to Am.
+0617	Seventh-chord blues
+0618	The same blues with seventh chords: now it sounds like the real thing.
+0619	Secondary dominants
+0620	Before any chord you can put its own dominant. The harmony comes alive.
+0621	Mission: overdubbing parts
+0622	Start your clip with chords: let it play in a loop.
+0623	At the top turn on the MIDI overdub button (the plus icon next to record) and play a melody on top.
+0624	So a part is built, layer by layer. Ctrl+Z undoes the extra. Press Done.
+0625	Overdubbing lets you build a complex part from simple layers, one at a time.
+0626	Dance genres
+0627	House: genre profile
+0628	House was born in Chicago clubs. Its tempo is 120 to 128 beats per minute: set 124.
+0629	House harmony is seventh chords from soul and disco. Take them short and choppy, like hits.
+0630	The bass plays between kicks, on the ands. Play the line short and springy.
+0631	Recipe: kick on every beat, clap on 2 and 4, open hat between kicks, short chords and sidechain from the kick. Learn the beat in the next lesson on the pads. Press Done.
+0632	House is a straight kick, warm chords and a groove you cannot stand still to.
+0633	House beat
+0634	Kick on every beat, clap on the second and fourth, open hat exactly between the kicks. Hi-hat sixteenths add the motion.
+0635	Techno: genre profile
+0636	Techno came from Detroit and Berlin: faster and harsher than house. Set the tempo from 128 to 140.
+0637	Techno has almost no chords, just a riff of two or three notes. Phrygian mode here: the dark semitone from E to F.
+0638	The main hero of techno is the filter: for minutes one riff changes only by the Freq and Res knobs. Turn them as you play it and press Done.
+0639	Recipe: heavy kick on every beat, hat between the kicks, reverb rumble under the kick, one hypnotic riff and slow filter movement. Press Done.
+0640	Techno is hypnosis: minimum notes, maximum sound. Timbre changes, not melody.
+0641	Techno beat
+0642	Straight kick, open hat between the hits and dry rim clicks in unexpected places. A tom at the end closes the loop.
+0643	Drum and bass: genre profile
+0644	Drum and bass grew out of British jungle. Tempo from 170 to 176: the drums fly, while bass and chords move at half the speed. Set 174.
+0645	In melodic drum and bass long soft chords float over the fast beat. Hold each one longer.
+0646	The bass is low and singing. Harder styles make it from two detuned saws with a half-closed filter: the Reese bass.
+0647	Recipe: kick on 1, snare on 2 and 4, between them a second, shifted kick, fast hi-hats. The beat is broken, not straight. Learn it in the next lesson. Press Done.
+0648	Drum and bass is drum speed and bass depth. There is a lot of air between them.
+0649	Drum and bass beat
+0650	Two-step: kick, snare, shifted kick, snare. At tempo 174 this pattern turns into flight.
+0651	Dubstep: genre profile
+0652	Dubstep came from London. Tempo 140, but the beat is counted at half speed: kick on 1, snare on 3. Set 140.
+0653	The mark of the genre is the wobble: a bass whose filter sways to an LFO in rhythm. In Drift pick LFO as the Freq Mod source and set the LFO itself to Sync mode. Try it and press Done.
+0654	The bass plays long low notes and the wobble chops them into bits. Play the line, holding each note longer.
+0655	Recipe: half-time beat, huge snare with reverb on 3, pauses and wobbling bass. Space matters more than the number of notes. Press Done.
+0656	Dubstep is a bass that talks and a silence that hits harder than notes.
+0657	Dubstep beat
+0658	A half-time beat: the snare lands rarely and hard. All the room between hits goes to bass.
+0659	Garage: genre profile
+0660	Garage comes from London of the nineties. Tempo from 128 to 136: set 132.
+0661	Soul chords played short and scattered, often on organ or electric piano.
+0662	The bass is bouncy and springy: it plays around the kick, not with it.
+0663	Recipe: kick on 1 and shifted before 3, clap on 2 and 4, hats with swing, chopped vocals. The beat is not straight: it stumbles and so it grooves. Press Done.
+0664	Garage is swing and a bouncy bass: dance music that does not march but skips along.
+0665	Garage beat
+0666	The kick is not where you expect it, and the clap keeps count. Play with a light swing, holding back every second hat.
+0667	Beat genres
+0668	Boom bap: genre profile
+0669	Boom bap is the classic New York hip-hop of the nineties. Tempo from 85 to 95: set 90.
+0670	The harmony came from jazz and soul records, hence seventh chords. Play lazily, just behind the beat.
+0671	A simple, round bass: it repeats the bottom notes of chords.
+0672	Recipe: boom is the kick, bap is the snare. Drums from records, swing on hats, a couple of looped chords and lots of room for a voice. Press Done.
+0673	Boom bap is a bouncing beat and a piece of an old record. All of hip-hop started here.
+0674	Boom bap beat
+0675	The kick is not on the even beats but a bit early or late. So the beat nods its head.
+0676	Trap: genre profile
+0677	Trap came from Atlanta. Tempo is set from 130 to 150, but kick and snare are counted at half speed. Set 140.
+0678	The melody is dark, minor and short, played in a loop. Play it in the upper part of the keyboard.
+0679	The bass in trap is the 808: a kick with a long tail, played as notes. Play the line down low in long notes.
+0680	Recipe: long 808 bass, snappy snare or clap on 3, fast hi-hats with rolls, gloomy melody. The Glide knob makes the bass slide. Press Done.
+0681	Trap is 808 bass, skittering hi-hats and a gloomy melody of a few notes.
+0682	Trap beat
+0683	Hi-hats run in sixteenths non-stop, the snare falls rarely, the kick comes where you do not expect it.
+0684	Lo-fi: genre profile
+0685	Lo-fi hip-hop is music for study and rain on the window. Tempo from 70 to 90: set 80.
+0686	Soft seventh chords go down step by step. Play quietly and a bit unevenly: here that is a virtue.
+0687	The sound is aged on purpose. Put Redux or Vinyl Distortion from Audio Effects on the track and turn it up a bit: old cassette dust appears.
+0688	Recipe: warm electric piano, half-closed filter, vinyl crackle, lazy drums with swing and no hurry at all. Press Done.
+0689	Lo-fi is the cosiness of imperfection: dust, rustle and chords that are in no hurry.
+0690	Lo-fi beat
+0691	The same hip-hop, but sleepy. Play softly, just behind the count, as if the beat yawns.
+0692	Phonk: genre profile
+0693	Phonk grew out of nineties Memphis rap, and drift phonk spread across the world from Russia. Tempo from 130 to 160: set 140.
+0694	Its calling card is a cowbell melody: a ringing short sound, minor, notes close together. Play it short and hard.
+0695	Phonk bass and kick are overdriven to a rasp. Put Saturator from Audio Effects on the track and turn up Drive.

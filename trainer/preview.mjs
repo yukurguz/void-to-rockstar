@@ -56,11 +56,15 @@ function File() {
 
 const sandbox = { mgraphics, Task, File, patcher: { filepath: "C:/preview/SMK Trainer.amxd" }, outlet: () => {}, post: () => {} };
 vm.createContext(sandbox);
-for (const file of ["sprites_data.js", "smk_trainer.js"]) {
+for (const file of ["sprites_data.js", "smk_trainer.js", "lang_en.js", "lang_en_rules.js"]) {
     vm.runInContext(readFileSync(join(HERE, file), "utf8"), sandbox, { filename: file });
 }
 const run = (code) => vm.runInContext(code, sandbox);
 sandbox.paint(); // the first paint starts the trainer
+// SMK_LANG=en in the environment shows the English screen.
+if (process.env.SMK_LANG === "en") {
+    run("setLanguage('en')");
+}
 
 function ticks(n) {
     for (let i = 0; i < n; i++) sandbox.tick();

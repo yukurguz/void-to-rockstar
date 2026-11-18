@@ -22,7 +22,7 @@ mgraphics.autofill = 0;
 
 // Shown in the corner of the panel, so it is plain which trainer Ableton has
 // loaded. release.py refuses to pack a release under any other number.
-var VERSION = "0.10.0";
+var VERSION = "0.11.0";
 
 var W = 986;      // wheel, keyboard, panel and stage side by side: see the geometry below
 var H = 169;
@@ -311,9 +311,154 @@ function caps(s) {
     });
 }
 
+// ------------------------------------------------------------- languages
+//
+// The trainer is written in Russian. English is laid over it at the last
+// moment: every line goes to the screen through wrap() or layout(), and
+// there a line with Russian letters is looked up in the table of lang_en.js
+// (whole texts, exactly as they stand in this file) or put together by one
+// of its rules (the lines the trainer builds from pieces). Nothing else in
+// the trainer knows which language is on the screen: the lessons, the checks
+// and the verdict on the playing work on the Russian text as before.
+var lang = "ru";            // "ru" or "en"
+var EN = {};                // Russian text -> English text; filled by lang_en.js
+var EN_RULES = [];          // [pattern over a line in capitals, function (match) -> the line in English]
+var enIndex = null;         // EN in capitals, the way the screen shows it
+var enForms = [];           // texts with places for notes (%T, %S...): [pattern, the English, the places]
+var enSaid = {};            // lines that have been translated already
+var enSaidCount = 0;
+var enMissed = null;        // for the tests: the lines that found no English
+var enGlued = null;         // for the tests: the lines put together from pieces
+var enBroken = {};          // for the tests: the lines a text without English was wrapped into
+var measuring = false;      // wrap() is trying the width of a part of a line: no language there
+var HAS_RUSSIAN = /[Ѐ-ӿ]/;
+
+var PLACE = /%[A-Z]/g;
+
+// The texts of a table that are shown piece by piece are told apart by "|".
+// A text with places for notes ("play the note %T") becomes a pattern.
+function indexEnglish() {
+    enIndex = {};
+    enForms = [];
+    for (var key in EN) {
+        if (!EN.hasOwnProperty(key)) {
+            continue;
+        }
+        enIndex[caps(key)] = caps(EN[key]);
+        var places = caps(key).match(PLACE);
+        if (places) {
+            var source = caps(key).replace(/[.*+?^${}()|\[\]\\\/]/g, "\\$&").replace(PLACE, "(.*?)");
+            try {
+                enForms.push([new RegExp("^" + source + "$"), caps(EN[key]), places]);
+            } catch (noPattern) {
+                // a text that does not make a pattern is shown as it is
+            }
+        }
+        if (key.indexOf("|") >= 0) {
+            var from = key.split("|");
+            var to = EN[key].split("|");
+            for (var i = 0; from.length === to.length && i < from.length; i++) {
+                if (enIndex[caps(from[i])] === undefined) {
+                    enIndex[caps(from[i])] = caps(to[i]);
+                }
+            }
+        }
+    }
+}
+
+// A text with places for notes, filled in: the same notes go into the English.
+function formed(s) {
+    for (var f = 0; f < enForms.length; f++) {
+        var match = enForms[f][0].exec(s);
+        if (match) {
+            var out = enForms[f][1];
+            for (var p = 0; p < enForms[f][2].length; p++) {
+                out = out.split(enForms[f][2][p]).join(match[p + 1]);
+            }
+            return out;
+        }
+    }
+    return undefined;
+}
+
+// A line the trainer has glued from pieces ("Step " + 3 + "/" + 8): every
+// piece with Russian letters must be a text of the table, and the rest, the
+// numbers, the chord names and the signs, passes as it is. The longest piece
+// is tried first. Returns undefined if the line does not come apart that way.
+function piecewise(s) {
+    var n = s.length;
+    var tail = [];          // tail[i]: the English of the line from i on, or null
+    tail[n] = "";
+    for (var i = n - 1; i >= 0; i--) {
+        var best = null;
+        for (var size = n - i; size >= 1 && best === null; size--) {
+            if (tail[i + size] === null) {
+                continue;
+            }
+            var piece = s.substring(i, i + size);
+            if (enIndex.hasOwnProperty(piece)) {
+                best = enIndex[piece] + tail[i + size];
+            }
+        }
+        if (best === null && enForms.length > 0 && (i === 0 || s.charAt(i - 1) === " ")) {
+            // the rest of the line may be one text with notes filled in
+            var rest = formed(s.substring(i));
+            if (rest !== undefined) {
+                best = rest;
+            }
+        }
+        if (best === null && tail[i + 1] !== null && !HAS_RUSSIAN.test(s.charAt(i))) {
+            best = s.charAt(i) + tail[i + 1];
+        }
+        tail[i] = best;
+    }
+    return tail[0] === null ? undefined : tail[0];
+}
+
+// A line in capitals as the screen should show it in the chosen language.
+function english(s) {
+    if (lang !== "en" || measuring || !HAS_RUSSIAN.test(s)) {
+        return s;
+    }
+    var known = enSaid[s];
+    if (known !== undefined) {
+        return known;
+    }
+    if (enIndex === null) {
+        indexEnglish();
+    }
+    var out = enIndex[s];
+    for (var i = 0; out === undefined && i < EN_RULES.length; i++) {
+        var match = EN_RULES[i][0].exec(s);
+        if (match) {
+            out = EN_RULES[i][1](match);
+        }
+    }
+    if (out === undefined) {
+        out = piecewise(s);
+        if (out !== undefined && enGlued) {
+            enGlued[s] = out;
+        }
+    }
+    if (out === undefined) {
+        out = s;
+        if (enMissed && !enBroken[s]) {
+            enMissed[s] = true;
+        }
+    }
+    if (enSaidCount > 6000) {
+        enSaid = {};
+        enSaidCount = 0;
+    }
+    enSaid[s] = out;
+    enSaidCount++;
+    return out;
+}
+
 var layouts = {};
 
 function layout(s) {
+    s = english(s);
     var cached = layouts[s];
     if (cached) {
         return cached;
@@ -359,6 +504,20 @@ function label(s, x, y, scale, colour, align) {
 var wraps = {};
 
 function wrap(s, maxWidth) {
+    var asked = s;
+    s = english(s);
+    if (enMissed && s === asked && lang === "en" && HAS_RUSSIAN.test(s)) {
+        // a text with no English is reported once, as a whole: its lines are not
+        var parts = wrapLines(s, maxWidth);
+        for (var p = 0; p < parts.length; p++) {
+            enBroken[parts[p]] = true;
+        }
+        return parts;
+    }
+    return wrapLines(s, maxWidth);
+}
+
+function wrapLines(s, maxWidth) {
     var key = maxWidth + "|" + s;
     var cached = wraps[key];
     if (cached) {
@@ -367,6 +526,7 @@ function wrap(s, maxWidth) {
     var words = s.split(" ");
     var lines = [];
     var line = "";
+    measuring = true;
     for (var i = 0; i < words.length; i++) {
         var candidate = line === "" ? words[i] : line + " " + words[i];
         if (line !== "" && layout(candidate).w > maxWidth) {
@@ -376,6 +536,7 @@ function wrap(s, maxWidth) {
             line = candidate;
         }
     }
+    measuring = false;
     lines.push(line);
     wraps[key] = lines;
     return lines;
@@ -5056,6 +5217,7 @@ function saveProgress() {
         mergeDisk();
         // Who wrote this and how far into the lesson they were: the other
         // copies of the trainer follow the one that was used last.
+        progress.lang = lang;
         progress.who = me;
         progress.stamp = Math.max(nowMs(), lastDiskStamp + 1, seenStamp + 1);
         progress.step = phase === "run" && current !== FREE && !current.gen ? step : -1;
@@ -5086,6 +5248,9 @@ function followOthers() {
         return;
     }
     seenStamp = disk.stamp;
+    if (disk.lang === "en" || disk.lang === "ru") {
+        setLanguage(disk.lang);
+    }
     var target = null;
     for (var i = 0; i < LESSONS.length; i++) {
         if (LESSONS[i].id === disk.last) {
@@ -7031,7 +7196,9 @@ var BUTTONS = {
     next: [PX + PW - 18, 32, 18, 14],
     main: [PX, 74, 64, 17],
     restart: [PX + 68, 74, 44, 17],
-    free: [PX + 116, 74, 56, 17]
+    free: [PX + 116, 74, 56, 17],
+    langRu: [PX - 2, 157, 17, 11],
+    langEn: [PX + 16, 157, 17, 11]
 };
 
 var SX = PX + PW + 8;    // stage with the critters
@@ -7573,7 +7740,11 @@ function act(x, y, now) {
     if (turn && now - lastTurnMs < TURN_GUARD_MS) {
         return false;
     }
-    if (inside(BUTTONS.free, x, y)) {
+    if (inside(BUTTONS.langRu, x, y) || inside(BUTTONS.langEn, x, y)) {
+        if (setLanguage(inside(BUTTONS.langEn, x, y) ? "en" : "ru") && ticker) {
+            saveAt = clock + 6;
+        }
+    } else if (inside(BUTTONS.free, x, y)) {
         if (inJam()) {
             leaveJam();
         } else {
@@ -7747,6 +7918,9 @@ function startTicker() {
     var saved = readProgress();
     if (saved) {
         progress = saved;
+        if (saved.lang === "en" || saved.lang === "ru") {
+            setLanguage(saved.lang);
+        }
         recount();
         shownPoints = progress.points;
         for (var i = 0; i < LESSONS.length; i++) {
@@ -8923,6 +9097,25 @@ function buttonCaption(rect, text, enabled) {
     label(text, rect[0] + rect[2] / 2, rect[1] + Math.floor((rect[3] - 9) / 2), 1, enabled ? WHITE : SLATE, CENTER);
 }
 
+// The choice of the language: the one on the screen is bright.
+function languageChoice() {
+    label("RU", PX, 160, 1, lang === "ru" ? YELLOW : SLATE, LEFT);
+    label("EN", PX + 18, 160, 1, lang === "en" ? YELLOW : SLATE, LEFT);
+}
+
+function setLanguage(next) {
+    next = next === "en" ? "en" : "ru";
+    if (next === lang) {
+        return false;
+    }
+    lang = next;
+    layouts = {};
+    wraps = {};
+    enSaid = {};
+    enSaidCount = 0;
+    return true;
+}
+
 function legend(colour, text, x, y) {
     px(x, y, 7, 7, colour);
     label(text, x + 11, y, 1, SLATE, LEFT);
@@ -8969,6 +9162,7 @@ function drawJamPanel() {
     legend(STEEL, "МИМО", PX, 149);
     legend(CYAN, "КУДА ИДТИ", PX + 42, 149);
     legend(ORANGE, "ЗАДАНИЕ", PX + 112, 149);
+    languageChoice();
     label("ВЕРСИЯ " + VERSION, PX + PW, 160, 1, SLATE, RIGHT);
 }
 
@@ -9038,6 +9232,7 @@ function drawPanel() {
     legend(SKY, "НАЖАТЬ", PX, 149);
     legend(LIME, "ВЕРНО", PX + 58, 149);
     legend(RED, "ЛИШНЯЯ", PX + 116, 149);
+    languageChoice();
     label("ВЕРСИЯ " + VERSION, PX + PW, 160, 1, SLATE, RIGHT);
 }
 

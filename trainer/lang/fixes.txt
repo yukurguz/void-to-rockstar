@@ -1,0 +1,56 @@
+# Corrections by hand, applied over the parts by make_lang.py: the Russian text, a TAB, the English.
+Драм-н-бейс	Drum and bass
+Дип-хаус	Deep house
+Тек-хаус	Tech house
+Чилаут	Chillout
+Найткор	Nightcore
+Чиптюн	Chiptune
+Смус-джаз	Smooth jazz
+Ритм-н-блюз	Rhythm and blues
+Соул 60-х	60s soul
+Минимал 2000-х	2000s minimal
+Вейпорвейв 2010-х	2010s vaporwave
+Дрилл 2020-х	2020s drill
+Синтезаторы Live	Live synths
+Круг квинт	Circle of fifths
+Рок-бит	Rock beat
+рок-бит	rock beat
+Чиптюн: бит	Chiptune beat
+прогрессии	progressions
+синкопы	syncopation
+синкопа	syncopation
+триоли	triplets
+слои	layers
+первая лента	first arrangement
+ОЙ...	OOPS...
+УРОКИ	LESSONS
+Ритм	Rhythm
+Мимо лада	Wrong notes
+Сила удара	Velocity
+Развитие	Development
+хорал	chorale
+переходы	transitions
+провал	breakdown
+Мажор и минор	Major and minor
+Гаммы и лады	Scales and modes
+СЦЕН 	SCENES 
+УРОК: 	LESSON: 
+УРОК 	LESSON 
+  ОШИБОК: 	  MISTAKES: 
+НАГРАДА: ДО 	REWARD: UP TO 
+Самая знаменитая четвёрка аккордов. Прогрессия это аккорды по кругу, основа трека.	The most famous four chords. A progression is chords in a loop, the backbone of a track.
+Пробел останавливает всё. Клип это кирпич, из клипов собирают трек.	Space stops everything. A clip is a brick: tracks are built of clips.
+Клип это записанный кусок игры. Трек в Ableton собирают из клипов, как из кубиков.	A clip is a recorded bit of playing. An Ableton track is built of clips like toy blocks.
+Ударь по пэду бочки: нижний ряд, первый слева. Бочка это пульс трека.	Hit the kick pad: bottom row, far left. The kick is the pulse of a track.
+Сбивка это переход между частями трека: дробь по снейру и томам и удар с тарелкой.	A fill links the parts of a track: a roll on snare and toms and a hit with a cymbal.
+Ещё четыре удара. Высота и длина бочки задают характер всего трека.	Four more hits. Kick pitch and length set the tone of the whole track.
+Бочка в электронной музыке главный звук. Две ручки, высота и длина, решают, какой будет весь трек.	The kick is the main sound in electronic music. Two knobs, pitch and length, decide the whole track.
+Сведение это баланс: что громче, что тише, что дальше. Без него трек звучит кашей.	Mixing is balance: what is louder, quieter, further away. Without it a track is mush.
+Вверху рядом с темпом есть кнопка Scale и название гаммы. Включи её: Ableton запомнит тональность трека.	At the top by the tempo: a Scale button and the scale name. Turn it on: Ableton remembers the key of the track.
+Автоматизация оживляет трек: фильтр открывается к припеву, эхо растёт в конце фразы. Нарисовать её можно и мышью, во вкладке Envelopes клипа. Жми готово.	Automation brings a track to life: the filter opens for the chorus, echo grows as a phrase ends. You can draw it by mouse too, in the clip Envelopes tab. Press Done.
+Трек, в котором ничего не меняется, надоедает за минуту. Автоматизация двигает ручки за тебя по ходу музыки.	A track where nothing changes gets boring in a minute. Automation turns the knobs for you as the music plays.
+Сайдчейн освобождает место для бочки и заставляет весь трек качаться в такт.	Sidechain clears space for the kick and makes the whole track pump in time.
+Миссия: экспорт трека	Mission: export a track
+Готовый трек живёт в аранжировке. Нажми Tab, чтобы открыть её.	A finished track lives in the arrangement. Press Tab to open it.
+Трек не закончен, пока его нельзя включить без Ableton. Экспорт превращает проект в обычный звуковой файл.	A track is not finished until it can be played without Ableton. Export turns a project into a plain audio file.
+Прогрессии	Progressions

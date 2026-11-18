@@ -1,0 +1,386 @@
+2434	A break from the Drums section in Simpler, Slice mode: kick on 1, snare on 2 and 4, broken hits in between.
+2435	Operator: sine. Or Drift: Saw, filter half closed, Mono. The bass answers the kick.
+2436	A stab on Wavetable or an acid line on Drift (Saw, high Res). Echo.
+2437	Electric or Wavetable: a soft pad, Attack half a second. Chorus-Ensemble, Reverb.
+2438	707 Core Kit or 808 Core Kit, quiet: shaker, rim instead of snare. A little swing from Groove.
+2439	Drift: Sine, Mono, long notes. Warm and quiet.
+2440	Guitar or flute: Tension (Plectrum) or Wavetable with a soft attack. Echo, Reverb.
+2441	Any kit through Beat Repeat (Chance 30%, more Variation). Hits off the grid, bars of different length.
+2442	Operator: bells (turn up Osc-B Level). Or Collision. Short notes, Grain Delay, Reverb.
+2443	Wavetable: a pad, the table position moves slowly. A warm backdrop to the broken beat.
+2444	909 Core Kit: kick through Saturator or Roar to a rasp, its long tail is the bass. Loud hi-hats and ride.
+2445	No separate bass needed: it is the tail of the kick. Or one humming tone: Operator, sine, Saturator.
+2446	Drift: Saw, high Res, one note with the filter moving. Or a siren: Glide and LFO on the pitch.
+2447	Shaker in sixteenths, rim and congas, a soft, sparse kick. 808 Core Kit and percussion.
+2448	Log drum: Operator, sine, Pitch Env down, short Decay, Saturator. It sounds like a knock on wood with a note.
+2449	Electric or piano: seventh and ninth chords, softly. Reverb.
+2450	Piano or flute: short phrases with pauses. Echo.
+2451	Kick on every beat, layers of percussion on top: congas, shaker, cowbell (look in Drums for Perc and Latin).
+2452	Drift: Sine or Triangle, Mono, short. Syncopated rhythm, answers the percussion.
+2453	Collision: the Marimba resonator. A short phrase in a loop. Echo, Reverb.
+2454	Wavetable: pad with a slow filter. Two chords for the whole track.
+2455	Cowbell from 808 Core Kit: drag it into Simpler and play the melody with it. Or a dark piano. Redux and Saturator.
+2456	808 Core Kit: kick, clap on 2 and 4, hi-hats in sixteenths. All through Saturator, dirty.
+2457	808 bass: Operator, sine, long Decay, Saturator with a lot of Drive, Glide.
+2458	Wavetable: supersaw, very bright. Then Multiband Dynamics with the OTT preset. Sidechain from the kick.
+2459	Kick overdriven to a rasp, metallic snare, hi-hats with rolls. Redux on the whole group.
+2460	808 bass through Saturator into distortion. Or Drift: Saw, Mono, Glide.
+2461	A bright lead or a voice pitched up. Redux, Echo, Reverb. Nothing is too much here.
+2462	Kick five times a bar: on 1, 2, 3 and two hits at the end. 808 Core Kit or 909 Core Kit, claps.
+2463	808 bass: Operator, sine, short, repeats the rhythm of the kick.
+2464	Vocal chops in Simpler, cut to the kick rhythm. Or a simple pluck.
+2465	Wavetable: supersaw or a bright piano. All higher and faster than usual.
+2466	909 Core Kit: kick on every beat, clap on 2 and 4, open hat between the beats.
+2467	Bright lead: Drift, Saw, Unison. Melody in eighths and sixteenths in the upper octave. Echo.
+2468	Drift: Saw, Mono, short, between the kicks. Sidechain.
+2469	909 Core Kit: kick on every beat, open hat between the beats, clap on 2 and 4.
+2470	Drift or Operator: a short bass between the kicks, in octaves.
+2471	Wavetable or Drift: Saw, a bright lead. A hook melody of 8 notes. Echo, Reverb.
+2472	Piano in short chords or a pad on Wavetable.
+2473	Drift: the Rectangle or Pulse wave, Mono mode, filter fully open. After it Redux: Bit Depth 4-6.
+2474	Drift: Triangle, Mono, short notes in octaves.
+2475	606 Core Kit through Redux. Kick is a short falling tone, hi-hat is noise.
+2476	A soft kit, half-time: kick on 1, rim or snare on 3. Percussion with Echo.
+2477	Drift: Sine, Mono, Glide. A singing line, high Sustain, filter half closed.
+2478	A short chord on the offbeat: Electric or Wavetable. Echo: 1/4 dotted, switch on Wobble.
+2479	Squelch: Drift, Saw, high Res, move Freq by hand. Or Collision. Grain Delay, Reverb.
+2480	Half-time: kick on 1, snare on 3, hi-hats with triplets and swing. Beat Repeat at the joins.
+2481	Drift or Wavetable: Saw, Mono, Auto Filter (type Vowel or LFO), change the LFO rate every bar. Saturator.
+2482	Operator: beeps with Pitch Env. Echo, Grain Delay. Short phrases that fall apart.
+2483	Wavetable: pad with long Attack, Reverb. Air in the breakdowns.
+2484	A live kit (look in Drums for Acoustic and Rock): kick in sixteenths, snare on the third beat.
+2485	Drift: Saw, Mono, short, through Amp and Cabinet. Plays the riff an octave lower.
+2486	Riff: Drift (Saw, Mono) or Tension through Amp (type Heavy) and Cabinet. Lead: Unison mode and Pedal.
+2487	Synth layer: Wavetable, a pad or an arpeggio through Arpeggiator 1/16 and Redux.
+2488	707 Core Kit or a live kit: kick on every beat, open hat between the beats, clap on 2 and 4. Dry, no effects.
+2489	Bass guitar: Tension (Plectrum) or Drift: Triangle, Mono, short. Octaves: low on the beat, high in between.
+2490	Electric: short seventh chords. Auto Filter with its envelope (Envelope) makes it quack like a guitar.
+2491	Strings: Wavetable, Saw, Unison, Attack 100 ms. Or brass: short bright notes.
+2492	A live kit (look in Drums for Acoustic and Funk). Dry, tight: hi-hats in sixteenths with accents.
+2493	Bass guitar: Tension (Plectrum) or Drift: Triangle, Mono, low Sustain. Auto Filter with its envelope for the slap.
+2494	Electric through Auto Filter with its envelope: a clavinet. Or a guitar chop: short chords mid-keyboard.
+2495	Brass: Wavetable, Saw, fast attack, short notes. Or an organ.
+2496	Analog or Drift: Saw, Mono, Sustain at zero, short Decay. Arpeggiator 1/16 or a clip of eight notes. Echo 1/8 dotted.
+2497	Wavetable or Analog: a pad, Attack 2 seconds, Release 4. Phaser-Flanger slow, a big Reverb.
+2498	Drift: Saw or Sine, Mono, more Glide. Long notes with Echo: a solo that floats.
+2499	707 Core Kit or 808 Core Kit. On the snare Reverb with a high Dry/Wet, then Gate.
+2500	Analog or Drift: Saw or Pulse, Mono, filter half closed, low Sustain. Even eighths.
+2501	Analog: two Saw oscillators, Chorus-Ensemble. Short chords or a pad with Attack 200 ms.
+2502	Drift: Pulse or Saw, a little Glide. Echo 1/8, Reverb. A plain and clear sound.
+2503	707 Core Kit: kick on every beat, clap on 2 and 4, open hat between the beats. Clap with Reverb.
+2504	Drift or Analog: Saw, Mono, Sustain at zero, short Decay. Sixteenths jumping the octave, non-stop.
+2505	Drift: Saw, Unison. Or Wavetable. Echo 1/8 dotted, Reverb. Sweet and bright.
+2506	Wavetable: a string pad, Attack 300 ms. Chorus-Ensemble.
+2507	808 Core Kit: a long kick, a dry snare, cowbell, hi-hats in sixteenths. No swing at all.
+2508	Drift: Saw or Rectangle, Mono, short. Notes in the kick rhythm.
+2509	Drift: Rectangle, Mono. Or a voice through Vocoder (Carrier: External, from a synth). Echo.
+2510	Drift: Saw or Rectangle, Mono, switch on Legato, a little Glide, Res almost at full, Sustain at zero. After it Saturator.
+2511	The whole melody is in the Freq knob: record its moves as automation. Echo 1/8 dotted on a send.
+2512	A break from the Drums section, slowed to 80-90. Drum Buss, Vinyl Distortion, cut the highs: a muffled, heavy beat.
+2513	Drift: Sine, Mono, long notes, filter half closed. Loud and low.
+2514	Electric or strings on Wavetable with a slow attack. A touch of Redux, Reverb.
+2515	Piano or a bit of voice in Simpler. Echo with Feedback 50% and Reverb: far away and lonely.
+2516	A break from Drums through Drum Buss (Drive, Crunch) and Saturator. Loud and dirty.
+2517	Drift: Saw, Mono, through Saturator or Pedal. Follows the riff.
+2518	Riff: Drift or Tension through Amp. On top an acid line: Drift, Saw, high Res, move Freq.
+2519	909 Core Kit: kick through Saturator (Drive at full) and again through Pedal. Its tail hums like a bass.
+2520	Wavetable or Drift: Saw, Unison, harsh. Short notes, a little Reverb. A sound like a siren.
+2521	909 Core Kit: tight kick, clap on 2 and 4, offbeat hi-hat. Glue Compressor on the group.
+2522	Wavetable or Drift: Saw, Mono, Saturator or Roar, Auto Filter with automation. Compressor with Sidechain from the kick.
+2523	Wavetable: short stab or lead, Unison. Answers the bass in the pauses.
+2524	A quiet kick, clicks and rustles instead of a snare: drag short Perc sounds into Drum Rack. Offbeat hi-hat.
+2525	Operator: sine, a very short note between the kicks. Sidechain.
+2526	One detail: Collision (a short knock) or Operator (a beep). Echo with Feedback automated.
+2527	A soft pad on Wavetable or a piano. Compressor with Sidechain from the kick: the chords sway.
+2528	A light kick on every beat, a finger snap on 2 and 4, shaker. 707 Core Kit and percussion.
+2529	Drift: Sine or Triangle, Mono, short, syncopated.
+2530	Marimba: Collision, the Marimba resonator. Or flute: Wavetable with a soft attack. Echo, Reverb.
+2531	Electric: seventh chords. Chorus-Ensemble, big Reverb. Lower the whole track by 2-3 semitones and slow it.
+2532	707 Core Kit: snare with Reverb and Gate. Slow tempo, all lightly through Redux.
+2533	Drift or Analog: Saw, filter half closed, long notes. Chorus-Ensemble.
+2534	Wavetable: soft lead with Glide or a sampled saxophone. Echo and Reverb, as if from the next hall.
+2535	A dark piano or strings: Electric with the highs turned down (Auto Filter) or Wavetable. Reverb.
+2536	808 Core Kit: triplet hi-hats with gaps, snare on the third beat and before the first, syncopated kick.
+2537	808 bass: Operator, sine, long Decay, Mono and more Glide: the notes slide. Saturator.
+2538	Grand piano: type Grand Piano in the browser search. Low notes, short. A touch of Chorus-Ensemble: like an old piano.
+2539	The same piano in the middle of the keyboard. A short chord on the offbeat. Hardly any Reverb.
+2540	The same piano, upper octaves. Play harder than the left: the melody must ring over the oom-pah.
+2541	A live kit (look in Drums for Acoustic and Jazz): cymbal leads the rhythm, hi-hat on 2 and 4. Give the clip a swing groove.
+2542	Double bass: Tension, Excitator Plectrum, an octave lower. Even notes, one to a beat.
+2543	Piano (Grand Piano) or guitar: Tension with Plectrum. Short chords on 2 and 4.
+2544	Brass: Wavetable, Saw, fast attack, filter half closed. Several voices in unison or as a chord.
+2545	A live kit: a fast cymbal, hi-hat on 2 and 4. Snare and kick in sparse hits, quietly.
+2546	Double bass: Tension, Excitator Plectrum. Short Release so fast notes do not run together.
+2547	Piano (Grand Piano): chords of two or three notes mid-keyboard, short and dry.
+2548	A sampled saxophone or trumpet. Or Wavetable: Saw, Mono, filter half closed, some Glide. Dry, no echo.
+2549	A live kit, quiet: brushes, not sticks (look in Drums for Brush). Cymbal and a swish on the snare.
+2550	Double bass: Tension, Excitator Plectrum, soft. Volume below the melody.
+2551	Piano or Electric, very quiet. Or a vibraphone: Collision, the Beam resonator, long Decay.
+2552	Muted trumpet: Wavetable, Saw, Mono, filter nearly closed. More Reverb: the sound is far away.
+2553	Double bass: Tension, Excitator Plectrum. The figure repeats, so the sound is even and deep.
+2554	Piano (Grand Piano): chords in fourths in the middle of the keyboard. Longer Release.
+2555	A live kit: swinging cymbal, sparse snare. Draw volume automation: it grows towards the middle of the solo.
+2556	Trumpet or saxophone: Wavetable, Saw, Mono, filter half closed, Glide. Reverb: Decay 3 seconds.
+2557	Nylon-string guitar: Tension, Excitator Plectrum, soft. Or Electric. Short chords, between the beats.
+2558	Double bass or a soft bass: Tension (Plectrum) or Drift, Sine, Mono. Two notes a bar.
+2559	Percussion instead of a kit: shaker, rim, a quiet kick. 707 Core Kit or Perc sounds in Drum Rack.
+2560	Flute: Wavetable with a soft attack. Or Electric. A little Reverb, no echo.
+2561	Percussion: congas, cowbell, timbales (look in Drums for Latin and Perc). The clave never stops.
+2562	Bass guitar: Tension (Plectrum) or Drift, Triangle, Mono. Long notes, syncopated.
+2563	Piano (Grand Piano), bright, both hands in octaves. A chord broken into notes: a montuno.
+2564	Brass: Wavetable, Saw, fast attack, short notes in unison. Or a flute.
+2565	A live kit (look in Drums for Acoustic and Rock): tight and loud. Drum Buss: a bit of Drive.
+2566	Bass guitar: Tension (Plectrum) or Drift, Saw, Mono, filter half closed. Fast notes, Compressor.
+2567	Electric through Pedal or Amp: an overdriven electric piano. Phaser-Flanger slow.
+2568	Solo: Drift or Analog, Saw, Mono, Glide. Pitch wheel set to two semitones, Echo.
+2569	Synth bass: Analog or Drift, Saw, Mono, filter half closed, a hint of Res. Short springy notes.
+2570	A live kit (look in Drums for Acoustic and Funk): dry, hi-hats in sixteenths, quiet hits between them.
+2571	Clavinet: Electric into Auto Filter with its envelope (Envelope). Or Electric with Phaser-Flanger.
+2572	Brass: Wavetable, Saw, fast attack. Solo on Electric with Auto Pan: the sound trembles.
+2573	707 Core Kit or a soft live kit: rim instead of snare, hi-hats quiet. A little Reverb.
+2574	Bass guitar: Tension (Plectrum) or Drift, Triangle, Mono, with a little Glide.
+2575	Electric with Chorus-Ensemble and Reverb: a glassy electric piano. Long chords.
+2576	Sampled saxophone or Wavetable: Saw, Mono, Glide, filter half closed. Reverb and Echo, vibrato on the Mod wheel.
+2577	A break from the Drums section: a live two-bar loop. Drum Buss, congas from Perc on top.
+2578	Bass guitar: Tension (Plectrum) or Drift, Triangle, Mono. Springy, with an octave jump.
+2579	Organ: Operator, sines at the octave and the fifth. Or Electric. Auto Pan or Chorus-Ensemble.
+2580	Flute: Wavetable with soft attack. Or trumpet: Saw, filter half closed. Echo.
+2581	909 Core Kit or a break, live cymbals on top. Sparse clicks and rustles from Perc.
+2582	Electric: wide chords. Echo with Wobble on and Reverb. Recorded without quantising.
+2583	Double bass: Tension (Plectrum). Or a deep Drift: Sine, Mono. Light Sidechain from the kick.
+2584	Bits of trumpet or saxophone in Simpler, Slice mode. Echo, Reverb, sometimes Grain Delay.
+2585	A live kit: shuffle on the cymbal, heavy snare on 2 and 4. Dry, light Saturator.
+2586	Double bass: Tension (Plectrum). Or low piano notes: a left-hand boogie.
+2587	Piano (Grand Piano), upper octaves, in triplets. A touch of Saturator: like an old record.
+2588	A sampled saxophone or Wavetable: Saw, Mono, through Saturator. Raspy and loud.
+2589	A live kit (look in Drums for Acoustic): dry. Tambourine on 2 and 4 with the snare.
+2590	Bass guitar: Tension (Plectrum), soft, filter half closed. Notes flow smoothly into one another.
+2591	Piano or Electric on 2 and 4. Organ: Operator, sines at the octave and the fifth, long notes.
+2592	Brass: Wavetable, Saw, fast attack, short chords. Strings: Unison and a slow attack.
+2593	Piano (Grand Piano), bright. Or organ: Operator, sines at the octave and the fifth, fast Auto Pan.
+2594	Bass guitar: Tension (Plectrum). Or piano left hand in octaves.
+2595	A live kit and claps: clap and tambourine on 2 and 4. Small hall Reverb.
+2596	Choir: Wavetable with a soft attack, a three-voice chord. Or a voice in Simpler. Reverb: Decay 2-3 seconds.
+2597	Electric: electric piano sound, Chorus-Ensemble and a bit of Phaser-Flanger. Uneven touch, like a real hand.
+2598	808 Core Kit or a Boom Bap kit from Drums. Move the snare behind the grid, kick ahead. Drum Buss.
+2599	Bass guitar: Tension (Plectrum) or Drift, Sine, Mono, Glide. Soft and low.
+2600	Guitar: Tension (Plectrum) with Chorus-Ensemble. Or a voice. Reverb and Echo low.
+2601	DRUMS
+2602	drums
+2603	BASS
+2604	bass
+2605	CHORDS
+2606	chords
+2607	MELODY
+2608	melody
+2609	Free play
+2610	 OR 
+2611	START ON A HOME NOTE: 
+2612	NOTE 
+2613	 OUTSIDE THE MODE. NEAR: 
+2614	AFTER A LEAP STEP BACK TO 
+2615	TOO LONG AWAY FROM HOME. LAND ON 
+2616	THE COLOUR NOTE. RESOLVE IT TO 
+2617	HOME NOTE. LINGER OR STEP TO 
+2618	PASSING NOTE. STEP TO 
+2619	, HOME IS NEAR: 
+2620	Tempo is now 
+2621	. For 
+2622	 set it from 
+2623	: double-click the tempo at the top left and type the number.
+2624	A track for 
+2625	 is there, but has no clip. 
+2626	So far no 
+2627	The parts are there. Now scenes: select a scene on the right, press Ctrl+D and delete some clips in the copy. Make at least three: intro, main part and ending. Scenes with clips now: 
+2628	Scenes are ready. Record them to the arrangement: press the record circle on top (F9), launch each in turn for about eight bars. Then Tab.
+2629	Arranged: 
+2630	 bars. Take it to at least 32: select a whole part and press Ctrl+Shift+D, it will repeat right after.
+2631	Mark the parts with locators: right-click the ruler above the arrangement, Add Locator. They show the whole form.
+2632	Add space: Reverb on a return track and a little of Send A on the melody and the chords.
+2633	Put Limiter on the Main track: the track gets louder and stops rasping on the peaks.
+2634	All set. Save the project (Ctrl+S) and export it: Ctrl+A in the arrangement, then Ctrl+Shift+R.
+2635	BEAT
+2636	CANNOT SEE ABLETON: A STYLE TIP
+2637	TEMPO 
+2638	SCENE 
+2639	BARS 
+2640	BASE: 
+2641	NO MISTAKES: +
+2642	EVEN 
+2643	REPEAT 
+2644	CLASS 
+2645	LEVEL 
+2646	CACOPHONY!
+2647	OOPS
+2648	NICE!
+2649	FIRE!
+2650	COSMOS!
+2651	VIRTUOSO!
+2652	LEGEND!
+2653	even rhythm
+2654	variety
+2655	range
+2656	chord changes
+2657	second hand
+2658	speed
+2659	accuracy
+2660	SCALE
+2661	START
+2662	NEXT
+2663	DONE
+2664	LISTEN
+2665	HOME: 
+2666	COLOUR NOTE: 
+2667	Find the tonic: play note %T.
+2668	The tonic is the home of the mode: the melody rests on it. Good to start a phrase from, good to return to at the end.
+2669	Play the home notes in turn: %H.
+2670	The home notes make up the main chord. A melody that stops on them sounds stable, while on the other notes of the scale it asks to go on.
+2671	Scale up: from the tonic %T to the tonic, note by note.
+2672	The scale is all the notes of the mode: %S. Walk it with your fingers so your hands learn where they lie. Follow the orange keys.
+2673	Scale down: from the upper tonic to lower.
+2674	Downwards the scale sounds like coming home. Same notes, reverse order: start on the upper tonic.
+2675	Take the main chord: %H together.
+2676	The chord is three home notes at once. All the harmony of the mode rests on it: you start and end with it.
+2677	Eight hits in a row, evenly spaced.
+2678	Even rhythm matters more than right notes: everyone hears it. Play evenly, not fast, like footsteps.
+2679	A three-note motif, at once repeated exactly.
+2680	Repeats turn random notes into melody: the ear spots the pattern. Play three scale notes and repeat them exactly.
+2681	A phrase of four notes ending on the tonic %T, then a pause.
+2682	A phrase must end somehow. A final tonic and a pause after it sound like a full stop in a sentence.
+2683	Four different pairs, a note between, both at once.
+2684	Two notes with a scale key between sound soft together: a third. That is how a melody goes in two voices.
+2685	Three different chords of the mode: see the inner ring.
+2686	Every mode has its own chords: they stand on the inner ring of the circle. Click a sector to hear the chord and see its notes on the keys.
+2687	The main chord one note at a time: up and back.
+2688	A broken chord is called an arpeggio: the same notes, but one after another. Half of electronic music rests on it.
+2689	Left: hold a chord. Right: play four different notes above it.
+2690	This is two-handed playing: the left holds the harmony, the right sings. Over a chord its own notes and their neighbours sound best.
+2691	Colour note %C, then the home note beside it.
+2692	The colour %C sets this mode apart from its neighbours: its character is in it. Linger on it, step to the home note beside it, and the tension resolves.
+2693	Four notes, a second of silence, four more.
+2694	A melody without pauses tires, like speech without full stops. Play a short phrase, rest a second, then answer it.
+2695	Four notes quietly, then four loudly.
+2696	Touch is a colour. The same notes played quietly sound like a question, loudly like a statement. The keyboard hears how hard you press.
+2697	Any chord of the mode, and the main one next.
+2698	Any other chord of the mode creates expectation, the main one releases it. On this pair, tension and return, all harmony stands.
+2699	Left: tonic %T below. Right: the main chord above it.
+2700	Bass under a chord makes the sound full. The lowest note decides the name of the chord: with the tonic below it sounds most stable.
+2701	Eight scale notes in a row, across a whole octave or more.
+2702	A melody within five keys soon gets boring. Cover a whole octave in eight notes: up or down, with no outside notes.
+2703	A three-note motif, then the same one step higher.
+2704	This is a sequence: the motif repeats a step higher. The melody grows out of itself and the listener guesses the rest.
+2705	Combo 16: hits in scale and in time.
+2706	The combo grows with every hit in the scale and in time. An outside note resets the count, a slip in rhythm halves it. Every sixteenth hit pays.
+2707	Take the gauge to fire.
+2708	The gauge under the stage grows when notes vary, rhythm is even and chords change. The same chord will not move it.
+2709	Sixteen scale notes in four seconds.
+2710	Speed comes from evenness. First play the scale slowly and cleanly, then faster: four notes a second.
+2711	Combo 32.
+2712	After sixteen hits in a row the combo points double, after thirty-two they triple.
+2713	Take the gauge to cosmos.
+2714	The gauge reaches cosmos only with real playing: a melody in the right hand over chords in the left, and the chords must change.
+2715	Combo 64.
+2716	Sixty-four hits with no outside note and no slip: the points multiplier becomes fivefold.
+2717	Become a virtuoso.
+2718	The playing of a virtuoso is even, varied, wide, two-handed and clean at once: you need four signs out of seven. While you play, the tip says which are missing.
+2719	Become a legend.
+2720	A legend needs six signs out of seven: to the playing of a virtuoso add speed, four hits a second, and three different chords.
+2721	YES!
+2722	Sound: 
+2723	Next
+2724	Stage: 
+2725	Form
+2726	Growth
+2727	How to play
+2728	Why this task
+2729	Off notes
+2730	A string of notes outside the mode. Scale now: 
+2731	. Play only the marked keys, one at a time and slower.
+2732	Beat
+2733	Your hits miss the beat. Play half as often and count aloud: one, two, three, four. The metronome button is next to the tempo in Ableton.
+2734	Melody
+2735	You are circling one or two notes. Step to the next scale note: 
+2736	. A melody needs three or more different notes.
+2737	Chord 
+2738	 keeps sounding again and again. Change it: a good one to follow is 
+2739	 or 
+2740	The melody is stuck on five keys. Leap to a higher home note, then come back to the start step by step along the scale.
+2741	Left hand
+2742	The melody has no support. With the left hand take the chord 
+2743	) and hold as the right plays.
+2744	Right hand
+2745	Chords but no melody. With the right hand play the notes of this chord one by one, above the left, then link them with nearby scale notes.
+2746	Touch
+2747	All notes are equally loud. Start a phrase harder and end it softer: the melody starts to speak.
+2748	To virtuoso
+2749	To legend
+2750	Signs of mastery now: 
+2751	 of 7, need 
+2752	. Missing: 
+2753	To cosmos
+2754	Play a melody with the right hand over chords in the left, and change the chords. Combo is now 
+2755	To fire
+2756	Play different notes in even rhythm and change chords: the same chord will not move the gauge. Combo is now 
+2757	Mode: 
+2758	. Scale: 
+2759	 Colour note: 
+2760	. This note sets it apart from the neighbouring modes: linger on it.
+2761	TASK 
+2762	 ROUND 
+2763	LOCKED
+2764	THE LEVEL UNLOCKS AT 
+2765	 POINTS. SO FAR 
+2766	FIRST DO THE LESSON: 
+2767	DONE. BEST SCORE: 
+2768	PRESS START OR ANY KEY
+2769	TIMES DONE: 
+2770	. EACH REPEAT PAYS +
+2771	 POINTS
+2772	A NEW TASK EVERY TIME. PRESS START
+2773	LESSON DONE!
+2774	BEST SCORE 
+2775	 UNBEATEN
+2776	UNLOCKED: 
+2777	RIGHT! GO ON
+2778	RIGHT! LET GO
+2779	WRONG PAD
+2780	ONE NOTE IS EXTRA
+2781	DONE IT? PRESS DONE
+2782	I AWAIT ABLETON
+2783	BOTTOM NOTE MUST BE 
+2784	EVENNESS 
+2785	%  TEMPO 
+2786	NEXT: 
+2787	WHY: 
+2788	HOW: 
+2789	PRESS NEXT TO GO TO THE NEXT LESSON. PRESS AGAIN TO BEAT YOUR SCORE.
+2790	LEVEL DONE. THE NEXT ONE NEEDS 
+2791	 MORE POINTS: REDO LESSONS WITHOUT MISTAKES OR TRY THE DRILLS.
+2792	THE LAST LESSON OF THE PATH. YOU DID IT ALL!
+2793	CHORD
+2794	LESSON
+2795	STYLE 
+2796	MOOD 
+2797	SCALE: 
+2798	STYLE TEMPO: 
+2799	TONIC: CLICK IT ON THE CIRCLE
+2800	HOME
+2801	COLOUR
+2802	OFF
+2803	GO HERE
+2804	TASK
+2805	VERSION 
+2806	FREE PLAY
+2807	AGAIN
+2808	STEP 
+2809	  MISTAKES 
+2810	REWARD UP TO 
+2811	PATH: 
+2812	 OF 
+2813	 LESSONS
+2814	OTHERS
+2815	PRESS
+2816	RIGHT
+2817	EXTRA
+2818	COMBO 
+2819	STREAK 

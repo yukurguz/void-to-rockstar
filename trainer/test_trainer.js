@@ -13,8 +13,32 @@ const noop = () => {};
 const SAVE_DIR = "C:/library/";
 const files = {};           // the fake disk, shared by every trainer instance
 
+const MISSED_ENGLISH = {};
+const GLUED_ENGLISH = {};
+if (process.env.SMK_LANG === "en") {
+    process.on("exit", () => {
+        const lines = Object.keys(MISSED_ENGLISH);
+        fs.writeFileSync(path.join(__dirname, "missed_en.json"), JSON.stringify(lines, null, 1));
+        fs.writeFileSync(path.join(__dirname, "glued_en.json"), JSON.stringify(GLUED_ENGLISH, null, 1));
+        console.log("lines without English: " + lines.length + " (missed_en.json); lines glued from pieces: "
+                    + Object.keys(GLUED_ENGLISH).length + " (glued_en.json)");
+        fs.writeFileSync(path.join(__dirname, "failed_en.json"), JSON.stringify(FAILED_IN_ENGLISH, null, 1));
+        console.log("checks failed with the English screen: " + FAILED_IN_ENGLISH.length + " (failed_en.json)");
+        if (lines.length > 0 || FAILED_IN_ENGLISH.length > 0) {
+            process.exitCode = 1;
+        }
+    });
+}
+
+// With the English screen a failed check is written down and the run goes on:
+// the point of that run is the whole list of what does not fit or has no English.
+const FAILED_IN_ENGLISH = [];
 function check(condition, message) {
     if (!condition) {
+        if (process.env.SMK_LANG === "en") {
+            FAILED_IN_ENGLISH.push(message);
+            return;
+        }
         throw new Error(message);
     }
 }
@@ -419,8 +443,15 @@ function createTrainer(withLive, shared) {
         };
     }
     vm.createContext(sandbox);
-    for (const file of ["sprites_data.js", "smk_trainer.js"]) {
+    for (const file of ["sprites_data.js", "smk_trainer.js", "lang_en.js", "lang_en_rules.js"]) {
         vm.runInContext(fs.readFileSync(path.join(__dirname, file), "utf8"), sandbox, { filename: file });
+    }
+    // SMK_LANG=en plays everything with the English screen and collects the
+    // lines that found no English (written to missed_en.json at the end).
+    if (process.env.SMK_LANG === "en") {
+        vm.runInContext("lang = 'en';", sandbox);
+        sandbox.enMissed = MISSED_ENGLISH;
+        sandbox.enGlued = GLUED_ENGLISH;
     }
     // Time stands still unless the test lets ticks pass: 83 ms each, as in Max.
     t.time = 1000000;

@@ -1,36 +1,39 @@
 ﻿<#
-Поднимает и проверяет мост Bluetooth MIDI одним запуском:
+Brings the Bluetooth MIDI bridge up and checks it in one run:
 
-  клавиатура --Bluetooth--> MIDIberry --> порт loopMIDI --> музыкальная программа
+  keyboard --Bluetooth--> MIDIberry --> loopMIDI port --> music program
 
-Шаг за шагом:
-1. Клавиатура видна среди устройств Bluetooth MIDI.
-2. Служба MIDI Windows работает.
-3. Порт loopMIDI виден под своим именем. Иногда Windows показывает его как
-   "loopMIDI Port": тогда программы теряют настройки, привязанные к имени.
-   Лечится перезапуском loopMIDI.
-4. Порт пропускает данные: в него уходит пробное сообщение и должно вернуться.
-   (Порт, который loopMIDI заглушил из-за петли, его не вернёт.)
-5. MIDIberry запущен, в нём выбраны вход (клавиатура) и выход (порт loopMIDI).
-6. Нота с клавиатуры доходит до порта: скрипт просит нажать клавишу и ждёт
-   (Esc на клавиатуре компьютера пропускает эту проверку).
+Step by step:
+1. The keyboard is seen among the Bluetooth MIDI devices.
+2. The Windows MIDI service is running.
+3. The loopMIDI port is seen under its own name. Windows sometimes shows it as
+   "loopMIDI Port": then programs lose the settings tied to the name.
+   Restarting loopMIDI cures it.
+4. The port passes data: a probe message goes in and must come back.
+   (A port that loopMIDI has muted after a feedback loop will not return it.)
+5. MIDIberry is running, with the input (the keyboard) and the output (the
+   loopMIDI port) picked.
+6. A note from the keyboard reaches the port: the script asks for a key and
+   waits (Esc on the computer keyboard skips this check).
 
-Запуск: ярлык на рабочем столе, start-bridge.cmd (двойной щелчок) или
-  powershell -ExecutionPolicy Bypass -File start-bridge.ps1 [ключи]
+Run it from the desktop shortcut, by start-bridge.cmd (double click) or
+  powershell -ExecutionPolicy Bypass -File start-bridge.ps1 [switches]
 
-  -Port       имя порта loopMIDI, по умолчанию "SMK-37 BT"
-  -Keyboard   маска имени входа в MIDIberry, по умолчанию "SMK-37*Bluetooth MIDI IN*"
-  -Delay      подождать столько секунд перед началом (для автозагрузки)
-  -Reconnect  закрыть и открыть MIDIberry заново (если после сна ноты не идут)
-  -KeyWait    сколько секунд ждать нажатия клавиши, по умолчанию 20
-  -NoKeyTest  не просить нажать клавишу
-  -Ableton    после проверки запустить Ableton Live, если он ещё не открыт
-  -Shortcut   положить на рабочий стол ярлык "SMK-37 мост"; вместе с -Ableton
-              ярлык "SMK-37 и Ableton", который после проверки открывает Ableton
-  -Install    запускать мост при каждом входе в Windows (с теми же -Port и -Keyboard)
-  -Uninstall  убрать мост из автозагрузки
+  -Port       name of the loopMIDI port, "SMK-37 BT" by default
+  -Keyboard   mask of the input name in MIDIberry, "SMK-37*Bluetooth MIDI IN*" by default
+  -Delay      wait this many seconds before starting (for autostart)
+  -Reconnect  close MIDIberry and open it again (if notes stop after sleep)
+  -KeyWait    how many seconds to wait for a key, 20 by default
+  -NoKeyTest  do not ask for a key
+  -Ableton    start Ableton Live after the check if it is not open yet
+  -Shortcut   put a shortcut on the desktop; with -Ableton, one that opens
+              Ableton after the check
+  -Install    start the bridge at every Windows logon (with the same -Port and -Keyboard)
+  -Uninstall  take the bridge out of autostart
+  -Lang       ru or en: the language of the report. By default Russian where
+              Windows or its regional format is Russian, English elsewhere.
 
-Что было найдено и сделано при каждом запуске, пишется в журнал:
+What was found and done on every run is written to the log:
   %LOCALAPPDATA%\SMK37Bridge\bridge.log
 #>
 param(
@@ -43,10 +46,23 @@ param(
     [switch]$Ableton,
     [switch]$Shortcut,
     [switch]$Install,
-    [switch]$Uninstall
+    [switch]$Uninstall,
+    [ValidateSet('', 'ru', 'en')][string]$Lang = ''
 )
 
 $ErrorActionPreference = 'Stop'
+
+# The language of the report: Russian if Windows speaks Russian or keeps Russian
+# dates and numbers, English elsewhere.
+if (-not $Lang) {
+    $Lang = 'en'
+    if ((Get-UICulture).TwoLetterISOLanguageName -eq 'ru' -or (Get-Culture).TwoLetterISOLanguageName -eq 'ru') { $Lang = 'ru' }
+}
+
+function L([string]$ru, [string]$en) {
+    if ($Lang -eq 'ru') { return $ru }
+    return $en
+}
 
 # --- Журнал и вывод -----------------------------------------------------------
 
@@ -64,7 +80,7 @@ function Write-Log([string]$text) {
 
 # One line of the report. Marks: ok, fixed, fail, note.
 function Say([string]$mark, [string]$text) {
-    $labels = @{ ok = '[  OK  ]'; fixed = '[ИСПРАВ]'; fail = '[  !!  ]'; note = '        ' }
+    $labels = @{ ok = '[  OK  ]'; fixed = (L '[ИСПРАВ]' '[FIXED ]'); fail = '[  !!  ]'; note = '        ' }
     $colours = @{ ok = 'Green'; fixed = 'Yellow'; fail = 'Red'; note = 'Gray' }
     Write-Host ("{0} {1}" -f $labels[$mark], $text) -ForegroundColor $colours[$mark]
     if ($mark -eq 'fail') { $script:problems++ }
@@ -81,23 +97,23 @@ if ($Install) {
     # The pause lets loopMIDI and the Windows MIDI service come up first.
     $command = 'powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "{0}" -Delay 20 -Port "{1}" -Keyboard "{2}"' -f $PSCommandPath, $Port, $Keyboard
     Set-ItemProperty -Path $runKey -Name $runName -Value $command
-    Write-Host 'Мост добавлен в автозагрузку: он будет подниматься сам после входа в Windows.'
-    Write-Host 'Если папку со скриптом перенесёте, запустите -Install ещё раз из нового места.'
+    Write-Host (L 'Мост добавлен в автозагрузку: он будет подниматься сам после входа в Windows.' 'The bridge is in autostart now: it will come up by itself after you log on to Windows.')
+    Write-Host (L 'Если папку со скриптом перенесёте, запустите -Install ещё раз из нового места.' 'If you move the folder with the script, run -Install again from the new place.')
     exit 0
 }
 
 if ($Uninstall) {
     Remove-ItemProperty -Path $runKey -Name $runName -ErrorAction SilentlyContinue
-    Write-Host 'Мост убран из автозагрузки.'
+    Write-Host (L 'Мост убран из автозагрузки.' 'The bridge is out of autostart.')
     exit 0
 }
 
 if ($Shortcut) {
-    $name = 'SMK-37 мост'
-    $does = 'Двойной щелчок по нему поднимает и проверяет всю цепочку.'
+    $name = (L 'SMK-37 мост' 'SMK-37 bridge')
+    $does = (L 'Двойной щелчок по нему поднимает и проверяет всю цепочку.' 'A double click on it brings the whole chain up and checks it.')
     if ($Ableton) {
-        $name = 'SMK-37 и Ableton'
-        $does = 'Двойной щелчок по нему поднимает и проверяет цепочку, а потом открывает Ableton Live.'
+        $name = (L 'SMK-37 и Ableton' 'SMK-37 and Ableton')
+        $does = (L 'Двойной щелчок по нему поднимает и проверяет цепочку, а потом открывает Ableton Live.' 'A double click on it brings the chain up, checks it and then opens Ableton Live.')
     }
     $link = Join-Path ([Environment]::GetFolderPath('Desktop')) "$name.lnk"
     $shell = New-Object -ComObject WScript.Shell
@@ -105,13 +121,13 @@ if ($Shortcut) {
     $item.TargetPath = Join-Path $PSScriptRoot 'start-bridge.cmd'
     if ($Ableton) { $item.Arguments = '-Ableton' }
     $item.WorkingDirectory = $PSScriptRoot
-    $item.Description = 'Поднять и проверить мост Bluetooth MIDI клавиатуры SMK-37'
+    $item.Description = (L 'Поднять и проверить мост Bluetooth MIDI клавиатуры SMK-37' 'Bring up and check the Bluetooth MIDI bridge of the SMK-37 keyboard')
     $icon = Join-Path $PSScriptRoot 'smk37-bridge.ico'
     if (Test-Path $icon) { $item.IconLocation = "$icon,0" }
     $item.Save()
-    Write-Host "Ярлык создан: $link"
+    Write-Host (L "Ярлык создан: $link" "Shortcut created: $link")
     Write-Host $does
-    Write-Host 'Если папку со скриптом перенесёте, создайте ярлык заново из нового места.'
+    Write-Host (L 'Если папку со скриптом перенесёте, создайте ярлык заново из нового места.' 'If you move the folder with the script, create the shortcut again from the new place.')
     exit 0
 }
 
@@ -316,7 +332,7 @@ function Test-Loopback {
     try {
         $listener = New-Object SmkBridge.Listener ([uint32]$inputId)
     } catch {
-        Write-Log "пробное сообщение: вход не открылся ($($_.Exception.Message))"
+        Write-Log (L "пробное сообщение: вход не открылся ($($_.Exception.Message))" "probe message: the input did not open ($($_.Exception.Message))")
         return 'unknown'
     }
     try {
@@ -325,7 +341,7 @@ function Test-Loopback {
         for ($round = 1; $round -le 2; $round++) {
             $sent = [SmkBridge.Ports]::Send([uint32]$outputId, [uint32]0x00008F)
             if ($sent -ne 0) {
-                Write-Log "пробное сообщение: выход не открылся (код $sent)"
+                Write-Log (L "пробное сообщение: выход не открылся (код $sent)" "probe message: the output did not open (code $sent)")
                 return 'unknown'
             }
             $deadline = (Get-Date).AddMilliseconds(1200)
@@ -353,11 +369,11 @@ function Format-Message([uint32]$message) {
     $second = ($message -shr 16) -band 0x7F
     $channel = ($message -band 0x0F) + 1
     if ($status -eq 0x90 -and $second -gt 0) {
-        return "нота $($noteNames[$first % 12])$([Math]::Floor($first / 12) - 2), канал $channel, сила $second"
+        return (L "нота $($noteNames[$first % 12])$([Math]::Floor($first / 12) - 2), канал $channel, сила $second" "note $($noteNames[$first % 12])$([Math]::Floor($first / 12) - 2), channel $channel, velocity $second")
     }
-    if ($status -eq 0xB0) { return "регулятор CC $first = $second, канал $channel" }
-    if ($status -eq 0xE0) { return "колесо высоты тона, канал $channel" }
-    if ($status -eq 0xA0 -or $status -eq 0xD0) { return "послекасание, канал $channel" }
+    if ($status -eq 0xB0) { return (L "регулятор CC $first = $second, канал $channel" "controller CC $first = $second, channel $channel") }
+    if ($status -eq 0xE0) { return (L "колесо высоты тона, канал $channel" "pitch wheel, channel $channel") }
+    if ($status -eq 0xA0 -or $status -eq 0xD0) { return (L "послекасание, канал $channel" "aftertouch, channel $channel") }
     return $null
 }
 
@@ -382,7 +398,7 @@ function Wait-Key([int]$seconds) {
         }
         return $null
     } catch {
-        Write-Log "ожидание клавиши: $($_.Exception.Message)"
+        Write-Log (L "ожидание клавиши: $($_.Exception.Message)" "waiting for a key: $($_.Exception.Message)")
         return $null
     } finally {
         if ($listener) { $listener.Dispose() }
@@ -428,8 +444,8 @@ function Select-Device($window, [string]$listId, [string]$mask, [int]$seconds) {
 
 function Stop-WithSummary {
     Write-Host ''
-    Write-Host "Цепочка не в порядке: проблем $problems. Журнал: $logFile" -ForegroundColor Red
-    Write-Log "итог: не в порядке, проблем $problems"
+    Write-Host (L "Цепочка не в порядке: проблем $problems. Журнал: $logFile" "The chain is not in order: $problems problem(s). Log: $logFile") -ForegroundColor Red
+    Write-Log (L "итог: не в порядке, проблем $problems" "result: not in order, problems: $problems")
     exit 1
 }
 
@@ -444,7 +460,7 @@ function Connect-MidiBerry([bool]$fresh) {
     if (-not (Get-Process MIDIberry -ErrorAction SilentlyContinue)) {
         $app = Get-StartApps | Where-Object { $_.Name -eq 'MIDIberry' } | Select-Object -First 1
         if (-not $app) {
-            Say fail 'MIDIberry не установлен. Поставьте его: winget install --id 9N39720H2M05 --source msstore'
+            Say fail (L 'MIDIberry не установлен. Поставьте его: winget install --id 9N39720H2M05 --source msstore' 'MIDIberry is not installed. Install it: winget install --id 9N39720H2M05 --source msstore')
             Stop-WithSummary
         }
         Start-Process "shell:AppsFolder\$($app.AppID)"
@@ -456,7 +472,7 @@ function Connect-MidiBerry([bool]$fresh) {
         $window = Find-Window
     }
     if (-not $window) {
-        Say fail 'Окно MIDIberry не найдено. Откройте MIDIberry вручную и запустите мост ещё раз.'
+        Say fail (L 'Окно MIDIberry не найдено. Откройте MIDIberry вручную и запустите мост ещё раз.' 'The MIDIberry window was not found. Open MIDIberry by hand and run the bridge again.')
         Stop-WithSummary
     }
 
@@ -471,9 +487,9 @@ function Connect-MidiBerry([bool]$fresh) {
 
     $outputName = Select-Device $window 'outputDevices' "$Port*" 20
     if ($outputName) {
-        Say ok "MIDIberry, выход: $outputName"
+        Say ok (L "MIDIberry, выход: $outputName" "MIDIberry, output: $outputName")
     } else {
-        Say fail "MIDIberry: в списке OUTPUT нет '$Port'."
+        Say fail (L "MIDIberry: в списке OUTPUT нет '$Port'." "MIDIberry: '$Port' is not in the OUTPUT list.")
     }
 
     # At logon the Bluetooth entry can take a while to show up.
@@ -481,9 +497,9 @@ function Connect-MidiBerry([bool]$fresh) {
     if ($unattended) { $waitInput = 120 }
     $inputName = Select-Device $window 'inputDevices' $Keyboard $waitInput
     if ($inputName) {
-        Say ok "MIDIberry, вход: $inputName"
+        Say ok (L "MIDIberry, вход: $inputName" "MIDIberry, input: $inputName")
     } else {
-        Say fail "MIDIberry: в списке INPUT нет '$Keyboard'. Включите клавиатуру и запустите мост ещё раз."
+        Say fail (L "MIDIberry: в списке INPUT нет '$Keyboard'. Включите клавиатуру и запустите мост ещё раз." "MIDIberry: '$Keyboard' is not in the INPUT list. Switch the keyboard on and run the bridge again.")
     }
     return [bool]($outputName -and $inputName)
 }
@@ -491,8 +507,8 @@ function Connect-MidiBerry([bool]$fresh) {
 if ($Delay -gt 0) { Start-Sleep -Seconds $Delay }
 $unattended = $Delay -gt 0      # started by Windows at logon: nobody is there to press a key
 
-Write-Log "--- запуск$(if ($unattended) { ' из автозагрузки' })$(if ($Reconnect) { ', -Reconnect' })"
-Write-Host "Мост SMK-37: клавиатура > Bluetooth > MIDIberry > порт '$Port' > программа"
+Write-Log (L "--- запуск$(if ($unattended) { ' из автозагрузки' })$(if ($Reconnect) { ', -Reconnect' })" "--- run$(if ($unattended) { ' from autostart' })$(if ($Reconnect) { ', -Reconnect' })")
+Write-Host (L "Мост SMK-37: клавиатура > Bluetooth > MIDIberry > порт '$Port' > программа" "SMK-37 bridge: keyboard > Bluetooth > MIDIberry > port '$Port' > program")
 Write-Host ''
 
 # --- 1. Клавиатура в Bluetooth --------------------------------------------------
@@ -500,9 +516,9 @@ Write-Host ''
 $bluetooth = Get-PnpDevice -PresentOnly -ErrorAction SilentlyContinue |
     Where-Object { $_.FriendlyName -like $Keyboard } | Select-Object -First 1
 if ($bluetooth) {
-    Say ok "Клавиатура видна в Bluetooth: $($bluetooth.FriendlyName)"
+    Say ok (L "Клавиатура видна в Bluetooth: $($bluetooth.FriendlyName)" "The keyboard is seen in Bluetooth: $($bluetooth.FriendlyName)")
 } else {
-    Say note 'Клавиатура пока не видна в Bluetooth. Включите её; подожду, пока она появится в MIDIberry.'
+    Say note (L 'Клавиатура пока не видна в Bluetooth. Включите её; подожду, пока она появится в MIDIberry.' 'The keyboard is not seen in Bluetooth yet. Switch it on; I will wait for it to appear in MIDIberry.')
 }
 
 # --- 2. Служба MIDI Windows -----------------------------------------------------
@@ -512,9 +528,9 @@ if ($bluetooth) {
 [void][SmkBridge.Ports]::Inputs()
 if (Get-Service midisrv -ErrorAction SilentlyContinue) {
     if (Wait-Until { (Get-Service midisrv).Status -eq 'Running' } 30) {
-        Say ok 'Служба MIDI Windows работает'
+        Say ok (L 'Служба MIDI Windows работает' 'The Windows MIDI service is running')
     } else {
-        Say fail 'Служба MIDI Windows (midisrv) не запустилась. Перезагрузите компьютер.'
+        Say fail (L 'Служба MIDI Windows (midisrv) не запустилась. Перезагрузите компьютер.' 'The Windows MIDI service (midisrv) did not start. Restart the computer.')
     }
 }
 
@@ -522,7 +538,7 @@ if (Get-Service midisrv -ErrorAction SilentlyContinue) {
 
 $configured = Get-ItemProperty 'HKCU:\Software\Tobias Erichsen\loopMIDI\Ports' -ErrorAction SilentlyContinue
 if ($configured -and -not ($configured.PSObject.Properties.Name -contains $Port)) {
-    Say fail "В loopMIDI нет порта '$Port'. Откройте loopMIDI, впишите это имя внизу окна и нажмите +."
+    Say fail (L "В loopMIDI нет порта '$Port'. Откройте loopMIDI, впишите это имя внизу окна и нажмите +." "loopMIDI has no port '$Port'. Open loopMIDI, type this name at the bottom of its window and press +.")
     Stop-WithSummary
 }
 
@@ -530,29 +546,29 @@ $liveWasRunning = [bool](Get-Process -ErrorAction SilentlyContinue | Where-Objec
 $loopMidi = Find-LoopMidi
 $restarted = $false
 if (Wait-Until { Test-Port } 3) {
-    Say ok "Порт '$Port' на месте"
+    Say ok (L "Порт '$Port' на месте" "The port '$Port' is in place")
 } else {
     if (-not $loopMidi) {
-        Say fail 'loopMIDI не найден. Установите его: winget install --id TobiasErichsen.loopMIDI -e'
+        Say fail (L 'loopMIDI не найден. Установите его: winget install --id TobiasErichsen.loopMIDI -e' 'loopMIDI was not found. Install it: winget install --id TobiasErichsen.loopMIDI -e')
         Stop-WithSummary
     }
     $wasRunning = [bool](Get-Process loopMIDI -ErrorAction SilentlyContinue)
     $seen = ([SmkBridge.Ports]::Inputs() | Where-Object { $_ }) -join ', '
-    Write-Log "порта '$Port' нет; видны входы: $seen; loopMIDI запущен: $wasRunning"
+    Write-Log (L "порта '$Port' нет; видны входы: $seen; loopMIDI запущен: $wasRunning" "no port '$Port'; inputs seen: $seen; loopMIDI running: $wasRunning")
     for ($attempt = 1; $attempt -le 3 -and -not (Test-Port); $attempt++) {
         Restart-LoopMidi $loopMidi
         $restarted = $true
     }
     if (-not (Test-Port)) {
-        Say fail "Порт '$Port' не появился и после трёх перезапусков loopMIDI. Сейчас видны входы: $(([SmkBridge.Ports]::Inputs() | Where-Object { $_ }) -join ', ')"
+        Say fail (L "Порт '$Port' не появился и после трёх перезапусков loopMIDI. Сейчас видны входы: $(([SmkBridge.Ports]::Inputs() | Where-Object { $_ }) -join ', ')" "The port '$Port' did not appear even after three restarts of loopMIDI. Inputs seen now: $(([SmkBridge.Ports]::Inputs() | Where-Object { $_ }) -join ', ')")
         Stop-WithSummary
     }
     if (-not $wasRunning) {
-        Say fixed "loopMIDI не был запущен: запущен, порт '$Port' на месте"
+        Say fixed (L "loopMIDI не был запущен: запущен, порт '$Port' на месте" "loopMIDI was not running: started, the port '$Port' is in place")
     } elseif ($seen) {
-        Say fixed "Порта '$Port' не было, Windows показывала входы: $seen. loopMIDI перезапущен, порт на месте"
+        Say fixed (L "Порта '$Port' не было, Windows показывала входы: $seen. loopMIDI перезапущен, порт на месте" "There was no port '$Port', Windows showed the inputs: $seen. loopMIDI restarted, the port is in place")
     } else {
-        Say fixed "Порта '$Port' не было, как и других входов MIDI. loopMIDI перезапущен, порт на месте"
+        Say fixed (L "Порта '$Port' не было, как и других входов MIDI. loopMIDI перезапущен, порт на месте" "There was no port '$Port' and no other MIDI input. loopMIDI restarted, the port is in place")
     }
 }
 
@@ -560,21 +576,21 @@ if (Wait-Until { Test-Port } 3) {
 
 $passes = Test-Loopback
 if ($passes -eq 'ok') {
-    Say ok 'Порт пропускает данные (пробное сообщение вернулось)'
+    Say ok (L 'Порт пропускает данные (пробное сообщение вернулось)' 'The port passes data (the probe message came back)')
 } elseif ($passes -eq 'silent' -and $loopMidi) {
     # A port that loopMIDI has muted after a feedback loop passes nothing; a restart clears it.
     Restart-LoopMidi $loopMidi
     $restarted = $true
     if ((Test-Loopback) -eq 'ok') {
-        Say fixed 'Порт не пропускал данные (заглушён или завис): loopMIDI перезапущен, теперь пропускает'
-        Say note "Если порт глохнет снова, в программе у выхода '$Port' включён Track, Sync или Remote: выключите все три."
+        Say fixed (L 'Порт не пропускал данные (заглушён или завис): loopMIDI перезапущен, теперь пропускает' 'The port passed no data (muted or stuck): loopMIDI restarted, now it does')
+        Say note (L "Если порт глохнет снова, в программе у выхода '$Port' включён Track, Sync или Remote: выключите все три." "If the port goes mute again, your program has Track, Sync or Remote on for the output '$Port': switch all three off.")
     } else {
-        Say fail 'Порт не пропускает данные даже после перезапуска loopMIDI. Откройте окно loopMIDI и посмотрите, не помечен ли порт как заглушённый.'
+        Say fail (L 'Порт не пропускает данные даже после перезапуска loopMIDI. Откройте окно loopMIDI и посмотрите, не помечен ли порт как заглушённый.' 'The port passes no data even after loopMIDI was restarted. Open the loopMIDI window and see whether the port is marked as muted.')
     }
 } elseif ($passes -eq 'silent') {
-    Say fail 'Порт не пропускает данные, а loopMIDI не найден, чтобы его перезапустить.'
+    Say fail (L 'Порт не пропускает данные, а loopMIDI не найден, чтобы его перезапустить.' 'The port passes no data, and loopMIDI was not found to restart it.')
 } else {
-    Say note 'Не удалось проверить, пропускает ли порт данные: он не открылся для пробы. Иду дальше.'
+    Say note (L 'Не удалось проверить, пропускает ли порт данные: он не открылся для пробы. Иду дальше.' 'Could not check whether the port passes data: it did not open for the probe. Going on.')
 }
 
 # --- 5. MIDIberry ----------------------------------------------------------------
@@ -587,26 +603,26 @@ if ($passes -eq 'ok') {
 
 if ($problems -eq 0 -and -not $NoKeyTest -and -not $unattended) {
     Write-Host ''
-    Write-Host "Нажмите любую клавишу на SMK-37 (жду $KeyWait с; Esc на компьютере - пропустить)..." -ForegroundColor Cyan
+    Write-Host (L "Нажмите любую клавишу на SMK-37 (жду $KeyWait с; Esc на компьютере - пропустить)..." "Press any key on the SMK-37 (waiting $KeyWait s; Esc on the computer skips)...") -ForegroundColor Cyan
     $heard = Wait-Key $KeyWait
     if ($heard) {
-        Say ok "Клавиатура слышна на порте: $heard"
+        Say ok (L "Клавиатура слышна на порте: $heard" "The keyboard is heard on the port: $heard")
     } elseif ($heard -eq '') {
-        Say note 'Проверка нажатием клавиши пропущена.'
+        Say note (L 'Проверка нажатием клавиши пропущена.' 'The key check was skipped.')
     } else {
         # After the keyboard or the computer has slept the notes can stop with everything
         # still looking picked: a freshly opened MIDIberry takes the keyboard up again.
-        Say note 'С клавиатуры ничего не пришло. Открываю MIDIberry заново и жду ещё раз.'
+        Say note (L 'С клавиатуры ничего не пришло. Открываю MIDIberry заново и жду ещё раз.' 'Nothing came from the keyboard. Opening MIDIberry again and waiting once more.')
         if (Connect-MidiBerry $true) {
-            Write-Host "Нажмите клавишу на SMK-37 ещё раз (жду $KeyWait с; Esc - пропустить)..." -ForegroundColor Cyan
+            Write-Host (L "Нажмите клавишу на SMK-37 ещё раз (жду $KeyWait с; Esc - пропустить)..." "Press a key on the SMK-37 once more (waiting $KeyWait s; Esc skips)...") -ForegroundColor Cyan
             $heard = Wait-Key $KeyWait
         }
         if ($heard) {
-            Say fixed "MIDIberry открыт заново, клавиатура слышна на порте: $heard"
+            Say fixed (L "MIDIberry открыт заново, клавиатура слышна на порте: $heard" "MIDIberry was opened again, the keyboard is heard on the port: $heard")
         } elseif ($heard -eq '') {
-            Say note 'Проверка нажатием клавиши пропущена.'
+            Say note (L 'Проверка нажатием клавиши пропущена.' 'The key check was skipped.')
         } else {
-            Say fail 'С клавиатуры ничего не приходит. Проверьте, что она включена, заряжена и в Параметрах Windows > Bluetooth у неё написано «Подключено».'
+            Say fail (L 'С клавиатуры ничего не приходит. Проверьте, что она включена, заряжена и в Параметрах Windows > Bluetooth у неё написано «Подключено».' 'Nothing comes from the keyboard. Check that it is switched on and charged and that Windows Settings > Bluetooth shows it as Connected.')
         }
     }
 }
@@ -615,8 +631,8 @@ if ($problems -eq 0 -and -not $NoKeyTest -and -not $unattended) {
 
 if ($restarted -and $liveWasRunning) {
     Write-Host ''
-    Say note 'Ableton был открыт, пока порт пересоздавался. В Settings > Link, Tempo & MIDI'
-    Say note "выберите у Control Surface заново Input: $Port."
+    Say note (L 'Ableton был открыт, пока порт пересоздавался. В Settings > Link, Tempo & MIDI' 'Ableton was open while the port was made again. In Settings > Link, Tempo & MIDI')
+    Say note (L "выберите у Control Surface заново Input: $Port." "pick Input: $Port for the Control Surface once more.")
 }
 
 if ($problems -gt 0) { Stop-WithSummary }
@@ -630,13 +646,13 @@ if ($Ableton -and -not $liveWasRunning) {
         } else {
             Start-Process "shell:AppsFolder\$($live.AppID)"
         }
-        Say ok "Запускаю $($live.Name)"
+        Say ok (L "Запускаю $($live.Name)" "Starting $($live.Name)")
     } else {
-        Say note 'Ableton Live не найден в меню Пуск: запустите его сами.'
+        Say note (L 'Ableton Live не найден в меню Пуск: запустите его сами.' 'Ableton Live was not found in the Start menu: start it yourself.')
     }
 }
 
 Write-Host ''
-Write-Host "Мост работает$(if ($fixes -gt 0) { " (исправлено: $fixes)" })." -ForegroundColor Green
-Write-Log "итог: работает, исправлено $fixes"
+Write-Host (L "Мост работает$(if ($fixes -gt 0) { " (исправлено: $fixes)" })." "The bridge works$(if ($fixes -gt 0) { " (fixed: $fixes)" }).") -ForegroundColor Green
+Write-Log (L "итог: работает, исправлено $fixes" "result: works, fixed: $fixes")
 exit 0

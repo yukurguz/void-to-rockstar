@@ -40,7 +40,8 @@ def main():
         build.build(staging / "SMK Trainer")
         shutil.copytree(ROOT / "ableton" / "SMK37", staging / "SMK37 Remote Script" / "SMK37")
         shutil.copytree(ROOT / "bridge", staging / "Bluetooth Bridge")
-        for name in ("INSTALL.md", "SMK-37-Bluetooth-MIDI.md", "THIRD_PARTY_NOTICES.md", "LICENSE.md", "COMMERCIAL.md"):
+        for name in ("INSTALL.md", "INSTALL.en.md", "SMK-37-Bluetooth-MIDI.md", "SMK-37-Bluetooth-MIDI.en.md",
+                     "THIRD_PARTY_NOTICES.md", "LICENSE.md", "COMMERCIAL.md"):
             shutil.copy(ROOT / name, staging / name)
         with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as packed:
             for file in sorted(staging.rglob("*")):

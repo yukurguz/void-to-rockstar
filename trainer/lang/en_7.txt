@@ -1,0 +1,259 @@
+2175	Start with the beat: solid kick on every beat, clap on 2 and 4, hi-hat in between.
+2176	Add dirty bass: saw with overdrive, a rhythmic pattern with pauses. Sidechain from the kick.
+2177	Record a short lead or stab: two or three notes that answer the bass.
+2178	Minimal 2000s
+2179	Play little: one note a bar, and even that off the strong beat. Hear how it lands between the hits.
+2180	Repeat a short click or note many times and change only where it lands.
+2181	Start with the beat: quiet kick on every beat, clicks and rustles for a snare, hi-hat in between.
+2182	Add bass: one short note between the kicks, almost without pitch.
+2183	Record one detail: a click, a droplet or a note that comes once every two bars.
+2184	Tropical house
+2185	The right hand plays a short, bright melody, like a marimba, between the beats.
+2186	Take soft chords and hold: C, G, Am, F. Build a melody on their notes.
+2187	Start with the chords: a soft pad or piano, C, G, Am, F. One per bar.
+2188	Add a light beat: kick on every beat, click on 2 and 4, shaker in sixteenths.
+2189	Add bass: soft, on the roots of the chords, with syncopation.
+2190	Record a melody on marimba or flute: short notes between the beats, sunny.
+2191	Vaporwave 2010s
+2192	Play slowly, like slowed-down tape: long seventh chords, hold each for a whole bar.
+2193	Play the melody softly and a bit off the beat, like mall music heard through sleep.
+2194	Start with the chords: electric piano, Fmaj7, Em7, Dm7, Cmaj7. Slow it, drop it a semitone or two.
+2195	Add an eighties beat: kick on 1 and 3, snare with a big echo on 2 and 4. Slow.
+2196	Add bass: a soft synth bass, long notes.
+2197	Record a melody on saxophone or synth: smooth, with echo.
+2198	Drill 2020s
+2199	Play a dark, sparse melody: three or four notes in minor in the upper octave.
+2200	The bass slides note to note: press the next while holding the last.
+2201	Start with the melody: gloomy piano or strings, three or four notes over two bars.
+2202	Add a beat: hi-hats in triplets with gaps, snare on 3 and before 1, sparse, syncopated kick.
+2203	Add an 808 bass with slides: long notes that glide up and down.
+2204	Ragtime
+2205	The left hand walks: a low note on the beat, a chord in between. This is oom-pah, and it never stops.
+2206	The right plays the melody off the steps of the left: its notes land in between. Evenly, no rush.
+2207	Start with the left hand: a low note on the first and third beat, the chord root and the note a fifth above.
+2208	Add a chord on the second and fourth beat, mid-keyboard: C, F, G7. With the bass this is oom-pah.
+2209	Record the right hand melody: sixteenths on chord notes, with hits between the beats.
+2210	Swing
+2211	Play the eighths unevenly: the first long, the second short, ta-a-ta. Play the second and fourth beat harder.
+2212	The left hand walks the bass: a note a beat, up and down the chord and on to the next.
+2213	Start with the cymbal: ding, ding-da, ding, ding-da. Foot hi-hat on 2 and 4, faint kick.
+2214	Add a walking bass: four notes a bar, on the chord notes and to the next chord via the key beside it.
+2215	Add short chords G7, C7, D7 on beats 2 and 4, like the guitar in a big band.
+2216	Record a horn riff: a two-bar phrase that repeats, and an answer to it.
+2217	Bebop
+2218	The melody runs in eighths without stopping: up the scale, down the chord. Approach a chord note from the key next to it.
+2219	The left hand drops a short chord of 2-3 notes between the beats and rests.
+2220	Start with the cymbal in fast swing. Kick and snare do not keep time, they drop in rare hits.
+2221	Add a walking bass: a note on every beat, no repeats, the whole track.
+2222	Add the chords Dm7, G7, Cmaj7: short, between the beats, two a bar.
+2223	Record the theme: fast, angular, two instruments in unison. Then a solo on the same chords.
+2224	Cool jazz
+2225	Play quietly and evenly, no pushing. A short phrase, then a pause longer than the phrase.
+2226	Take the chord as two or three notes mid-keyboard and do not repeat: the bass plays the low note.
+2227	Start with brushes: a snare swish instead of hits, quiet cymbal. Almost no kick.
+2228	Add a walking bass: softly, a note per beat.
+2229	Add sparse chords: Fmaj7, Em7, Dm7. One per bar or per two bars, very quietly.
+2230	Record a melody on muted trumpet or saxophone: long notes and lots of air between them.
+2231	Modal jazz
+2232	One chord for eight bars: do not rush to change it. Roam the scale of the mode and hear every note.
+2233	The left hand takes a chord in fourths: D, G, C, each note a fourth above the last. It sounds open.
+2234	Start with the bass: a figure of 2-3 notes on the tonic that repeats and holds the mode.
+2235	Add two chords instead of a progression: Dm7 for eight bars, then Ebm7 for eight, and back.
+2236	Add a cymbal in swing and sparse snare hits. The volume grows along with the solo.
+2237	Record a solo: start with three notes and long pauses, with each round add notes and climb higher.
+2238	Bossa nova
+2239	Left hand: bass on the first and third beat, the root and the fifth. Right: a soft chord between the beats.
+2240	Play the melody quietly, almost a whisper: long notes that fall just behind the beat.
+2241	Start with guitar chords: Cmaj7, Dm7, G7, with hits between the beats. A two-bar pattern that repeats.
+2242	Add bass: the root on the first beat, the fifth on the third. Soft and short.
+2243	Add light percussion: shaker in eighths, rim click in the clave pattern, quiet kick on 1 and 3.
+2244	Record a melody on flute or voice: few notes, many of them long, behind the beat.
+2245	Latin jazz
+2246	Play a montuno: the chord note by note up and down, hands an octave apart, hits between the beats. One figure on repeat.
+2247	The bass does not wait for beat one: it plays the new chord note just before. Do not align it.
+2248	Start with the clave: three hits in bar one, two in bar two. Then congas, cowbell and timbales around it.
+2249	Add a tumbao bass: notes at the end of beat two and on beat four, beat one is empty.
+2250	Add a piano montuno: Am, Dm, E7. A broken chord with syncopation, two bars on repeat.
+2251	Record the horns: short, sharp phrases in unison, answering the piano.
+2252	Jazz-rock
+2253	Low-octave riff, loud and exact, in unison with the bass. Then a long solo on the scale of the mode.
+2254	Change the count: play a phrase in seven eighths, not eight. It stumbles, and that is its power.
+2255	Start with a solid beat: rock kick and snare, hi-hats in sixteenths, tom fills at the end of the phrase.
+2256	Add bass: a fast riff in sixteenths in unison with the keys, then long notes under the solo.
+2257	Add electric piano with overdrive: Em7 and A7, short hits in the riff rhythm.
+2258	Record a synth solo with the Pitch wheel: long notes, bends and fast runs.
+2259	Jazz-funk
+2260	The bass plays one figure of 4-5 notes the whole track. Find it and do not change it: all rests on it.
+2261	The right hand answers with a short chord, clavinet-like: sharp, in sixteenths, with pauses.
+2262	Start with the bass: a two-bar synth figure, pausing on the first beat of the second bar.
+2263	Add a beat: kick on 1 and syncopated, snare on 2 and 4, hi-hats in sixteenths, quiet hits in between.
+2264	Add clavinet or electric piano: Dm7 and G7, short, in the bass pauses.
+2265	Record a horn theme: four notes, pause, answer. Then an electric piano solo.
+2266	Smoothjazz
+2267	Lead the melody like a saxophone: a long note, a short slide into the next, Mod wheel for vibrato.
+2268	Soft, wide chords of four notes: Gmaj7, Em7, Am7, D7. Take them gently and hold.
+2269	Start with a soft beat: kick on 1 and 3, rim click on 2 and 4, hi-hats in eighths. Nothing harsh.
+2270	Add bass: smooth, sliding into notes, sometimes a slap on the strong beat.
+2271	Add electric piano with chorus: Gmaj7, Em7, Am7, D7, one chord per bar.
+2272	Record a saxophone melody: one you want to hum. In the chorus raise it an octave.
+2273	Acid jazz
+2274	Hold the chord in the left hand, organ-style. The right taps the rhythm in short repeats of its top notes.
+2275	Play the melody like a flute: a four-note phrase, pause, same phrase higher.
+2276	Start with a break: a live drum beat off a record, a two-bar loop. Congas on top.
+2277	Add bass: a bouncy figure on the tonic and seventh, with an octave jump.
+2278	Add organ or electric piano: Am7 and D9, two bars each, rhythm in the right hand.
+2279	Record flute or trumpet: a short theme, then improvise. Scratches and voice in pauses.
+2280	Nu jazz
+2281	Play live chords over an electronic beat: a seventh chord per bar, just behind the beat.
+2282	Break the melody into scraps of two or three notes and leave air between them: the echo does the rest.
+2283	Start with a broken beat: kick and snare as in house or breakbeat, live cymbals and brushes on top.
+2284	Add electric piano: Dm9 and G13, two bars each. Record by hand, do not align to the grid.
+2285	Add bass: double bass or a deep synth, three or four notes with pauses.
+2286	Record scraps of trumpet or saxophone, chop and place with echo.
+2287	R and B
+2288	The left hand rolls a boogie in eighths: root, fifth, sixth, fifth. Twelve bars round and round.
+2289	The right pounds a chord in triplets: three hits a beat. End the phrase rolling down blues notes.
+2290	Start with a shuffle: cymbal in triplets, no middle note, heavy snare on 2 and 4, kick on every beat.
+2291	Add a boogie bass: up and down the chord notes, in eighths. A twelve-bar blues: C7, F7, G7.
+2292	Add piano triplets in the upper octave and short horn chords on 2 and 4.
+2293	Record a saxophone solo: raspy, from the blues scale, repeating one note.
+2294	Soul 60s
+2295	Chord and snare hit together on the second and fourth beat: take the chord short as a clap.
+2296	Sing the melody, do not play it: two-bar call, two-bar answer. Play the answer an octave up.
+2297	Beat first: snare and tambourine on 2 and 4, kick on 1 and 3, hi-hat eighths. Plain, solid.
+2298	Add bass: singing, always moving, leading into every chord. Here it is a second melody.
+2299	Add guitar or piano on 2 and 4: G, Em, C, D. And an organ in long notes under them.
+2300	Record voice or horns: call and answer. The horns answer in short hits.
+2301	Gospel
+2302	Between two chords put a passing one: from F to Bb through F7. Each chord pulls towards the next.
+2303	The right hand takes a high chord and shakes it: quickly alternate the low note and the top two.
+2304	Start with piano or organ: F, Bb, C7 and passing chords between them. The left hand plays bass in octaves.
+2305	Add bass: it walks chord to chord via neighbouring notes, rising at the end of the phrase.
+2306	Add a beat: claps on 2 and 4, tambourine, kick on 1 and 3. Fast tempo: shuffle.
+2307	Record a choir: the soloist calls, a three-voice chord answers. Lift the key near the end.
+2308	Neo soul
+2309	Chords of four or five notes, soft and late: take them just behind the beat, as if lazily.
+2310	Before a chord, slide into it from the key just below: a short slide-in note, then the chord at once.
+2311	Start with electric piano: Gm9, C13, Fmaj9. Wide chords, one per bar, behind the beat.
+2312	Add a beat that limps: kick a bit ahead of the grid, snare a bit behind. Do not align it.
+2313	Add bass: soft and also behind the beat, with slides and long notes.
+2314	Record voice or guitar: short phrases with ornaments, a second voice in thirds.
+2315	16 bars of kick and percussion, 16 with bass, main section 32, breakdown 16 with no kick, second main 32 with a new detail, outro 16: parts leave one by one.
+2316	Every 8 bars add or remove one element: hi-hat, clap, a percussion layer. Take the kick out only in the breakdown, and its return becomes an event.
+2317	Intro 8-16 bars, build-up 8 with a drum roll and rising noise, silence on the last beat, drop 16, breather 8-16, a second build-up and a different drop, a short outro.
+2318	Contrast is power. Before the drop cut the lows and narrow the sound, then bring both back. Drop two is no copy: change the bass rhythm or add a part.
+2319	Intro 4-8 bars, verse 16 with two or three parts, chorus 8-16 with the full band, second verse with a new detail, chorus, bridge 8 in a different colour, last chorus twice as long.
+2320	The verse tells the story, the chorus lifts: its melody is higher, chords wider, drums denser. Before the chorus leave a bar of near silence.
+2321	A loop of 4-8 bars and its versions. First chords alone, then beat and bass. Every 8 bars something leaves or comes in. The track is short: 2-3 minutes.
+2322	The loop must not get boring: vary details. Mute the kick for a bar, shift the melody an octave, open the filter. One change per 8 bars.
+2323	An arc of 6-9 minutes. A start from air and one part, every 16-32 bars one more enters, mid-track a breakdown almost to silence, then the full band and a long way out.
+2324	Do not rush. A new part enters quietly and grows for a few bars: draw the volume and filter with automation. Let the change be noticed, not the entry.
+2325	Intro 4-8 bars: the melody without bass. Main section 16, switch-up 8 (half-time beat or no kick), second main 16 with new percussion. The end is abrupt, after 2-3 minutes.
+2326	The beat rests on pauses. Mute the kick for a bar before the return, leave the melody alone, bring it all back at once. Vary hi-hats most.
+2327	Three sections: a theme of 8-16 bars, a middle in a different colour (a neighbouring key or minor), the theme again, ending on the tonic.
+2328	Repeat the theme with a change: an octave higher, quieter, with a different bass. Before the theme returns slow down or pause.
+2329	Riff alone for 4 bars, verse on the riff 8-16, interlude 4-8 with a new riff, the first riff returns heavier, breakdown at half speed, finale on the main riff.
+2330	Repeat a riff till it is drilled in, then break it: change the last beat, the count or the tempo twofold. Silence before a hit outweighs the hit.
+2331	A theme of 12 or 32 bars, then the same chords round and round for solos, a round or two each. Before the end trade four bars with the drums, and the theme again.
+2332	Chords stay, the playing grows: solos start quiet and sparse, by the middle denser and higher. The backing listens to the soloist and answers.
+2333	idea
+2334	loop
+2335	loop versions
+2336	arrangement
+2337	form
+2338	mixing
+2339	finish
+2340	Start with one loop of 4 or 8 bars. Until it grooves on its own, a long track will not save it.
+2341	First make the main thing in this style, then fit the other parts to it. One strong idea beats five average ones.
+2342	The parts must not jostle. Bass below, chords in the middle, melody on top: spread them over the octaves.
+2343	Leave holes. If the bass plays on beat one, let the melody rest there: parts answer each other, they do not talk all at once.
+2344	Check the loop by ear: play it on repeat for two minutes. Whatever bores you first, simplify or remove.
+2345	Make three versions of the loop: bare (one or two parts), full, and different (same bass, new chords or melody). That is the intro, the main section and the middle.
+2346	A version is subtraction: a scene copy minus kick, minus bass or minus melody. You need almost no new notes.
+2347	Make up a second melody or an answer to the first: the second half of the track needs it.
+2348	Put the scenes top to bottom in the order of the track and name them (Ctrl+R): intro, build-up, main, breakdown, finale.
+2349	Before recording to the arrangement, play the scenes in turn and count the bars: sections of 8, 16 or 32 bars sound natural.
+2350	Look at the arrangement as an energy map: few clips stacked means quiet. A good map looks like mountains with a valley in the middle.
+2351	Make the intro and outro from the same parts as the main section, only one at a time: the track is built and taken apart before the listener.
+2352	Check proportions: the main rise sits about two thirds into the track, the quietest spot just before it.
+2353	The second half must not repeat the first: add a new part, raise the melody an octave or change the chords.
+2354	Work on section joins: a bar before a new section, a drum fill, rising noise or everything cut for one beat.
+2355	Draw automation: a filter that opens over 16 bars gives motion even where the notes do not change.
+2356	Compare section volumes: the breakdown is much quieter than the main, or the rise has no room.
+2357	Listen to the whole track non-stop and note the seconds where it got boring. There it needs a change or a cut.
+2358	Let the track rest for a day and listen with fresh ears on another device: in headphones, on a phone.
+2359	The ending is part of the form too: an abrupt cut, a fade-out or a last note with echo. Pick one and do it on purpose.
+2360	Grand piano: type Grand Piano in the browser search, or take Electric for softness. Leave the knobs alone, add Reverb: Decay 2-3 seconds, Dry/Wet 20%.
+2361	The same grand piano an octave above the chords. For strings take Tension: in the Excitator block pick Bow.
+2362	Low grand piano notes. Or double bass: Tension, Excitator Plectrum, an octave down.
+2363	Electric: an electric piano sound. Then Redux (Bit Depth about 10) and Auto Filter: cut the top to 3-4 khz. A bit of Chorus-Ensemble.
+2364	808 Core Kit or any Boom Bap kit from Drums. On the track put Vinyl Distortion and Drum Buss: the beat must crackle and be muffled.
+2365	Drift: Sine wave, Mono mode, filter partly closed. Long notes. Volume lower than seems right.
+2366	Electric or Collision (Mallet): short glassy notes. Echo with Wobble switched on and Reverb, so the sound floats.
+2367	Wavetable or Drift: Attack 2-3 seconds, Release 4-5, filter half closed. Reverb: Decay 8-10 seconds, Dry/Wet 50%.
+2368	Operator: one sine, short Decay. Echo: Feedback 60%, echo filter partly closed. Each note is like a droplet.
+2369	707 Core Kit or 808 Core Kit. On the snare Reverb with a high Dry/Wet, then Gate: that is the famous eighties hit.
+2370	Analog or Drift: Saw wave, Mono, filter partly closed, a touch of Res, high Sustain. Play in eighths.
+2371	Analog: two Saw oscillators, the second slightly detuned (Detune). Attack a bit longer, Chorus-Ensemble and Reverb on top.
+2372	Drift: Saw, Unison mode, a little Glide. Echo in dotted eighths, Reverb. A bright, singing sound.
+2373	909 Core Kit: kick on every beat, clap on 2 and 4, open hat between the beats. Drum Buss: a little Drive and Boom.
+2374	Drift: Saw or Sine, Mono, Sustain to zero, short Decay: a plucked bass. Compressor with Sidechain from the kick.
+2375	Electric or Wavetable: short chords. Auto Filter cuts the lows, a little Reverb. The Chord device gives a chord from one key.
+2376	Wavetable: a pluck with a short Decay. Echo: dotted 1/8, Feedback 40%.
+2377	909 Core Kit. Make the kick longer and dirtier: Saturator (Drive 6-10 db) and Drum Buss. Hi-hats quiet, in sixteenths.
+2378	Operator: a sine, one note between the kicks. Or a low tom from the kit. Compressor with Sidechain from the kick.
+2379	Drift: Saw, Mono, high Res, move Freq by hand. Echo and Reverb on a send. One or two notes, all music is in the filter.
+2380	909 Core Kit: kick on every beat, open hat between the beats, clap on 2 and 4. Before a section change a snare roll.
+2381	Drift: Saw, Mono, Sustain to zero: a short note between the kicks. Sidechain is a must.
+2382	Wavetable: Saw, Unison 5-7 voices: that is a supersaw. A touch of Attack, long Release, big Reverb.
+2383	Drift or Wavetable: a pluck, Decay 200-300 ms. Echo dotted 1/8, Feedback 50%. Arpeggiator 1/16 for the arpeggio.
+2384	A short, clicky kick with no tail: turn its Decay down. Hi-hats in sixteenths, snare on 2 and 4.
+2385	Drift: Saw, Mono, Sustain to zero, very short Decay, filter half closed. Three sixteenths between the kicks, on one note.
+2386	Drift: Saw, high Res, Freq on an LFO or turn it by hand. Echo and Phaser-Flanger. Acid lines in sixteenths.
+2387	Percussion kits: congas, bongos, shakers (look for Perc and Latin in Drums). Several layers with different patterns.
+2388	Drift: Sine, Mono, short. Or a low tom as bass. One or two notes: rhythm outweighs pitch.
+2389	Collision: resonator Marimba or Membrane, a wooden knock. Phrases of three notes, Echo on the offbeat.
+2390	A dry kit: 606 Core Kit or 808 Core Kit. A rim or snare hit on the third beat. Throw single hits into Echo with a send.
+2391	Drift or Operator: Sine, Mono, filter almost closed. A loud, round bass with no highs.
+2392	Electric or organ: a short chord on the offbeat. Echo: dotted 1/4, Feedback 60%, echo filter partly closed.
+2393	Wavetable with a soft attack, like melodica or horns. Few notes, lots of Echo and Reverb.
+2394	909 Core Kit and a break: drag a loop from Drums and speed it up. Drum Buss, plenty of Drive.
+2395	Operator or Drift: Saw, Mono, Glide. Loud, with Saturator. A low note is held under the chords.
+2396	Wavetable: a bright stab, Attack to zero, short Decay. The Chord device gives the whole chord from one key.
+2397	Drift: Saw, Unison. Or a piano with Reverb. A simple major phrase you want to shout.
+2398	A break from Drums at tempo 170-174 or 909 Core Kit: kick on 1, snare on 2 and 4, one more kick before the third beat.
+2399	Operator: a sine, long notes. For the growl a second layer: Drift, Saw, Mono, Saturator and Auto Filter with LFO.
+2400	Wavetable: a pad with long Attack and Release. Auto Filter cuts the lows. Two chords over 8 bars.
+2401	Electric or piano with Reverb. Sparse notes over a fast beat: the melody is half the speed of the drums.
+2402	909 Core Kit or 707 Core Kit, soft: kick, hi-hat between the beats, click on 2 and 4. A little swing from Groove.
+2403	Drift: Sine or Triangle, Mono, short. Warm, no highs. Compressor with Sidechain from the kick.
+2404	Electric or Wavetable: seventh chords with a soft attack. Auto Filter with a slow LFO, Reverb, Chorus-Ensemble.
+2405	Vocal chops in Simpler or a pluck on Wavetable. Echo 1/8, Reverb.
+2406	909 Core Kit: a solid kick, hi-hats accented between the beats, scattered percussion. Drum Buss.
+2407	Drift: Saw or Rectangle, Mono, Sustain to zero, short Decay, Res a bit higher. A pattern of two or three notes. Sidechain.
+2408	A short stab or a vocal chop in Simpler. One or two notes a bar, Echo, Auto Filter with automation.
+2409	909 Core Kit, soft: kick, hi-hats, clap. Lots of air: Reverb on percussion, quiet hi-hats.
+2410	Drift: Saw, Mono, filter partly closed, long notes. Sidechain from the kick makes them wave.
+2411	Wavetable or Drift: a pluck, Arpeggiator 1/16, open the filter slowly with automation. Big Echo and Reverb.
+2412	Wavetable: a pad, Attack 1 second, Release 3. Reverb: Decay 6 seconds. The chords are minor and change rarely.
+2413	Half-time: kick on 1, snare on 3. A heavy snare with Reverb. 808 Core Kit will do.
+2414	Wavetable or Operator: Mono, Auto Filter with LFO in rhythm (1/4, 1/8, triplets), Saturator or Roar. A separate sine under it.
+2415	Short stabs or bells in the breakdown: Operator. In the drop the melody is the bass.
+2416	Wavetable: Saw, Unison 7 voices. Pump the volume with the Auto Pan-Tremolo device (Phase to zero), 1/8 or 1/16.
+2417	808 Core Kit: kick, clap on beat three, hi-hats with rolls. Before the drop a snare roll.
+2418	Operator: a sine with long Decay. Repeats the bottom notes of the chords.
+2419	Vocal chops in Simpler, shifted in pitch, or a bell on Operator. Reverb, Echo.
+2420	808 Core Kit: sparse kick, clap on beat three, hi-hats in eighths with 1/16, 1/32 rolls and triplets.
+2421	808 bass: Operator, a sine, Pitch Env slightly down, long Decay, Saturator. Mono and Glide: notes slide one into another.
+2422	A dark bell or piano: Operator or Electric. A minor phrase in the upper octave, Reverb.
+2423	The kick is the main instrument: long, overdriven. Saturator with Drive to the max, then EQ Eight. Clap on 2 and 4.
+2424	Wavetable: Saw, Unison, a harsh sound. A minor melody in eighths, Reverb. Same melody on piano in the breakdown.
+2425	Wavetable supersaw under the melody: long chords. Compressor with Sidechain from the kick.
+2426	909 Core Kit or 707 Core Kit: kick on 1 and before 3, snare on 2 and 4, hi-hats with swing (Groove, Swing 16ths).
+2427	Operator: a sine with a little Osc-B Level, Mono, Glide. Short notes with pauses and octave jumps.
+2428	Electric or organ: short seventh chords with swing. Auto Filter, Reverb.
+2429	Vocal chops in Simpler, sliced and shifted in pitch. Echo.
+2430	A big, clean kick on every beat. Clap on 2 and 4. Before the drop a snare roll that speeds up.
+2431	Wavetable: Saw, Unison, bright lead. Phrase of 4-8 notes. Reverb and Compressor with kick Sidechain.
+2432	Supersaw: Wavetable, Unison 7 voices. In the breakdown the same chords on piano, quiet.
+2433	Drift: Saw, Mono, plays the chord rhythm an octave down. Sidechain from the kick.

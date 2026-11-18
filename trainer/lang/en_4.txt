@@ -1,0 +1,321 @@
+1166	bass in minor
+1167	The same in minor. The left hand holds and does not let go until the right has finished.
+1168	chord and melody
+1169	Left: a full chord. Right: a melody on its notes. Nearly all keyboardists do this.
+1170	passing notes
+1171	The melody goes not only on the chord notes but between them too. It starts to sing.
+1172	bass walks
+1173	The reverse: right holds the chord, left walks its notes.
+1174	bass walks in minor
+1175	A walking bass under minor chords, stepping to the seventh.
+1176	7th chords and melody
+1177	Left: a chord of four notes. Right: a melody. Sounds like a finished piece.
+1178	both tasks
+1179	The holding hand swaps every other lesson. Both hands must be able to do both.
+1180	Drag Analog from the Instruments section onto this track. It is built like a seventies synth: two oscillators, two filters, two amplifiers.
+1181	In Fil1 turn Freq down: the sound darkens. The filter here works just as in Drift.
+1182	Turn Freq up in Fil1: the sound opens up.
+1183	Turn Reso up in Fil1: the cutoff starts to sing.
+1184	In Fil1 open the list of types and pick another: LP cuts the highs, HP cuts the lows, BP keeps the middle.
+1185	Click the name Fil1: its details appear in the middle. Find Freq Mod there and move the Env slider: the filter opens by itself on every note.
+1186	In Osc1 change the wave shape: sine, saw, rectangle or noise.
+1187	In Osc1 pick saw or rectangle: a bass needs overtones, a pure sine vanishes on small speakers.
+1188	In Osc2 lower Octave by one: the sound gains low end.
+1189	Nudge Detune on Osc2: the two oscillators drift apart, the sound warms and floats.
+1190	Set Osc2 Semi to 7: the second oscillator plays a fifth above the first.
+1191	Click the name Amp1: its envelope opens in the middle. Turn up Attack: the note floats in.
+1192	In the Amp1 envelope turn up Release: the note melts away after the key is let go.
+1193	In the Amp1 envelope lower Sustain: the note becomes a pluck.
+1194	Turn on LFO1 on the right. Then click the name Fil1 and in Freq Mod move the LFO1 slider: the filter sways by itself.
+1195	Turn Rate on LFO1: the sway changes speed.
+1196	Turn on Uni on the right: several detuned voices play each note, the sound gets wider.
+1197	Turn up Detune next to Uni: the voices spread further.
+1198	Turn on Vib on the right: the note trembles like a violin.
+1199	Turn on Gli on the right, raise Time: notes slide into each other.
+1200	Drag Operator from Instruments onto this track. In it sound is born differently: one oscillator shakes another. This is FM synthesis.
+1201	Four oscillators on the left: A, B, C and D. Only A sounds now. Turn up Level on B: B itself is silent, it shakes A, and metal appears in the sound.
+1202	Change Coarse on B: it sets how many times B is faster than A. 1 and 2 give a solid tone, 7 and up give a ring.
+1203	Set Coarse on B to 1 or 2: a bass needs a solid low tone with no ring.
+1204	Set Coarse on B to 7 or higher: high numbers give the bell.
+1205	Move Fine on B: frequencies no longer divide evenly, and the tone goes out of tune, like a gong.
+1206	Click row B: its envelope appears in the middle. Turn Sustain right down: the metal sounds only at the note start, like a hammer blow.
+1207	In the B envelope turn Decay: the length of the hit. Short gives electric piano, long gives a bell.
+1208	Turn up Level on C: the third oscillator joins in.
+1209	Click the bottom right block with Volume: diagrams of little squares appear in the middle. These are algorithms: who shakes whom and who sounds alone. Pick another one.
+1210	Click row A and raise Release in its envelope: the note melts away when you let go.
+1211	Click row A and change the wave in the Wave list: a saw or a square instead of the sine. This way Operator works as an ordinary synth.
+1212	Turn on Filter on the right: the button next to its name.
+1213	Turn Freq down in Filter: the harsh metal turns soft.
+1214	Turn Res up in Filter: the cutoff stands out.
+1215	Turn on LFO on the right: it sways the note pitch, giving vibrato.
+1216	Turn up Amount on LFO: deeper vibrato.
+1217	Turn on Pitch Env on the right.
+1218	Move the Pitch Env amount: the note starts higher or lower and slides into place. This makes kicks, toms and lasers.
+1219	Turn up Spread in the Pitch block: the sound spreads across the speakers and fattens.
+1220	Lower Tone, bottom right: the harsh top softens.
+1221	Drag Wavetable from the Instruments section onto this track. Its oscillator holds a whole table of waves and can glide along it.
+1222	Hold a note and move the slider by the wave picture (K1): it is the table position. The timbre flows from one into another.
+1223	Two lists above the wave picture: category and table. Pick another table, say from the Vintage category, and move the position again. Press Done.
+1224	Right of the table pick an oscillator effect: FM, Classic or Modern. Turn the first of two knobs under it: the wave bends.
+1225	Open the Osc 2 tab and turn it on: a second layer of sound.
+1226	On Osc 2 shift the pitch 12 semitones up or down: the layers are an octave apart.
+1227	Nudge the Detune knob of Osc 2: the layers drift against each other.
+1228	Open the Sub tab, turn it on and raise the volume: pure lows appear under the sound.
+1229	Close the filter a little (K5): the same idea as in any synth.
+1230	Open the filter back up.
+1231	Raise filter Res: the cutoff stands out.
+1232	Add filter Drive: the sound roughens and growls.
+1233	Raise Amp envelope Attack: the note floats in.
+1234	Raise Amp envelope Release: the note melts away when you let go.
+1235	In the Unison block pick Classic mode: one voice turns into a choir.
+1236	Switch Unison mode to Shimmer: the voices flicker and glisten.
+1237	Turn up Unison Amount: the choir spreads wider.
+1238	Open the Matrix tab on the right. In row LFO 1 drag up the cell under Osc 1 Pos: now LFO drives the position, the timbre moves by itself. Press Done.
+1239	Turn Rate on LFO 1: the timbre moves faster or slower.
+1240	Drag Meld from the Instruments section onto this track. It is the newest synth in Live: two engines with unusual oscillators and filters.
+1241	Meld has two engines, A and B. In engine A open the oscillator list and pick another: Swarm Saw is a saw swarm, Harmonic Fm is metal, Rain and Bubble are nature noises.
+1242	Each Meld oscillator has its own two knobs: what they do depends on the type. Turn the first and listen.
+1243	Now the other knob of oscillator A.
+1244	Lower engine A filter Freq: the sound darkens.
+1245	Open the filter list of engine A. Besides the usual ones there are Vowel, Comb and Plate. Pick an unusual one.
+1246	The filter has its own knobs too. Turn the first.
+1247	Turn on engine B with the B button and raise its volume in the Mix section: now two layers sound.
+1248	Pick a different oscillator for engine B, not the one in A: the layers should differ.
+1249	Shift engine B by an octave: Transpose +12 or -12.
+1250	Nudge the Detune knob of engine B: the layers drift.
+1251	On the Envelopes tab of engine A raise Amp Attack: the note floats in.
+1252	Raise Release there: the note melts.
+1253	Add Spread on the right: voices fan out to the speakers.
+1254	Add Drive on the right: sound overdrives and roughens.
+1255	Find Stack on the right, set 2 or 3: several voices play each note, the sound is thicker.
+1256	Drag Electric from the Instruments section onto this track. It models an electric piano: a hammer strikes a metal fork. The warm sound of soul and lo-fi.
+1257	In the Mallet block turn Stiffness: a soft hammer sounds warm, a hard one sounds bright.
+1258	Turn up Force in Mallet: the hammer hits harder and the sound starts to growl.
+1259	In Fork turn the Tine Color: the ring at the note start changes.
+1260	There too turn Decay: how long the fork rings.
+1261	Turn up Release in Fork: the note does not die at once when you let go.
+1262	In the Pickup block turn Symmetry: the pickup shifts, and the timbre goes from soft to nasal.
+1263	In Pickup switch the type: R sounds like a Rhodes, W like a Wurlitzer. The two main electric pianos in history.
+1264	Drag Collision from the Instruments section onto this track. It builds sound from a hit and what the hit makes ring: a bar, a plate, a pipe, a skin.
+1265	In Resonator 1 change Type: Beam and Marimba are bars, Membrane is a drum, Plate is a flat sheet, Pipe and Tube are pipes.
+1266	Turn Decay on the resonator: how long it rings after the hit.
+1267	Turn Material: the sound changes from wood to metal and glass.
+1268	Turn Brightness: how much high end the ring has.
+1269	Turn Inharmonics: the overtones drift apart, and the tone turns bell-like.
+1270	In Mallet turn Stiffness: the harder the mallet, the brighter the hit.
+1271	Turn up Noise in Mallet: you hear the mallet knock in the hit.
+1272	Drag Tension from the Instruments section onto this track. A string model: from violin and piano to guitars that never were.
+1273	In Excitator pick what plays the string: Bow is a violin bow, Hammer a piano hammer, Plectrum a guitar pick.
+1274	In String turn Decay: how long the string sounds.
+1275	There too turn Damping: the string goes dead, as if wrapped.
+1276	In Excitator turn Position: where the string is touched. Near the end the sound is thinner and sharper.
+1277	In the Body block pick another body: Piano, Guitar or Violin. The same string sounds in different boxes.
+1278	Turn on Vibrato: the string sings and trembles.
+1279	Drag any sound from the Samples section of the browser onto this track. Ableton adds Simpler: it plays a sound file from the keys.
+1280	On the left Simpler has three modes: Classic, 1-Shot and Slice. Pick Slice: the sound is cut into pieces, each on its own key.
+1281	Pick 1-Shot mode: the whole sound plays from one press, no need to hold the key. This is how drums and one-off effects are played.
+1282	Back to Classic: the sound plays while you hold a key and its pitch follows the keys.
+1283	Press the keys one by one from the lowest up: these are the pieces of the recording in order. Play them in another order for a new pattern. Press Done.
+1284	On the Controls tab move Transp to -12: the sound drops an octave and gets twice as slow.
+1285	On the Controls tab turn on Filter.
+1286	Turn down filter Freq: the sound darkens. Any recording can be treated like a synth.
+1287	In the volume envelope raise Attack: the initial hit is gone, the sound floats in.
+1288	Turn up Release: let go and the sound melts.
+1289	Turn up Spread: the sound splits in two across the speakers.
+1290	On the Sample tab drag the left flag right: the sound begins not at the start of the recording but where you like.
+1291	In Classic mode turn on the Loop button: while you hold a key, a piece of the sound repeats. The Length knob sets its length. Press Done.
+1292	Turn on the Warp button: now the sound lasts the same on any key and keeps the track tempo. Press Done.
+1293	Drag Drift from the Instruments section onto this track.
+1294	In the Osc 1 wave list pick Sine: a pure tone for the bottom.
+1295	Drop Drift an octave with the Oct knob of Osc 1: it will hum under the first synth.
+1296	Analog filter
+1297	two Analog oscillators
+1298	Analog envelope
+1299	Analog in motion
+1300	fat Analog
+1301	metal in Operator
+1302	hit and tail in Operator
+1303	Operator algorithms
+1304	Operator filter and waves
+1305	Operator in motion
+1306	wave table
+1307	Wavetable layer
+1308	Wavetable filter
+1309	Wavetable choir
+1310	timbre moves itself
+1311	Meld oscillators
+1312	unusual Meld filters
+1313	two-layer Meld
+1314	Meld air and width
+1315	dirty Meld
+1316	hammer in Electric
+1317	pickup in Electric
+1318	what rings in Collision
+1319	bell in Collision
+1320	Tension string
+1321	Simpler modes
+1322	Simpler pitch and filter
+1323	Simpler envelope
+1324	start and loop in Simpler
+1325	recording in pieces
+1326	bass on Analog
+1327	bass on Operator
+1328	pad on Wavetable
+1329	bell on Operator
+1330	electric piano on Electric
+1331	layer: hit + body
+1332	layer: bass + sub
+1333	layer: string + pad
+1334	layer: bell + choir
+1335	layer of three synths
+1336	Analog is built like the classic synths. Everything you know from Drift is in its place here, only with two of each block.
+1337	Operator builds sound from frequencies: one oscillator shakes another. This gives metal, bells and electric pianos.
+1338	Wavetable glides along a table of waves, and the timbre moves within one note. The sound of modern electronica.
+1339	Meld is two engines with oscillators and filters you will find nowhere else. A synth for unusual sounds.
+1340	strings, forks, plates
+1341	Electric, Collision and Tension do not draw a wave but work out how a real object sounds: a fork, a bar, a string.
+1342	Simpler makes an instrument of any recording: a note, a noise, a voice, a drum loop.
+1343	one sound, many synths
+1344	Bass, pad and bell can be built on different synths. The recipe is the same, only the knobs have other names.
+1345	layer
+1346	Big sounds are built from two or three synths at once: one gives the hit, another the body, a third the air.
+1347	Now the layer. Click the title bar of the instrument and press Ctrl+G: it gets wrapped in a Rack, where several instruments can sound at once.
+1348	On the left of the Rack press the chain list button, drag 
+1349	 from the browser to the empty space under the existing chain: the instruments sound together.
+1350	Play and listen to the whole layer. The volume of each instrument is set in the chain list.
+1351	The new instrument replaces the old one. Like your sound? Save it with the floppy disk icon in the title bar.
+1352	Double-click an empty slot on this track: an empty MIDI clip one bar long appears, and the note editor opens below.
+1353	Press B: the mouse becomes a pencil. Click in the grid four times, a note on each beat of the bar. Clicking a note erases it.
+1354	With the pencil (B) draw eight notes. Pick the pitch by the keys on the left: click a key to hear its note.
+1355	Draw sixteen notes: fill the whole loop. You can drag the pencil with the mouse button down, notes land in a row.
+1356	Change the copy: add four more notes to it where the pattern lacks movement.
+1357	Launch the clip: the triangle left of its name in the slot. The pattern keeps looping.
+1358	Stop Ableton with space.
+1359	In the clip panel on the left find Loop and the Length field. Set 2.0.0: the loop is now two bars long.
+1360	In the Loop section set Length to 4.0.0: four bars. The usual length of a musical phrase.
+1361	Set Length to 1.0.0: only the first bar plays, the notes of the second wait their turn.
+1362	In the clip panel turn off the Loop button: the clip plays once and stops. This makes one-off inserts.
+1363	Turn Loop back on: the clip goes round again.
+1364	The grid decides where notes land. Ctrl+1 makes it finer, Ctrl+2 coarser. Set 1/8 and see how the cells have changed. Press Done.
+1365	Press Ctrl+1 until the grid is 1/16: this is the most common grid for bass, hi-hats and arpeggios. Press Done.
+1366	Draw a melody of at least five notes of different pitch. Neighbouring keys give a smooth line, leaps give character.
+1367	Draw a chord: three notes stacked in one grid column. For example A, C and E, that is Am.
+1368	Move the mouse to the right edge of a note and drag: make it two beats long or more. Long notes sing, short ones knock.
+1369	Under the notes are Velocity bars: the force of the hit. Drop one bar below the middle: that note sounds quieter and softer.
+1370	And raise the bar of another note to the very top: an accent. Varied force is what makes a pattern alive.
+1371	Erase two notes: click each and press Delete. A pause is part of the rhythm too.
+1372	Drag a box around the notes and press Ctrl+D: a copy lands right after. A pattern grows without the pencil.
+1373	Select notes and move them with the up and down arrows: each step is a semitone. Shift with an arrow moves a whole octave. Press Done.
+1374	Press Ctrl+3: the grid goes triplet, a beat splits in three. Draw three notes in a row inside one beat.
+1375	Press Ctrl+4: the grid stops snapping. Drag one note with the mouse a little earlier or later than its cell.
+1376	Ctrl+4 again so the grid snaps. Select all notes (Ctrl+A) and press Ctrl+U: each one lands in its place. This is quantization.
+1377	Draw notes between beats, exactly halfway. This rhythm is called syncopation: it grooves.
+1378	Write a bass line: one note at the start of each bar, low on the keyboard. Take A, F, C and G: the roots of the chords Am, F, C and G.
+1379	Stretch the bass notes to nearly a full bar: the bass must hum under the chords, not jab.
+1380	Liven up the bass: after each note add the same note an octave up, short. You get a bouncing octave bass.
+1381	Write four chords, one per bar: Am, F, C and G. Each has three notes one above another, twelve in all.
+1382	Turn the chord into a stab: shorten it and copy it so that it sounds between the beats. Short chords off the strong beat are a house trick.
+1383	Break the chord into notes: draw A, C and E in turn, in eighths, up and back. This is an arpeggio.
+1384	Call and response: the first half of the loop sets a phrase, the second repeats it with a new end. Add a response of at least three notes.
+1385	In the note panel press Duplicate (Dupl. Loop in older versions): the loop is now two bars long, and the notes are copied into the second.
+1386	In the second bar change the end: add a note or two. A repeat with a small change holds attention better than an exact copy.
+1387	In the second bar erase the last note: a pause before the repeat is like a breath.
+1388	Click the clip in its slot and press Ctrl+D: a copy appears one slot below. Change anything in it, the original stays intact.
+1389	Left of the notes open the Generate tab, pick Rhythm in the list and press Generate: Ableton sketches a rhythm itself. The Steps and Density knobs change it.
+1390	On the Generate tab pick Seed: it scatters random notes within set limits of pitch and length. Press Generate until you like it.
+1391	On the Generate tab pick Stacks: it builds chords of the chosen shape. Press Generate.
+1392	On the Generate tab pick Shape: draw a line with the mouse, the notes follow it up and down. Press Generate.
+1393	Select the chord, open the Transform tab and pick Arpeggiate: the chord scatters into single notes. The Rate knob sets their speed. Press Done.
+1394	Select the chord, on the Transform tab pick Strum and drag the line: its notes come not at once but one by one, as on a guitar. Press Done.
+1395	Select all notes and in the Pitch and Time panel turn up Humanize: they shift a bit off the grid, like a live player. Press Done.
+1396	Select all notes (Ctrl+A) and in the Pitch and Time panel press Legato: each note runs to the next, the pauses are gone.
+1397	At the top by the tempo turn on the Scale button and pick a scale, say A Minor. The editor highlights its notes, and the generators use only them.
+1398	In the note editor turn on the Scale button next to Fold: only scale notes stay in the grid. Now you cannot miss. Press Done.
+1399	A scene is a row of clips that play together. Press Ctrl+I: a new empty one appears under the selected scene.
+1400	While a clip plays, press Ctrl+Shift+I: Ableton gathers everything now playing into a new scene.
+1401	In the Main column on the right each scene has a triangle. Press it on the scene with the clip: the whole row starts at once.
+1402	At the top left, next to the metronome, is the launch quantization list, usually set to 1 Bar. Pick 1/4: a clip will start on the nearest beat.
+1403	Pick 1 Bar again: a launched clip waits for the bar start and always comes in on time.
+1404	The little square in an empty slot stops the clip of its track when the scene is launched. Ctrl+E on a slot removes and restores it. Try it and press Done.
+1405	Open the clip and find Follow Action in its panel. Turn it on and pick Next: when it ends, the clip itself launches the one below. Press Done.
+1406	Select the clip, press Ctrl+R and give it a name: bass, verse, fill. Right-click to pick a colour. With names you never get lost in a project. Press Done.
+1407	Turn on the record button (Arm) on this track if it is off.
+1408	Turn on the metronome to record on the grid.
+1409	Click the arrow by the metronome and pick Count-In, 1 Bar: before recording Ableton counts a bar, and you have time to place your hands.
+1410	Press the circle in an empty slot of this track and play two bars. To end the recording, click the triangle of the clip.
+1411	In the Edit menu open Record Quantization and pick Sixteenth-Note Quantization: played notes land on the grid at once.
+1412	Let the clip play. At the top press the hollow circle Session Record, right of the stop and record buttons: now all you play goes into the clip.
+1413	Play at least four more notes over the loop: the second layer lands on the first. So a part is built layer by layer.
+1414	Play something without recording, then press Ctrl+Shift+C: Ableton pulls what you played from memory and makes a clip.
+1415	Step recording: in the note editor turn on the headphones icon, hold a key and press the right arrow on the computer. The note lands, the cursor steps. Enter four notes this way.
+1416	first clip
+1417	grid
+1418	two bars
+1419	loop and one-off clip
+1420	four bars of sixteenths
+1421	melody
+1422	chord and long note
+1423	soft and loud
+1424	erase and move
+1425	copy notes
+1426	sixteenths with pauses
+1427	offbeat
+1428	triplet
+1429	quantization
+1430	syncopated accents
+1431	octave bass
+1432	chords
+1433	stabs
+1434	melody: call and response
+1435	double a loop
+1436	pause before a repeat
+1437	copy a clip
+1438	notes outside loop
+1439	Rhythm generator
+1440	Seed generator
+1441	Stacks generator
+1442	Strum and Arpeggiate
+1443	new scene
+1444	two clip versions
+1445	when a clip comes in
+1446	scene from playing clips
+1447	clip names and chains
+1448	record to a slot
+1449	count before recording
+1450	record on the grid
+1451	layer on layer
+1452	in steps, from memory
+1453	clip and grid
+1454	The Ableton sequencer is a clip with a grid: notes are drawn, not played. We start with an empty clip, pencil and loop.
+1455	pitch, length, force
+1456	A note has three properties: which key, how long and how hard. All three are edited with the mouse.
+1457	grid rhythm
+1458	Rhythm is where notes stand in time. A fine grid, syncopation, triplets and quantization.
+1459	bass, chords, melody
+1460	Three parts that make up almost any track. Each can be written with the mouse, no playing.
+1461	length, variations
+1462	A one-bar loop soon gets boring. Doubling, variations and clip copies stretch the idea.
+1463	Live 12 generators
+1464	Ableton can sketch a rhythm, melody and chords itself, and then rework them. Ideas appear in seconds.
+1465	scenes
+1466	Clips sit in a scene grid. A scene is a ready part of a track: verse, chorus, pause.
+1467	record a loop
+1468	Playing can be quicker than drawing. Count-in, recording to a slot, layering and step recording.
+1469	This lesson needs at least one clip with notes on this track. If there is none, draw or record any loop.
+1470	This lesson needs a clip on this track in the arrangement. If it is empty, grab a clip in the scene grid, press Tab and drop it there.
+1471	Each part of the track is a scene, a row of clips. Press Ctrl+I: a new scene appears.
+1472	Click a scene on the right, in the Main column, and press Ctrl+D: the whole row is copied below. A new part is easier to make from a copy.
+1473	Select a scene on the right, press Ctrl+R. Name the first Intro, second Verse, third Drop. Names turn a set of loops into a track plan. Press Done.
+1474	Name the last scene Outro (Ctrl+R): the ending. In it the track does not break off but leaves part by part, like guests after a party. Press Done.
+1475	Launch the scene, triangle on the right: its clips enter together.
+1476	Play the track by scenes: Intro, Verse, Drop, again Verse and Drop, then Outro. Up and down arrows select a scene, Enter launches it. Press Done.
+1477	In the scene copy remove one or two clips with the Delete key: you get a quiet part. An intro is almost always made by subtracting, not by composing. Press Done.
+1478	Open the clip of this track in the scene copy, add a couple of notes: the part gets denser. So a verse grows to the climax.
+1479	Make a pause scene: in a new empty scene leave one clip, say the chords, with no drums or bass. After a pause the hit sounds twice as strong. Press Done.
+1480	Turn this track off: the button with its number in the mixer. Listen without it. If it is no worse, this part does not need it.
+1481	Turn the track back on.
+1482	Press S on this track: only it sounds. This is how to check that the part is good on its own.
+1483	Turn S off: the track is back in the mix.
+1484	Press Tab: the arrangement opens, a timeline from left to right. Here a track is built from start to finish.
+1485	Tab returns to the scenes.
+1486	Press the record circle at the top (Arrangement Record, key F9): Ableton runs and records everything you launch into the arrangement.
